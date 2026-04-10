@@ -55,9 +55,9 @@ button {
   background: #ffffff;
   margin-top: 16px;
   padding: 12px;
-  border: 2px dashed red; /* VISIBILITÉ FORCÉE */
   min-height: 120px;
 }
+
 
 /* ========= FERMES ========= */
 button.ferme {
