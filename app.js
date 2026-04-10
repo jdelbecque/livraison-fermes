@@ -74,6 +74,62 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // Construire la tournée avec état livré
+  tournee = selection.map(i => ({
+    ferme: fermes[i],
+    livree: false
+  }));
+
+  afficherTournee();
+};
+
+function afficherTournee() {
+  zone.innerHTML = "<h2>🚚 Tournée en cours</h2>";
+
+  tournee.forEach((item, index) => {
+    const texte = Object.values(item.ferme)
+      .filter(v => typeof v === "string")
+      .join(" – ");
+
+    const bloc = document.createElement("div");
+
+    // Bouton ferme (info)
+    const btnFerme = document.createElement("button");
+    btnFerme.className = item.livree ? "ferme livree" : "ferme";
+    btnFerme.textContent = item.livree ? `✅ ${texte}` : texte;
+
+    // Bouton GPS
+    const btnGPS = document.createElement("button");
+    btnGPS.textContent = "🧭 GPS";
+    btnGPS.style.background = "#007aff";
+    btnGPS.style.color = "white";
+    btnGPS.onclick = () => ouvrirGPS(texte);
+
+    // Bouton Livré
+    const btnLivre = document.createElement("button");
+    btnLivre.textContent = "✅ Livré";
+    btnLivre.onclick = () => {
+      if (confirm("Confirmer la livraison ?")) {
+        tournee[index].livree = true;
+        afficherTournee();
+      }
+    };
+
+    bloc.appendChild(btnFerme);
+    bloc.appendChild(btnGPS);
+    bloc.appendChild(btnLivre);
+
+    zone.appendChild(bloc);
+  });
+
+  // Bouton retour
+  const btnRetour = document.createElement("button");
+  btnRetour.textContent = "↩ Retour à la liste";
+  btnRetour.onclick = () => afficherListe();
+  zone.appendChild(btnRetour);
+}
+``
+
   // Construire la tournée à partir des fermes sélectionnées
   tournee = selection.map(i => ({
     data: fermes[i],
