@@ -355,3 +355,40 @@ window.afficherCalendrierDuJour = function () {
   retour.onclick = afficherListe;
   zone.appendChild(retour);
 };
+window.afficherCalendrierSemaine = function () {
+  const today = new Date();
+  zone.innerHTML = "<h2>🗓️ Cette semaine</h2>";
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+
+    const dateStr = d.toISOString().slice(0, 10);
+    const label = d.toLocaleDateString("fr-CA", {
+      weekday: "long",
+      day: "numeric",
+      month: "short"
+    });
+
+    zone.innerHTML += `<h3>${label}</h3>`;
+
+    const list = tourneesSauvegardees.filter(t => t.date === dateStr);
+
+    if (list.length === 0) {
+      zone.innerHTML += "<p style='opacity:.6'>Aucune tournée</p>";
+    } else {
+      list.forEach(t => {
+        const btn = document.createElement("button");
+        btn.textContent = `${t.terminee ? "✅" : "🚚"} ${t.nom}`;
+        btn.onclick = () => chargerTournee(t.id);
+        zone.appendChild(btn);
+      });
+    }
+  }
+
+  const retour = document.createElement("button");
+  retour.textContent = "↩ Retour";
+  retour.onclick = afficherListe;
+  zone.appendChild(retour);
+};
+``
