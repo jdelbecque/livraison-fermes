@@ -32,3 +32,22 @@ button.livree {
   text-decoration: line-through;
 }
 ``
+/* ---------- ZONE LISTE ---------- */
+#liste {
+  margin-top: 20px;
+  padding-bottom: 40px;
+}
+
+/* ---------- CARTES FERMES ---------- */
+button.ferme {
+  background: white;
+  color: #000;
+  border: 1px solid #d1d1d6;
+}
+
+/* ---------- SÉPARATION VISUELLE ---------- */
+h2 {
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 2px solid #d1d1d6;
+}
