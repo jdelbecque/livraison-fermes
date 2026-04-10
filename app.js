@@ -262,3 +262,6 @@ window.afficherCalendrierDuJour = function () {
   retour.onclick = afficherListe;
   zone.appendChild(retour);
 };
+function sauvegarderTournees() {
+  localStorage.setItem("tournees", JSON.stringify(tourneesSauvegardees));
+}
