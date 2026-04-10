@@ -76,7 +76,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     mettreAJourCompteur();
   }
+function mettreAJourBadgeAujourdHui() {
+  const btn = document.getElementById("btnAujourdHui");
+  if (!btn) return;
 
+  const today = new Date().toISOString().slice(0, 10);
+
+  const tournees = JSON.parse(
+    localStorage.getItem("tournees") || "[]"
+  );
+
+  const count = tournees.filter(
+    t => t.date === today && !t.terminee
+  ).length;
+
+  btn.textContent = `📅 Aujourd’hui (${count})`;
+}
+``
   /* =====================
      BOUTONS PRINCIPAUX
      ===================== */
