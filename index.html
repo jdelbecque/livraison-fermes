@@ -1,33 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <link rel="manifest" href="manifest.json">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Livraison fermes">
-``
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Livraison Fermes</title>
+  <title>Livraison fermes</title>
 
-  <!-- ✅ CSS correctement chargé -->
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- iOS / Android PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Livraison fermes">
 </head>
+
 <body>
 
   <h1>🚚 Livraison fermes</h1>
 
-  <input id="recherche" placeholder="Rechercher une ferme ou une ville">
+  <!-- Champ de recherche -->
+  <input
+    id="recherche"
+    placeholder="Rechercher une ferme ou une ville"
+  >
 
+  <!-- ✅ COMPTEUR AJOUTÉ ICI -->
+  <div
+    id="compteur"
+    style="margin:10px 0;font-weight:600;"
+  ></div>
+
+  <!-- Boutons globaux -->
   <button onclick="nouvelleTournee()">Nouvelle tournée</button>
   <button onclick="creerTournee()">Créer la tournée</button>
 
+  <!-- Zone principale -->
   <div id="liste"></div>
 
-  <!-- ✅ JavaScript correctement chargé -->
+  <!-- JavaScript -->
   <script src="app.js"></script>
 
 </body>
 </html>
-``
