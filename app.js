@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const champRecherche = document.getElementById("recherche");
 
+  let tournee = [];
   let fermes = [];
   let selection = [];
 
@@ -68,10 +69,65 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.creerTournee = function () {
-    if (selection.length === 0) {
-      alert("Sélectionne au moins une ferme");
-      return;
-    }
+  if (selection.length === 0) {
+    alert("Sélectionne au moins une ferme");
+    return;
+  }
+
+  // Construire la tournée à partir des fermes sélectionnées
+  tournee = selection.map(i => ({
+    data: fermes[i],
+    livree: false
+  }));
+
+  function afficherTournee() {
+  zone.innerHTML = "<h2>🚚 Tournée en cours</h2>";
+
+  tournee.forEach((item, index) => {
+    const ferme = item.data;
+
+    const texte = Object.values(ferme)
+      .filter(v => typeof v === "string")
+      .join(" – ");
+
+    const bloc = document.createElement("div");
+
+    // Bouton info ferme
+    const btnFerme = document.createElement("button");
+    btnFerme.className = item.livree ? "ferme livree" : "ferme";
+    btnFerme.textContent = item.livree ? `✅ ${texte}` : texte;
+
+    // Bouton GPS
+    const btnGPS = document.createElement("button");
+    btnGPS.textContent = "🧭 GPS";
+    btnGPS.style.background = "#007aff";
+    btnGPS.style.color = "white";
+    btnGPS.onclick = () => ouvrirGPS(texte);
+
+    // Bouton livré
+    const btnLivre = document.createElement("button");
+    btnLivre.textContent = "✅ Livré";
+    btnLivre.onclick = () => {
+      if (confirm("Confirmer la livraison ?")) {
+        tournee[index].livree = true;
+        afficherTournee();
+      }
+    };
+
+    bloc.appendChild(btnFerme);
+    bloc.appendChild(btnGPS);
+    bloc.appendChild(btnLivre);
+
+    zone.appendChild(bloc);
+  });
+
+  // Bouton retour
+  const retour = document.createElement("button");
+  retour.textContent = "↩ Retour à la liste";
+  retour.onclick = () => afficherListe();
+  zone.appendChild(retour);
+}
+
 
     zone.innerHTML = "<h2>🚚 Tournée</h2>";
 
