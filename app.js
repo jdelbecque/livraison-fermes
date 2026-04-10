@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE AVEC CALENDRIER");
+console.log("✅ app.js – VERSION STABLE AVEC CALENDRIER + BADGE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -19,12 +19,25 @@ document.addEventListener("DOMContentLoaded", () => {
   function sauvegarderTournees() {
     localStorage.setItem("tournees", JSON.stringify(tourneesSauvegardees));
   }
-mettreAJourBadgeAujourdHui();
+
   function mettreAJourCompteur() {
     const compteur = document.getElementById("compteur");
     if (compteur) {
       compteur.textContent = `✅ ${selection.length} ferme(s) sélectionnée(s)`;
     }
+  }
+
+  function mettreAJourBadgeAujourdHui() {
+    const btn = document.getElementById("btnAujourdHui");
+    if (!btn) return;
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    const count = tourneesSauvegardees.filter(
+      t => t.date === today && !t.terminee
+    ).length;
+
+    btn.textContent = `📅 Aujourd’hui (${count})`;
   }
 
   /* =====================
@@ -35,15 +48,12 @@ mettreAJourBadgeAujourdHui();
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
+      mettreAJourBadgeAujourdHui();
     })
     .catch(() => {
       zone.innerHTML = "<p>Erreur chargement fermes</p>";
     });
-.then(data => {
-  fermes = Array.isArray(data) ? data : [];
-  afficherListe();
-  mettreAJourBadgeAujourdHui();
-});
+
   /* =====================
      LISTE PRINCIPALE
      ===================== */
@@ -79,26 +89,11 @@ mettreAJourBadgeAujourdHui();
     });
 
     mettreAJourCompteur();
+    mettreAJourBadgeAujourdHui();
   }
-function mettreAJourBadgeAujourdHui() {
-  const btn = document.getElementById("btnAujourdHui");
-  if (!btn) return;
 
-  const today = new Date().toISOString().slice(0, 10);
-
-  const tournees = JSON.parse(
-    localStorage.getItem("tournees") || "[]"
-  );
-
-  const count = tournees.filter(
-    t => t.date === today && !t.terminee
-  ).length;
-
-  btn.textContent = `📅 Aujourd’hui (${count})`;
-}
-``
   /* =====================
-     S PRINCIPAUX
+     BOUTONS PRINCIPAUX
      ===================== */
   window.nouvelleTournee = () => {
     selection = [];
@@ -106,3 +101,158 @@ function mettreAJourBadgeAujourdHui() {
     afficherListe();
   };
 
+  window.toutDeselectionner = () => {
+    selection = [];
+    afficherListe();
+  };
+
+  window.creerTournee = () => {
+    if (selection.length === 0) {
+      alert("Sélectionne au moins une ferme");
+      return;
+    }
+
+    tournee = selection.map(i => ({
+      ferme: fermes[i],
+      livree: false
+    }));
+
+    afficherTournee();
+  };
+
+  /* =====================
+     TOURNÉE
+     ===================== */
+  function afficherTournee() {
+    zone.innerHTML = "<h2>🚚 Tournée</h2>";
+
+    tournee.forEach(item => {
+      const texte = Object.values(item.ferme)
+        .filter(v => typeof v === "string")
+        .join(" – ");
+
+      const btn = document.createElement("button");
+      btn.textContent = `${item.livree ? "✅" : "🚚"} ${texte}`;
+      btn.onclick = () => ouvrirGPS(texte);
+
+      const livree = document.createElement("button");
+      livree.textContent = "✅ Livré";
+      livree.onclick = () => {
+        item.livree = true;
+        afficherTournee();
+      };
+
+      zone.appendChild(btn);
+      zone.appendChild(livree);
+    });
+
+    const save = document.createElement("button");
+    save.textContent = "💾 Sauvegarder la tournée";
+    save.onclick = () => {
+      const nom = prompt("Nom de la tournée ?");
+      if (!nom) return;
+
+      const date = prompt("Date (YYYY-MM-DD) ?");
+      if (!date) return;
+
+      tourneesSauvegardees.push({
+        id: Date.now(),
+        nom,
+        date,
+        fermes: tournee,
+        terminee: false
+      });
+
+      sauvegarderTournees();
+      mettreAJourBadgeAujourdHui();
+      alert("✅ Tournée sauvegardée");
+    };
+
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour à la liste";
+    retour.onclick = afficherListe;
+
+    zone.appendChild(save);
+    zone.appendChild(retour);
+  }
+
+  /* =====================
+     GPS
+     ===================== */
+  function ouvrirGPS(adresse) {
+    window.location.href =
+      "https://www.google.com/maps/dir/?api=1&destination=" +
+      encodeURIComponent(adresse);
+  }
+
+  /* =====================
+     📅 AUJOURD’HUI
+     ===================== */
+  window.afficherCalendrierDuJour = () => {
+    const today = new Date().toISOString().slice(0, 10);
+    zone.innerHTML = `<h2>📅 Aujourd’hui — ${today}</h2>`;
+
+    tourneesSauvegardees
+      .filter(t => t.date === today)
+      .forEach(t => {
+        const btn = document.createElement("button");
+        btn.textContent = `${t.terminee ? "✅" : "🚚"} ${t.nom}`;
+        btn.onclick = () => chargerTournee(t.id);
+        zone.appendChild(btn);
+      });
+
+    ajouterRetour();
+  };
+
+  /* =====================
+     🗓️ SEMAINE
+     ===================== */
+  window.afficherCalendrierSemaine = () => {
+    zone.innerHTML = "<h2>🗓️ Cette semaine</h2>";
+    const today = new Date();
+
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(today);
+      d.setDate(today.getDate() + i);
+      const date = d.toISOString().slice(0, 10);
+
+      zone.innerHTML += `<h3>${d.toLocaleDateString("fr-CA", {
+        weekday: "long",
+        day: "numeric",
+        month: "short"
+      })}</h3>`;
+
+      tourneesSauvegardees
+        .filter(t => t.date === date)
+        .forEach(t => {
+          const btn = document.createElement("button");
+          btn.textContent = `${t.terminee ? "✅" : "🚚"} ${t.nom}`;
+          btn.onclick = () => chargerTournee(t.id);
+          zone.appendChild(btn);
+        });
+    }
+
+    ajouterRetour();
+  };
+
+  function ajouterRetour() {
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour à la liste";
+    retour.onclick = afficherListe;
+    zone.appendChild(retour);
+  }
+
+  function chargerTournee(id) {
+    const t = tourneesSauvegardees.find(x => x.id === id);
+    if (!t) return;
+    tournee = t.fermes;
+    afficherTournee();
+  }
+
+  /* =====================
+     RECHERCHE
+     ===================== */
+  champRecherche.addEventListener("input", e => {
+    afficherListe(e.target.value.toLowerCase());
+  });
+});
