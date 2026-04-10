@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let fermes = [];
   let selection = [];
   let tournee = [];
-
+  let tourneesSauvegardees = JSON.parse(
+  localStorage.getItem("tournees") || "[]"
+);
   if (!zone) {
     document.body.innerHTML = "❌ DIV #liste INTROUVABLE";
     return;
@@ -130,7 +132,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const btnFerme = document.createElement("button");
       btnFerme.className = item.livree ? "ferme livree" : "ferme";
       btnFerme.textContent = item.livree ? `✅ ${texte}` : texte;
+const btnSave = document.createElement("button");
+btnSave.textContent = "💾 Sauvegarder la tournée";
+btnSave.onclick = () => {
+  const nom = prompt("Nom de la tournée ?");
+  if (!nom) return;
 
+  const date = prompt("Date (YYYY-MM-DD) ?", new Date().toISOString().slice(0,10));
+  if (!date) return;
+
+  sauvegarderTournee(nom, date, tournee);
+  alert("✅ Tournée sauvegardée");
+};
+
+zone.appendChild(btnSave);
       const btnGPS = document.createElement("button");
       btnGPS.textContent = "🧭 GPS";
       btnGPS.style.background = "#007aff";
@@ -179,3 +194,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 ``
+function sauvegarderTournee(nom, date, tournees) {
+  const nouvelleTournee = {
+    id: Date.now(),
+    nom: nom,
+    date: date,
+    fermes: tournees,
+    terminee: false
+  };
+
+  tourneesSauvegardees.push(nouvelleTournee);
+  localStorage.setItem("tournees", JSON.stringify(tourneesSauvegardees));
+}
