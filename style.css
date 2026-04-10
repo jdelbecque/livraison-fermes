@@ -85,3 +85,20 @@ button.livree {
   margin: 10px 0;
   font-weight: 600;
 }
+#logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+#logo img {
+  height: 48px;
+  width: auto;
+}
+
+#logo .title {
+  font-size: 26px;
+  font-weight: 700;
+}
