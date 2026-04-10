@@ -26,3 +26,8 @@ button.ferme.selected {
   font-weight: bold;
 }
 ``
+button.livree {
+  background: #8e8e93;
+  color: white;
+  text-decoration: line-through;
+}
