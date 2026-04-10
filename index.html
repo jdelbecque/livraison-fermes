@@ -16,7 +16,11 @@
 
 <body>
 
-  <h1>🚚 Livraison fermes</h1>
+  <!-- ✅ LOGO + TITRE -->
+  <div id="logo">
+    <img src="logo.png" alt="Logo Livraison fermes">
+    <span class="title">Livraison fermes</span>
+  </div>
 
   <!-- Recherche -->
   <input
@@ -24,7 +28,7 @@
     placeholder="Rechercher une ferme ou une ville"
   >
 
-  <!-- ✅ Compteur -->
+  <!-- Compteur -->
   <div id="compteur"></div>
 
   <!-- Boutons -->
@@ -32,10 +36,11 @@
   <button onclick="creerTournee()">Créer la tournée</button>
   <button onclick="toutDeselectionner()">Tout désélectionner</button>
 
-  <!-- ✅ Zone liste OBLIGATOIRE -->
+  <!-- Zone liste -->
   <div id="liste"></div>
 
+  <!-- JavaScript -->
   <script src="app.js"></script>
+
 </body>
 </html>
-``
