@@ -3,6 +3,7 @@ console.log("✅ app.js – VERSION STABLE FINALE");
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const champRecherche = document.getElementById("recherche");
+let modeChauffeur = localStorage.getItem("modeChauffeur") === "true";
 
   let fermes = [];
   let selection = [];
