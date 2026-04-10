@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function sauvegarderTournees() {
     localStorage.setItem("tournees", JSON.stringify(tourneesSauvegardees));
   }
-
+mettreAJourBadgeAujourdHui();
   function mettreAJourCompteur() {
     const compteur = document.getElementById("compteur");
     if (compteur) {
@@ -39,7 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(() => {
       zone.innerHTML = "<p>Erreur chargement fermes</p>";
     });
-
+.then(data => {
+  fermes = Array.isArray(data) ? data : [];
+  afficherListe();
+  mettreAJourBadgeAujourdHui();
+});
   /* =====================
      LISTE PRINCIPALE
      ===================== */
@@ -94,7 +98,7 @@ function mettreAJourBadgeAujourdHui() {
 }
 ``
   /* =====================
-     BOUTONS PRINCIPAUX
+     S PRINCIPAUX
      ===================== */
   window.nouvelleTournee = () => {
     selection = [];
