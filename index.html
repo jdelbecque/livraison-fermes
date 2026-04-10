@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Livraison fermes</title>
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
 
-  <!-- iOS / Android PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -22,17 +18,24 @@
 
   <h1>🚚 Livraison fermes</h1>
 
-  <!-- Champ de recherche -->
+  <!-- Recherche -->
   <input
     id="recherche"
     placeholder="Rechercher une ferme ou une ville"
   >
 
-  <!-- ✅ COMPTEUR -->
-  <div
-    id="compteur"
-    style="margin:10px 0;font-weight:600;"
-  ></div>
+  <!-- ✅ Compteur -->
+  <div id="compteur"></div>
 
-  <!-- Boutons globaux -->
+  <!-- Boutons -->
   <button onclick="nouvelleTournee()">Nouvelle tournée</button>
+  <button onclick="creerTournee()">Créer la tournée</button>
+  <button onclick="toutDeselectionner()">Tout désélectionner</button>
+
+  <!-- ✅ Zone liste OBLIGATOIRE -->
+  <div id="liste"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+``
