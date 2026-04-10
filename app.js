@@ -1,49 +1,32 @@
-console.log("✅ app.js – VERSION FINALE OPÉRATIONNELLE");
-
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
-  const champRecherche = document.getElementById("recherche");
 
-  let fermes = [];
-  let selection = [];
-  let tournee = [];
-
-  /* ===== CHARGEMENT DES FERMES ===== */
-  zone.innerHTML = "<p>Chargement des fermes…</p>";
+  // Marqueur visuel immédiat
+  zone.innerHTML = "<h2>✅ SCRIPT ACTIF</h2>";
 
   fetch("clients_livraison.json")
-    .then(res => res.json())
+    .then(r => r.json())
     .then(data => {
-      fermes = Array.isArray(data) ? data : [];
-      afficherListe();
+      // Affichage forcé et visible
+      const info = document.createElement("div");
+      info.style.border = "3px solid red";
+      info.style.padding = "10px";
+      info.style.margin = "10px 0";
+      info.textContent = `JSON chargé : ${Array.isArray(data)} – éléments : ${data.length}`;
+      zone.appendChild(info);
+
+      // Affichage brutal des 10 premières entrées
+      data.slice(0, 10).forEach((ferme, i) => {
+        const div = document.createElement("div");
+        div.style.border = "1px solid black";
+        div.style.margin = "4px 0";
+        div.style.padding = "4px";
+        div.textContent = `${i + 1}. ${JSON.stringify(ferme)}`;
+        zone.appendChild(div);
+      });
     })
     .catch(err => {
+      zone.innerHTML += "<p style='color:red'>ERREUR FETCH</p>";
       console.error(err);
-      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
-
-  /* ===== LISTE DES FERMES ===== */
-  function afficherListe(filtre = "") {
-    zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
-
-    fermes.forEach((ferme, index) => {
-      const texte = Object.values(ferme)
-        .filter(v => typeof v === "string" && v.trim() !== "")
-        .join(" – ");
-
-      if (filtre && !texte.toLowerCase().includes(filtre)) return;
-
-      const btn = document.createElement("button");
-      btn.className = "ferme";
-      btn.textContent = texte;
-
-      if (selection.includes(index)) {
-        btn.classList.add("selected");
-      }
-
-      btn.onclick = () => toggleSelection(index);
-      zone.appendChild(btn);
-    });
-  }
-
-  function toggleSelection(index) {
+});
