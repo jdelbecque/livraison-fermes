@@ -330,3 +330,28 @@ window.afficherCalendrierSemaine = function () {
   retour.onclick = afficherListe;
   zone.appendChild(retour);
 };
+window.afficherCalendrierDuJour = function () {
+  const aujourdHui = new Date().toISOString().slice(0, 10);
+
+  zone.innerHTML = `<h2>📅 Aujourd’hui — ${aujourdHui}</h2>`;
+
+  const tourneesDuJour = tourneesSauvegardees.filter(
+    t => t.date === aujourdHui
+  );
+
+  if (tourneesDuJour.length === 0) {
+    zone.innerHTML += "<p>Aucune tournée prévue aujourd’hui</p>";
+  } else {
+    tourneesDuJour.forEach(t => {
+      const btn = document.createElement("button");
+      btn.textContent = `${t.terminee ? "✅" : "🚚"} ${t.nom}`;
+      btn.onclick = () => chargerTournee(t.id);
+      zone.appendChild(btn);
+    });
+  }
+
+  const retour = document.createElement("button");
+  retour.textContent = "↩ Retour";
+  retour.onclick = afficherListe;
+  zone.appendChild(retour);
+};
