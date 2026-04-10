@@ -206,3 +206,34 @@ function sauvegarderTournee(nom, date, tournees) {
   tourneesSauvegardees.push(nouvelleTournee);
   localStorage.setItem("tournees", JSON.stringify(tourneesSauvegardees));
 }
+window.afficherTournees = function () {
+  if (tourneesSauvegardees.length === 0) {
+    zone.innerHTML = "<p>Aucune tournée enregistrée</p>";
+    return;
+  }
+
+  zone.innerHTML = "<h2>📅 Tournées programmées</h2>";
+
+  tourneesSauvegardees.forEach(t => {
+    const btn = document.createElement("button");
+    btn.textContent = `${t.date} – ${t.nom}`;
+    btn.onclick = () => chargerTournee(t.id);
+    zone.appendChild(btn);
+  });
+
+  const retour = document.createElement("button");
+  retour.textContent = "↩ Retour";
+  retour.onclick = afficherListe;
+  zone.appendChild(retour);
+};
+function chargerTournee(id) {
+  const t = tourneesSauvegardees.find(x => x.id === id);
+  if (!t) return;
+
+  tournee = t.fermes.map(f => ({
+    ferme: f.ferme || f,
+    livree: false
+  }));
+
+  afficherTournee();
+}
