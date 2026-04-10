@@ -164,7 +164,33 @@ document.addEventListener("DOMContentLoaded", () => {
       mettreAJourBadgeAujourdHui();
       alert("✅ Tournée sauvegardée");
     };
+const btnSave = document.createElement("button");
+btnSave.textContent = "💾 Enregistrer la tournée";
+btnSave.onclick = () => {
+  const nom = prompt("Nom de la tournée ?");
+  if (!nom) return;
 
+  const date = prompt(
+    "Date (YYYY-MM-DD) ?",
+    new Date().toISOString().slice(0, 10)
+  );
+  if (!date) return;
+
+  tourneesSauvegardees.push({
+    id: Date.now(),
+    nom,
+    date,
+    fermes: tournee,
+    terminee: false
+  });
+
+  localStorage.setItem("tournees", JSON.stringify(tourneesSauvegardees));
+  mettreAJourBadgeAujourdHui();
+
+  alert("✅ Tournée enregistrée");
+};
+
+zone.appendChild(btnSave);
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour à la liste";
     retour.onclick = afficherListe;
