@@ -250,9 +250,6 @@ function chargerTournee(id) {
 
   afficherTournee();
 }
-window.afficherCalendrierDuJour = function () {
-  const aujourdHui = new Date().toISOString().slice(0, 10);
-
   zone.innerHTML = `<h2>📅 Aujourd’hui — ${aujourdHui}</h2>`;
 
   const tourneesDuJour = tourneesSauvegardees.filter(t => t.date === aujourdHui);
@@ -294,10 +291,6 @@ zone.appendChild(btnTerminer);
 function sauvegarderTournees() {
   localStorage.setItem("tournees", JSON.stringify(tourneesSauvegardees));
 }
-window.afficherCalendrierSemaine = function () {
-  const today = new Date();
-  zone.innerHTML = "<h2>🗓️ Cette semaine</h2>";
-
   for (let i = 0; i < 7; i++) {
     const d = new Date(today);
     d.setDate(today.getDate() + i);
@@ -330,9 +323,6 @@ window.afficherCalendrierSemaine = function () {
   retour.onclick = afficherListe;
   zone.appendChild(retour);
 };
-window.afficherCalendrierDuJour = function () {
-  const aujourdHui = new Date().toISOString().slice(0, 10);
-
   zone.innerHTML = `<h2>📅 Aujourd’hui — ${aujourdHui}</h2>`;
 
   const tourneesDuJour = tourneesSauvegardees.filter(
@@ -355,10 +345,6 @@ window.afficherCalendrierDuJour = function () {
   retour.onclick = afficherListe;
   zone.appendChild(retour);
 };
-window.afficherCalendrierSemaine = function () {
-  const today = new Date();
-  zone.innerHTML = "<h2>🗓️ Cette semaine</h2>";
-
   for (let i = 0; i < 7; i++) {
     const d = new Date(today);
     d.setDate(today.getDate() + i);
@@ -392,3 +378,83 @@ window.afficherCalendrierSemaine = function () {
   zone.appendChild(retour);
 };
 ``
+// ============================
+// 📅 CALENDRIER - AUJOURD’HUI
+// ============================
+window.afficherCalendrierDuJour = function () {
+  const zone = document.getElementById("liste");
+  if (!zone) return;
+
+  const tourneesSauvegardees = JSON.parse(
+    localStorage.getItem("tournees") || "[]"
+  );
+
+  const aujourdHui = new Date().toISOString().slice(0, 10);
+  zone.innerHTML = `<h2>📅 Aujourd’hui — ${aujourdHui}</h2>`;
+
+  const list = tourneesSauvegardees.filter(t => t.date === aujourdHui);
+
+  if (list.length === 0) {
+    zone.innerHTML += "<p>Aucune tournée prévue aujourd’hui</p>";
+  } else {
+    list.forEach(t => {
+      const btn = document.createElement("button");
+      btn.textContent = `${t.terminee ? "✅" : "🚚"} ${t.nom}`;
+      btn.onclick = () => chargerTournee(t.id);
+      zone.appendChild(btn);
+    });
+  }
+
+  const retour = document.createElement("button");
+  retour.textContent = "↩ Retour à la liste";
+  retour.onclick = afficherListe;
+  zone.appendChild(retour);
+};
+
+
+// ============================
+// 🗓️ CALENDRIER - SEMAINE
+// ============================
+window.afficherCalendrierSemaine = function () {
+  const zone = document.getElementById("liste");
+  if (!zone) return;
+
+  const tourneesSauvegardees = JSON.parse(
+    localStorage.getItem("tournees") || "[]"
+  );
+
+  const today = new Date();
+  zone.innerHTML = "<h2>🗓️ Cette semaine</h2>";
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+
+    const dateStr = d.toISOString().slice(0, 10);
+    const label = d.toLocaleDateString("fr-CA", {
+      weekday: "long",
+      day: "numeric",
+      month: "short"
+    });
+
+    zone.innerHTML += `<h3>${label}</h3>`;
+
+    const list = tourneesSauvegardees.filter(t => t.date === dateStr);
+
+    if (list.length === 0) {
+      zone.innerHTML += "<p style='opacity:.6'>Aucune tournée</p>";
+    } else {
+      list.forEach(t => {
+        const btn = document.createElement("button");
+        btn.textContent = `${t.terminee ? "✅" : "🚚"} ${t.nom}`;
+        btn.onclick = () => chargerTournee(t.id);
+        zone.appendChild(btn);
+      });
+    }
+  }
+
+  const retour = document.createElement("button");
+  retour.textContent = "↩ Retour à la liste";
+  retour.onclick = afficherListe;
+  zone.appendChild(retour);
+};
