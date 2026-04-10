@@ -1,8 +1,4 @@
-console.log("✅ app.js PROD – version finale chargée");
-
-/* ======================================================
-   APPLICATION LIVRAISON FERMES – VERSION STABLE
-   ====================================================== */
+console.log("✅ app.js FINAL – affichage robuste");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -11,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let fermes = [];
   let selection = [];
 
-  /* ============================
-     CHARGEMENT DES FERMES (JSON)
-     ============================ */
+  /* ===============================
+     CHARGEMENT JSON
+     =============================== */
   fetch("clients_livraison.json")
     .then(res => res.json())
     .then(data => {
@@ -21,15 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
       afficherListe();
     })
     .catch(err => {
-      console.error("Erreur chargement JSON", err);
-      zone.innerHTML = "<p>Erreur de chargement des fermes</p>";
+      console.error(err);
+      zone.innerHTML = "<p>Erreur chargement données</p>";
     });
 
-  /* ============================
-     AFFICHAGE LISTE DES FERMES
-     ============================ */
+  /* ===============================
+     AFFICHAGE ROBUSTE (peu importe les champs)
+     =============================== */
   function afficherListe(filtre = "") {
     zone.innerHTML = "<h2>📋 Fermes</h2>";
 
     fermes.forEach((ferme, index) => {
-      const texte = `${ferme.nom} ${ferme.ville}`.toLowerCase();
+
+      // ✅ Construire un texte lisible à partir de TOUS les champs
