@@ -1,0 +1,28 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  background: #f2f2f7;
+  padding: 16px;
+}
+
+h1 {
+  text-align: center;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  margin: 12px 0;
+  font-size: 18px;
+  border-radius: 12px;
+  border: none;
+  background: #e5e5ea;
+  cursor: pointer;
+}
+
+button.ferme.selected {
+  background: #34c759;
+  color: white;
+  font-weight: bold;
+}
+``

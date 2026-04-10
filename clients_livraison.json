@@ -1,0 +1,2900 @@
+[
+  {
+    "id": null,
+    "nom": "11616811 Canada Inc.",
+    "rue": "409 Rang 2 Est",
+    "ville": "saint-épiphane",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "2732-1140 Québec inc - Ferme Boval",
+    "rue": "420 Rang 5 et 6",
+    "ville": "sainte-irène",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9016-7404 Québec Inc.",
+    "rue": "20 Rang du Bras",
+    "ville": "saint-denis-de la bouteillerie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9078-1170 Québec inc., 9078-1170 Québec inc.",
+    "rue": "659  des Dalles",
+    "ville": "saint-étienne-des-grès",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9111-8515 Québec inc.",
+    "rue": "793 rue principale",
+    "ville": "sainte-louise",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9172-6075 QC - Christian Bernier",
+    "rue": "1762 rue du Pont",
+    "ville": "saint-lambert-de-lauzon",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9190-0597 Québec inc.",
+    "rue": "666  Route 116",
+    "ville": "sainte-christine",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9277-5337 Québec inc.",
+    "rue": "233 Rue Principale",
+    "ville": "sainte-élizabeth-de-warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9302-4537 Québec inc.",
+    "rue": "149 Route 399",
+    "ville": "trécesson",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9352-2209 Qc Inc. Ferme de la Carpe",
+    "rue": "782 Chemin Rousseau",
+    "ville": "saint-stanislas",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9381-8862 Québec Inc.",
+    "rue": "250  Rang 2",
+    "ville": "saint-ferdinand",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "9431-2485 Québec inc.",
+    "rue": "1218  Grand Rang",
+    "ville": "sainte-clothilde-de-châteauguay",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "AB-SM Distribution inc.",
+    "rue": "95  Chemin de la Vallée",
+    "ville": "cleveland",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Agence du revenu du Canada - Maïa",
+    "rue": "2000, chemin Georges",
+    "ville": "nan",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Agri-Benoît Inc.",
+    "rue": "189 Rivière Sud-Est",
+    "ville": "maskinongé",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Agriculture JPM SENC",
+    "rue": "127 1er Rang de Moreau",
+    "ville": "mont-saint-michel",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Agrifor Inc",
+    "rue": "338 Rang 4",
+    "ville": "normandin",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Agro Réfrigération inc.",
+    "rue": "165 Av. Pie-X",
+    "ville": "victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "BG5",
+    "rue": "101  Marchesseault",
+    "ville": "farnham",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Barrette et Frères senc",
+    "rue": "415  chemin principal",
+    "ville": "saint-edmond-les-plaines",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Beausejour Animal Hospital",
+    "rue": "Box 368",
+    "ville": "beausejour",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Benoit Bouffard",
+    "rue": "400 chemin brown's hill",
+    "ville": "Ayer's Cliff",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Border Veterinary Clinic",
+    "rue": "40 Wheatland Crescent",
+    "ville": "provost",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Boucherie Coin-de-L'Ouest",
+    "rue": "24 Pouliot",
+    "ville": "saint-christophe-d'arthabaska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bouffard et Cie",
+    "rue": "1760 Route 143",
+    "ville": "hatley",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bovigen Genetic Services",
+    "rue": "2  Brock Drive",
+    "ville": "moose jaw",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Brodie Trenholm",
+    "rue": "659 Mud Creek Road",
+    "ville": "northport",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bureau Vet. Plessis-Vic inc., Bureau Vet. Plessis_",
+    "rue": "545 rue Gamache",
+    "ville": "Victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bureau Vet. Plessis-Vic inc.",
+    "rue": "961  Avenue St-Louis",
+    "ville": "plessisville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bureau Vét. Dr Christian Raby",
+    "rue": "2130, rue Gamache",
+    "ville": "victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bureau Vét. Nadia Tremblay",
+    "rue": "1108 route 169",
+    "ville": "saint-félicien",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bureau Vét. de la Vallée S.e.n.c.r.l.",
+    "rue": "32 Boulevard Joubert Est",
+    "ville": "sayabec",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bureau Vétérinaire L'Islet",
+    "rue": "471  route de l’Église",
+    "ville": "saint-jean-port-joli",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bureau Vétérinaire Martin Roy",
+    "rue": "375 rue des hauts bois",
+    "ville": "richmond",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Bureau Vétérinaire Ste-Marie, Bureau Vétérinaire Ste-Marie",
+    "rue": "1375 Rue Notre Dame S",
+    "ville": "sainte-marie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "CIAQ",
+    "rue": "3450, rue Sicotte, porte 10",
+    "ville": "Saint Hyacinthe",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Chantal Côté",
+    "rue": "60  rang 2",
+    "ville": "notre-dame-de-ham",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Chantal et Daniel Mongrain",
+    "rue": "50 Chemin Boisvert",
+    "ville": "ulverton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Claessens Suroit",
+    "rue": "2987 Chemin Powerscourt",
+    "ville": "hinchinbrooke",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Clarke & Fils Ltée",
+    "rue": "2881 Collège",
+    "ville": "sherbrooke",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Clinique CVCQ",
+    "rue": "167 Rue Notre-Dame",
+    "ville": "notre-dame-du-bon-conseil",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Clinique Vét. de L'Estuaire - Rimouski S06103",
+    "rue": "718  Chemin Ste-Odile",
+    "ville": "rimouski",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Clinique Vét. de L'Estuaire",
+    "rue": "3405  Boul. Wilfrid-Hamel",
+    "ville": "québec",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Code 18 Informatique",
+    "rue": "30  Struck Court",
+    "ville": "cambridge",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Cormier Meat ltd.",
+    "rue": "4624  Rue Principale  Unite 3",
+    "ville": "saint-antoine",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Cossette Simmentals",
+    "rue": "11 Rang des chutes Nord",
+    "ville": "saint-narcisse",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Crawford Veterinary Medicine",
+    "rue": "6994 Road 164",
+    "ville": "atwood",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Davanna Holdings, Davanna Holdings",
+    "rue": "308 Cookville Loop Road",
+    "ville": "cookville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Delivery",
+    "rue": "766 3e rang",
+    "ville": "St Charles de Bourget",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Delivery",
+    "rue": "515 2e Rang",
+    "ville": "Sainte-Helene-de-Bagot",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Desbuttes Holstein inc.",
+    "rue": "495 Route 216 Ouest",
+    "ville": "ham-nord",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Domaine Iron Hill",
+    "rue": "3  Chemin Rumsby",
+    "ville": "bromont",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Domaine Perchemonde",
+    "rue": "4196  4E rang Est",
+    "ville": "sainte-hélène-de-kamouraska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Dre Ève Sergerie",
+    "rue": "896  route du Fleuve",
+    "ville": "saint-antoine-de-tilly",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Entreprise JSV senc",
+    "rue": "291  Avenue Sylvain",
+    "ville": "tring-jonction",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Marvin Weber",
+    "rue": "1296 South Melville Road",
+    "ville": "bonshaw",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Entreprise Paul Claessens inc. - Site La Pocatière",
+    "rue": "121 , 4e rang Ouest",
+    "ville": "saint-simon",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Entreprise Paul Claessens inc.",
+    "rue": "121 4e Rang Ouest",
+    "ville": "saint-simon",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Entreprises Claudale inc., Entreprises Claudale inc.",
+    "rue": "1246 Rue Saint-Jacques",
+    "ville": "princeville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Eric Millen",
+    "rue": "7224  Highway 2",
+    "ville": "bass river",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme 4-JAS senc",
+    "rue": "1331 2e et 3e rang Est",
+    "ville": "roquemaure",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Agridesro Inc.",
+    "rue": "3860 Rang St-Hyacinthe",
+    "ville": "mirabel",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Alain et René Rodrigue",
+    "rue": "1500  Grand Rang",
+    "ville": "saint-tite",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Alampco Holstein inc.",
+    "rue": "166 Rang 12",
+    "ville": "sainte-séraphine",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Alane",
+    "rue": "1297 10 ieme Rang",
+    "ville": "sainte-clotilde-de-horton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Albou",
+    "rue": "309 Route Mondoux",
+    "ville": "sainte-élizabeth-de-warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Angoulême SENC",
+    "rue": "2095 Route 169",
+    "ville": "chambord",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Arnita Holstein inc.",
+    "rue": "830 Route Carson",
+    "ville": "saint-félix-de-kingsey",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Arnolait Holsteins inc.",
+    "rue": "288 Route 255 nord",
+    "ville": "wotton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Arnold senc.",
+    "rue": "230 Route 255",
+    "ville": "danville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Ashby et Giroux inc.",
+    "rue": "1738 Chemin Lessard",
+    "ville": "coaticook",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme B & L Desrosiers S.E.N.C",
+    "rue": "3860 Rang Saint-Hyacinthe",
+    "ville": "mirabel",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme BCA senc",
+    "rue": "6531  6e Rang",
+    "ville": "saint-zacharie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Barmlait inc.",
+    "rue": "260 Rang 4",
+    "ville": "sainte-élizabeth-de-warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Bastille inc.",
+    "rue": "180  rang bastille",
+    "ville": "saint-jean-de-dieu",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Belbo Senc",
+    "rue": "100 Chemin Laurier",
+    "ville": "saint-norbert-d'arthabaska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Belgi M.A.G. senc",
+    "rue": "337  rue principale",
+    "ville": "saint-alphonse",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Belveau",
+    "rue": "6807 Rang de l'Hêtrière Est",
+    "ville": "saint-charles-de-bellechasse",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Berni",
+    "rue": "402 Route Alfred Laliberté",
+    "ville": "sainte-élizabeth-de-warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Bernier et Frères",
+    "rue": "204 Lamartine Est",
+    "ville": "l'islet",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Boeufs des Patriotes inc",
+    "rue": "982 Chemin des Patriotes Ouest",
+    "ville": "saint-jean-sur-richelieu",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Boilard inc.",
+    "rue": "25, 10e Rang",
+    "ville": "saint-jacques-de-leeds",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Boismou 2001 inc.",
+    "rue": "525 5 ieme Rang",
+    "ville": "saint-félix-de-kingsey",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Jean-Guy Perreault et Fils Lté - Ferme des Moissons",
+    "rue": "350 Rang 3 Est",
+    "ville": "l'isle-verte",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Bovallon SENC - Site",
+    "rue": "150, rue du Pont",
+    "ville": "warden",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Bovallon SENC",
+    "rue": "150 Rue du Pont",
+    "ville": "warden",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Bovicole inc.",
+    "rue": "1425  chemin Craig",
+    "ville": "lévis",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Bovillette SENC",
+    "rue": "617  3e Rang St-Narcisse",
+    "ville": "saint-narcisse",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Bovinoise Inc.",
+    "rue": "1511  Grand Rang",
+    "ville": "saint-tite",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Bovirêve",
+    "rue": "122 4e Rang  Ouest",
+    "ville": "new richmond",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Bélaro inc",
+    "rue": "1198 10e rang ouest",
+    "ville": "Princeville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme C.F.M.",
+    "rue": "107  Chemin Sainte-Croix",
+    "ville": "baie-saint-paul",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme C.K. Thibodeau Senc",
+    "rue": "8601  Rang St-Philippe",
+    "ville": "chesterville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme C.P.L. Viel inc.",
+    "rue": "624  5e Rang Est",
+    "ville": "saint-eugène",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Canland Inc.",
+    "rue": "113 10e-et-1e Rang O",
+    "ville": "la sarre",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Cedar Grove senc",
+    "rue": "2881  Dublin",
+    "ville": "inverness",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Celigervic et Fils SENC",
+    "rue": "800 rang Gabriel Nord",
+    "ville": "sainte-marie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Chalijoste SENC",
+    "rue": "6920 Route Arthur-Sauvé",
+    "ville": "mirabel",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Charles Bédard",
+    "rue": "421  rue Bédard",
+    "ville": "sainte-marie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Charles St-Jacques",
+    "rue": "6655 Route Arthur-Sauvé",
+    "ville": "mirabel",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Chartrand enr.",
+    "rue": "549 11e rang",
+    "ville": "sainte-agathe-de-lotbinière",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Chayer",
+    "rue": "391  3e & 4e rang Ouest",
+    "ville": "barraute",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Claessens et fils",
+    "rue": "131A Rang Charlotte",
+    "ville": "saint-liboire",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Claude Lemay",
+    "rue": "551  Chemin de Saint-Gérard",
+    "ville": "shawinigan",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Claude Thouin et fils, Claude  Thouin",
+    "rue": "3380 Rang Ste-Anne",
+    "ville": "Saint-Norbert",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Claude Thouin et fils",
+    "rue": "2280  Rang Ste-Anne",
+    "ville": "saint-norbert",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Claudia Poulin (beauce)",
+    "rue": "45 11e rang Sud",
+    "ville": "saint-éphrem-de-beauce",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Claudie Ouellet 2005 enr.",
+    "rue": "27, Chemin des Pionniers",
+    "ville": "saint-arsène",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Clemenceau inc.",
+    "rue": "20 Rang 5",
+    "ville": "saint-norbert-d'arthabaska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Coujo",
+    "rue": "3680 10e rang de wendover",
+    "ville": "notre-dame-du-bon-conseil",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Coulée Divine SENC",
+    "rue": "535 Route Dublin",
+    "ville": "inverness",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Couture et fils enr.",
+    "rue": "42 , Route 108",
+    "ville": "lambton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Crackholm inc.",
+    "rue": "262  chemin de la rivière",
+    "ville": "cleveland",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Crystal Brook SENC",
+    "rue": "156  rue Nicolet",
+    "ville": "danville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Cédric Mercier-Grenier",
+    "rue": "790  chemin Sawyerville",
+    "ville": "sawyerville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme D'anjou - Ferme Couture et fils enr.",
+    "rue": "42 Route 108",
+    "ville": "lambton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Rafeo",
+    "rue": "1521 Grand Rang",
+    "ville": "saint-tite",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme D'anjou",
+    "rue": "389 route 116 Ouest",
+    "ville": "saint-agapit",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme D.M Simard SENC",
+    "rue": "710  Rang St-Agathe",
+    "ville": "sainte-sophie-de-lévrard",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme DEM Migneault",
+    "rue": "9985 Rang des Ponts",
+    "ville": "rouyn-noranda",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme DML",
+    "rue": "651 rang St-Pierre",
+    "ville": "saint-bernard",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Damien Gauthier",
+    "rue": "88  rue Principale",
+    "ville": "saint-eugène-d'argentenay",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Danny Bergeron, Ferme Danny Bergeron",
+    "rue": "227  2e rang",
+    "ville": "saint-ferdinand",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme David Labranche, Ferme David Labranche",
+    "rue": "369 11e Rang",
+    "ville": "maddington",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Deslacs Ltée, Ferme Deslacs Ltée",
+    "rue": "462 Rue de L'Académie",
+    "ville": "victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Desnette",
+    "rue": "6 Rang 4 Ouest",
+    "ville": "warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Doris Boissonnault",
+    "rue": "367 367 boulevard Perron Est",
+    "ville": "caplan",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Doyon (Jean-Guy)",
+    "rue": "120  Rang St-Charles",
+    "ville": "saint-benoît-labre",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Duault SENC",
+    "rue": "77 Chemin des Pionniers",
+    "ville": "saint-arsène",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Ecoloveau",
+    "rue": "125 5e rang",
+    "ville": "saint-victor",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Fortin & Farell inc.",
+    "rue": "3196 chemin des 8e et 9e rangs",
+    "ville": "Val Paradis",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Francelin",
+    "rue": "1750 Rang 7",
+    "ville": "saint-albert",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Fred Nadeau inc.",
+    "rue": "135 5e rang de Saint-Norbert",
+    "ville": "saint-norbert-d'arthabaska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Frédéric Gagné",
+    "rue": "1384  Route 173 sud",
+    "ville": "saint-joseph-de-beauce",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme G. Boulianne",
+    "rue": "855  Rue Principale",
+    "ville": "saint-augustin dalmas",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme GC senc",
+    "rue": "20 Route 155",
+    "ville": "saint-léonard-d'aston",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme GJ Sabourin inc.",
+    "rue": "3345 3e Rang",
+    "ville": "sainte-justine-de-newton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme GM Paradis inc.",
+    "rue": "789  7e Rang Est",
+    "ville": "laurierville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme GMH inc.",
+    "rue": "1101  Rang Roberge",
+    "ville": "chesterville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Gagnon et Fils",
+    "rue": "1483, Rang 11",
+    "ville": "saint-valère",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Gaston Henry",
+    "rue": "815 Principale",
+    "ville": "saint-malachie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Gérard Renaud Inc.",
+    "rue": "12150 Rang de la Fresnière",
+    "ville": "mirabel",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme HOULYS inc.",
+    "rue": "17 Rang 5",
+    "ville": "warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Hireault inc.",
+    "rue": "2587 6ieme Rang",
+    "ville": "tingwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Irma",
+    "rue": "105 Rte Sainte-Albert",
+    "ville": "saint-albert",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme J + Y Frappier Inc.",
+    "rue": "599 Rang 9",
+    "ville": "chazel",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme J. Lapointe et Fils SENC",
+    "rue": "34  Route 108",
+    "ville": "lambton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme J. Veillette SENC",
+    "rue": "2590 Rang Ste-Marguerite",
+    "ville": "saint-maurice",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme JC Cyr senc",
+    "rue": "4091 Chemin St Louis",
+    "ville": "alma",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme JMD",
+    "rue": "49 Rang 5",
+    "ville": "saint-norbert-d'arthabaska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme JR Vaillancourt SENC",
+    "rue": "1854 Chemin Vaillancourt",
+    "ville": "coaticook",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Janole",
+    "rue": "525 8e rang",
+    "ville": "saint-pierre-de-broughton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Jean Lanciaux et fils",
+    "rue": "583 Route 251",
+    "ville": "saint-herménégilde",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Jean-Baptiste inc.",
+    "rue": "881 Rang Landry",
+    "ville": "saint-valère",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Jean-Francois Leblond",
+    "rue": "146 rang 8",
+    "ville": "armagh",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Jessy Boulianne",
+    "rue": "546  Rang 4",
+    "ville": "normandin",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Joannie Vallée inc.",
+    "rue": "294 Rang St-Luc",
+    "ville": "saint-bernard",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Jofamigo",
+    "rue": "609  rang de la ferme",
+    "ville": "ste-perpétue",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme John Houley et fils LTÉE",
+    "rue": "439 Chemin Craig",
+    "ville": "saint-sylvestre",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme JolyPier SENC",
+    "rue": "396 Chemin Boily",
+    "ville": "coaticook",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Jonathan Blais",
+    "rue": "40  Chemin du petit Canada est",
+    "ville": "la patrie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Jonathan Daunais",
+    "rue": "1025  rang 7 Wendover Sud",
+    "ville": "saint-cyrille-de-wendover",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Jules Côté et fils inc",
+    "rue": "703 Rue du Ruisseau",
+    "ville": "saint-bernard",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Julien Tremblay",
+    "rue": "166  Chemin Mailloux",
+    "ville": "la malbaie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Kalexstar senc.",
+    "rue": "1343 8 ieme Rang",
+    "ville": "saint-valère",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Keven Vachon",
+    "rue": "1137  1er Rang",
+    "ville": "saint-frédéric",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme L'Authentic",
+    "rue": "22 2ieme Rang",
+    "ville": "warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Landrynoise inc.",
+    "rue": "1150 Rang Petit 7",
+    "ville": "saint-albert",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Lansi Holstein inc",
+    "rue": "10 ieme Rang",
+    "ville": "saint-albert",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Lavoie Dancausse",
+    "rue": "121, 3e rang Est",
+    "ville": "Saint Paul de la Croix",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Lesim S.E.N.C.",
+    "rue": "36 Rue Leclerc",
+    "ville": "victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Lex-Ane",
+    "rue": "1175 10 ième Rang",
+    "ville": "sainte-clotilde-de-horton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Lherousson inc.",
+    "rue": "640 Chemin St-Grégoire",
+    "ville": "les cèdres",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Louber Inc.",
+    "rue": "1630 Route Saint-Martin",
+    "ville": "sainte-marie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Louis D'or Holstein",
+    "rue": "247 Rang 4 O",
+    "ville": "warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Réjean Turgeon Inc.",
+    "rue": "672 Rang St-Pierre",
+    "ville": "saint-bernard",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Malait inc.",
+    "rue": "120 Rang 6",
+    "ville": "saint-norbert-d'arthabaska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Marifranc inc.",
+    "rue": "25 4 ieme Rang",
+    "ville": "saint-norbert-d'arthabaska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Mario Leclair",
+    "rue": "777B Rang 7",
+    "ville": "saint-félix-de-kingsey",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Mario Roy",
+    "rue": "123  Avenue de la Rivière",
+    "ville": "courcelles",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Martelait enr.",
+    "rue": "16 Rang 4",
+    "ville": "warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Martin Drainville",
+    "rue": "901  Chemin Beauparlant Est",
+    "ville": "saint-damien",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Martinhel SENC",
+    "rue": "1485 Chemin Favreau",
+    "ville": "coaticook",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Marécage",
+    "rue": "2669 route 169",
+    "ville": "saint-félicien",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Masson Senc",
+    "rue": "7835 RTE Louis-S.-Saint-Laurent",
+    "ville": "compton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Mathieu Chouinard",
+    "rue": "110  rue Girard",
+    "ville": "l'islet",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme McDuff & fils S.E.N.C.",
+    "rue": "239 route de Mansonville",
+    "ville": "mansonville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Melga Inc",
+    "rue": "822 Ch Chamberlain",
+    "ville": "dixville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Miclem Inc.",
+    "rue": "1852 Chemin de la Rivière-La Guerre",
+    "ville": "saint-anicet",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Moffette inc.",
+    "rue": "25 route 116 est",
+    "ville": "dosquet",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Montrémi inc",
+    "rue": "809 8e et 9e rang",
+    "ville": "saint-rémi-de-tingwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Morin Simmental",
+    "rue": "91 Route 249",
+    "ville": "saint-georges-de-windsor",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Nalémat inc",
+    "rue": "466 6 ieme Rang",
+    "ville": "sainte-élizabeth-de-warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme New-Hope",
+    "rue": "540  Rang 6",
+    "ville": "saint-benoît-labre",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Nicolas Lampron",
+    "rue": "600  rue des Dalles",
+    "ville": "saint-étienne-des-grès",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Nor-Dik",
+    "rue": "66 Rang Sainte-Marie",
+    "ville": "les éboulements",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Nordik Wagyu inc.",
+    "rue": "311  Route MacDonald",
+    "ville": "acton vale",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Norjie senc",
+    "rue": "590  Route 267",
+    "ville": "saint-jean-de-brébeuf",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Normand Vinet Senc",
+    "rue": "900  Rang du Vingt",
+    "ville": "saint-étienne-de-beauharnois",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Normandin",
+    "rue": "2123  Rue St-Cyrille",
+    "ville": "normandin",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Ojibway Inc.",
+    "rue": "381 10e-et-1er Rang E",
+    "ville": "dupuy",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme P. D'Anjou",
+    "rue": "101  Route 230 Est",
+    "ville": "saint-philippe-de-néri",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Pacovo",
+    "rue": "136  route St-Jean Sud",
+    "ville": "sainte-claire",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Paintale enr.",
+    "rue": "215  Rang 2 Est",
+    "ville": "saint-andré-de-kamouraska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Parislait",
+    "rue": "233 Rang Pariseau",
+    "ville": "victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Pasqual Inc",
+    "rue": "8881 Rang St-Étienne",
+    "ville": "mirabel",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Perkingspond inc.",
+    "rue": "51 Chemin du Lac Perkins",
+    "ville": "danville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Petit Québec senc",
+    "rue": "32 Chemin Petit Québec",
+    "ville": "la patrie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Pépinoise inc",
+    "rue": "119 Route 116 Est",
+    "ville": "warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme R. Bordeleau Inc.",
+    "rue": "803 4e-et-5e Rang Ouest",
+    "ville": "clerval",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme R.G.C Témis Senc.",
+    "rue": "890, 7ième et 8ième rang",
+    "ville": "guérin",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Ranjall inc.",
+    "rue": "1018  rue Cartier",
+    "ville": "victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Renado",
+    "rue": "3276  Chemin Bois Clair",
+    "ville": "saint-antoine-de-tilly",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Rennheide",
+    "rue": "496  rang 6",
+    "ville": "sainte-élizabeth-de-warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Richard Larose SENC",
+    "rue": "172 7e Rang",
+    "ville": "saint-isidore-de-clifton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Rivière La Fourche",
+    "rue": "535  1er Rang",
+    "ville": "saint-épiphane",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Rockmarie inc.",
+    "rue": "54 4ieme Rang Ouest",
+    "ville": "warwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Rodlin Senc.",
+    "rue": "710  Route du 10e Rang",
+    "ville": "saint-jean-de-brébeuf",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Roger Fortier et fils",
+    "rue": "827  Chemin Gosford",
+    "ville": "saint-pierre-baptiste",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Roland Pilote et Fils",
+    "rue": "410  2e rang Ramsay",
+    "ville": "saint-félix-de-valois",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Rollère",
+    "rue": "325 Rang 4",
+    "ville": "tingwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme SG Noel SENC",
+    "rue": "641 Rang 8-9 Ouest",
+    "ville": "la sarre",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Simon Gagnon",
+    "rue": "72  rang Saint-Antoine",
+    "ville": "notre-dame-des-monts",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Steve Drouin inc.",
+    "rue": "4487 Gosford Est",
+    "ville": "sainte-agathe-de-lotbinière",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Stéphane Fortier",
+    "rue": "648  Rang 10 Nord",
+    "ville": "saint-pierre-baptiste",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Sylvain Giguère SENC",
+    "rue": "12  chemin des Bois Francs",
+    "ville": "sainte-aurélie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Sylvie Loiselle",
+    "rue": "41 Rang Chicago",
+    "ville": "saint-christophe-d'arthabaska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Sylwa",
+    "rue": "10  2e rang Ouest",
+    "ville": "val-brillant",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Séjane Holstein inc.",
+    "rue": "451 Route 216 Ouest",
+    "ville": "ham-nord",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme T et C Carbonneau senc",
+    "rue": "190  Rang 6 Ouest",
+    "ville": "saint-odilon-de-cranbourne",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Thibau 1994 senc.",
+    "rue": "66 11ieme Rang",
+    "ville": "saint-valère",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Trigenco",
+    "rue": "77 chemin Coates",
+    "ville": "westbury",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Triple A inc.",
+    "rue": "21  Rang 30",
+    "ville": "saint-louis-de-gonzague (montérégie)",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Victoria Holstein inc.",
+    "rue": "463 Rue de l'Académie",
+    "ville": "victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Vincent Marquis",
+    "rue": "556  rang 5 Est",
+    "ville": "saints-anges",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Y & C S.E.N.C.",
+    "rue": "4759 , Rang Valmont",
+    "ville": "rouyn-noranda",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme YM Lacasse",
+    "rue": "9651 BOUL. TEMISCAMINGUE",
+    "ville": "ROUYN-NORANDA",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme YM Lacasse",
+    "rue": "9651 Boulevard Temiscamingue",
+    "ville": "rouyn-noranda",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Yves Plante",
+    "rue": "238 Rue Caron",
+    "ville": "ham-nord",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Yves et Diane Cloutier",
+    "rue": "6100 Chemin Corriveau",
+    "ville": "compton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme d'élevage Samson SENC",
+    "rue": "4037 25e avenue",
+    "ville": "St Prospère",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme des Mariniers senc",
+    "rue": "119 Route de l'Île-Nepawa",
+    "ville": "sainte-hélène-de-mancebourg",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme l'Adventure",
+    "rue": "2341 Rang Roberge",
+    "ville": "chesterville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme stéjobec",
+    "rue": "1070 Rang 12",
+    "ville": "saint-sylvère",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme transcharolaise",
+    "rue": "1180 Rang 7 Wendover Sud",
+    "ville": "saint-cyrille-de-wendover",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Édouard Tremblay et fils",
+    "rue": "207  Chemin Mailloux",
+    "ville": "la malbaie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ferme Érilis inc.",
+    "rue": "672 Rue de L'Académie",
+    "ville": "victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Fermes Réal et Serge Lanciaux",
+    "rue": "511 Route 141",
+    "ville": "saint-herménégilde",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Foresterie Léonard Inc.",
+    "rue": "10 Chemin Paquette",
+    "ville": "mont-tremblant",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Gaston Grondin",
+    "rue": "54  Rang 2",
+    "ville": "wotton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Gaétan Robichaud",
+    "rue": "1491  Route 255",
+    "ville": "tracadie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ghislain Boulanger, Ghislain Boulanger",
+    "rue": "456 Rang Lizotte",
+    "ville": "saint-norbert-d'arthabaska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Goodine Farms, Goodine Farms",
+    "rue": "3268 Route 105",
+    "ville": "bear island",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Groupe Yves Bergeron inc.",
+    "rue": "161 route 382",
+    "ville": "ville-marie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Groupe vétérinaire Vetcom inc. : Hôpital Vét. Coeur Lotbinière - 0",
+    "rue": "140 Rue Olivier",
+    "ville": "laurier-station",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Groupe vétérinaire Vetcom inc.",
+    "rue": "3405 Boul. Wilfrid-Hamel",
+    "ville": "québec",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Guillaume Lachaine",
+    "rue": "195 3e rang de gravel",
+    "ville": "ferme-neuve",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Guy Boulet",
+    "rue": "386 Chemin Lavoie Est",
+    "ville": "saint-dominique-du-rosaire",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Guy D'Anjou inc.",
+    "rue": "1214 rang des pointes",
+    "ville": "saint flavien",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "High Tides Veterinary Services",
+    "rue": "3473 Riverside Road",
+    "ville": "green oaks",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Hôpital Vét de Sherbrooke",
+    "rue": "1771  King Est",
+    "ville": "sherbrooke",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "ITD00",
+    "rue": "11  Holland Avenue Suite 605",
+    "ville": "ottawa",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "JOSÉE LAMBERT",
+    "rue": "200 chemin Ste-Foy, 11e étage",
+    "ville": "nan",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Jake Read",
+    "rue": "114 Job Allen Road",
+    "ville": "upper cape",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Jean et Patrick Deschênes",
+    "rue": "1600  rang St-Denis",
+    "ville": "québec",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Jean-Guy Perreault et Fils Lté - Ferme Gagnon et Fils",
+    "rue": "1483 Rang 11",
+    "ville": "saint-valère",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Jean-Louis et Alain Pelletier",
+    "rue": "57 Rang Haute Ville",
+    "ville": "saint-denis-de la bouteillerie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Jean-guy Perreault et Fils Lté",
+    "rue": "188 Saint-Jacques",
+    "ville": "saint-patrice-de-beaurivage",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Jim McInnis Cattle Co.",
+    "rue": "208  Higgs Road",
+    "ville": "nappan",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "L'érablière du Ranch inc.",
+    "rue": "875 Chemin Riendeau",
+    "ville": "coaticook",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "La Capitale",
+    "rue": "625 St-Amable,3E étage CP17100",
+    "ville": "québec",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "La Ferme Alain Roberge Inc.",
+    "rue": "146  Rang de la Presqu'île",
+    "ville": "saint-damase",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "La Ferme des P'tits Bâteaux inc",
+    "rue": "1470 Chemin Craig",
+    "ville": "tingwick",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Larch Grove Farm Ltd",
+    "rue": "405 Veterans Drive",
+    "ville": "cormack",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Le Jardinier Palme",
+    "rue": "3479  Chemin Bois Clair",
+    "ville": "saint-antoine-de-tilly",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Les Délices Normandie",
+    "rue": "6-1040  Fountain Street North",
+    "ville": "cambridge",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Les Ferme Rodrigue Enr.",
+    "rue": "66  Avenue Lambert",
+    "ville": "beauceville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Les Fermes Parent-Beauregard",
+    "rue": "343 Route 241",
+    "ville": "saint-joachim-de-shefford",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Les Élevages Tardif",
+    "rue": "695 Rang St-Charles",
+    "ville": "saint-jules",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "",
+    "rue": "335, 8e rang ouest",
+    "ville": "Lyster",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "",
+    "rue": "766 boulevard Taché Ouest",
+    "ville": "Montmagny",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Lorne Larsen",
+    "rue": "194 Norring Road",
+    "ville": "borden-carleton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "M.B.M. Daigle",
+    "rue": "512 2e Rang",
+    "ville": "sainte-hélène-de-bagot",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Maitland Mobile Veterinary Services",
+    "rue": "30 Main Street, Box 1178",
+    "ville": "seaforth",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Mark Frost",
+    "rue": "342 Route 255",
+    "ville": "kingsey falls",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Mathieu Bédard",
+    "rue": "753  Route Bienvenu",
+    "ville": "sainte-hélène-de-mancebourg",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Meunerie Cacouna 2009 inc.",
+    "rue": "899 du Patrimoine",
+    "ville": "cacouna",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Michael Morency",
+    "rue": "4551 Avenue Royal",
+    "ville": "saint-ferréol-les-neiges",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Michel Alexandre",
+    "rue": "121, de la Seigneurie",
+    "ville": "saint-roch-des-aulnaies",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "N&N Farms Ltd",
+    "rue": "410A Veterans Drive",
+    "ville": "cormack",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Naud Chainey, Frédéric et Hubert",
+    "rue": "636 Route de la Pointe",
+    "ville": "chambord",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Newtown Livestock Ltd",
+    "rue": "1038 Route 890",
+    "ville": "newtown",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Peevee Farm",
+    "rue": "80 Chemin Baker",
+    "ville": "potton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Porcherie Roger Gauthier inc.",
+    "rue": "660  rang St Pierre",
+    "ville": "saint-irénée",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Premier SHP Veterinary Corporation",
+    "rue": "Box 31",
+    "ville": "Steinbach",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Produits PL",
+    "rue": "3164 rue Albert-Boudreau",
+    "ville": "sherbrooke",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ranch Covey Hill",
+    "rue": "404 Route 202",
+    "ville": "havelock",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ranch Jordan Hill s.e.n.c.",
+    "rue": "475  Jordan Hill",
+    "ville": "cookshire-eaton",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ranch Macandi inc.",
+    "rue": "185 8e Rang Ouest",
+    "ville": "lyster",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ranch Nordale",
+    "rue": "2110 1er rang Nord",
+    "ville": "saint-ignace-de-stanbridge",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ranch Ouellet Inc.",
+    "rue": "155  Rang de la Montagne",
+    "ville": "saint-gabriel-de-rimouski",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ranch R inc.",
+    "rue": "790 Route 108 Est",
+    "ville": "saint-alfred",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Ranch Temisca Inc.",
+    "rue": "510  route 101",
+    "ville": "saint-édouard-de-fabre",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Revenu Québec - Maia",
+    "rue": "16740 Trans-Canada Highway",
+    "ville": "nan",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Reymar Farms - Margareth Wheaton",
+    "rue": "529 Jolicure Road",
+    "ville": "jolicure",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Rondeau Bibeau Félix",
+    "rue": "453 , 1er et 2e Rang Est",
+    "ville": "barraute",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Royale Charolais",
+    "rue": "98 Rang St-André",
+    "ville": "saint-bernard-de-lacolle",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "S&S Dixon Farm - Scott Dixon",
+    "rue": "311 Davis Road",
+    "ville": "corner",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Samuel Cantin",
+    "rue": "183  Route St-Alfred",
+    "ville": "sainte-hénédine",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Sandra Berthiaume &",
+    "rue": "530 Route 239",
+    "ville": "saint-germain",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Service Vétérinaire Beaurivage",
+    "rue": "1-676, des Érables",
+    "ville": "saint-elzéar",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Service Vétérinaire du KRT",
+    "rue": "205  Rue Lafontaine",
+    "ville": "rivière-du-loup",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Service vét. ambulatoire Équin",
+    "rue": "893  Av. Taniata",
+    "ville": "lévis",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Service vétérinaire Bovinord",
+    "rue": "3562  chemin du lac Jérôme",
+    "ville": "lac-kénogami",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Services Vétérinaires René Lord Inc.",
+    "rue": "23  Chemin Lessard Ouest",
+    "ville": "saint-cyrille-de-lessard",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Simon Touchette",
+    "rue": "923 rang Ste Madeleine",
+    "ville": "saint-andré-avellin",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Skyline Genetics Inc.",
+    "rue": "5955  Route 13",
+    "ville": "new glasgow",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Sylvain Bourque & Sonia Paquet",
+    "rue": "269 Route 173",
+    "ville": "saint-théophile",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Sylvain Tourigny",
+    "rue": "410 De l'Académie",
+    "ville": "victoriaville",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Transport Mailloux inc.",
+    "rue": "265  rue Principale",
+    "ville": "notre-dame-du-sacré-coeur-d'issoudun",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Élevage du Petit Veau, Élevage du Petit Veau",
+    "rue": "174  Route 230 Ouest",
+    "ville": "sainte-hélène-de-kamouraska",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  },
+  {
+    "id": null,
+    "nom": "Érablière Anne et Sébastien",
+    "rue": "113  Route 212",
+    "ville": "la patrie",
+    "latitude": null,
+    "longitude": null,
+    "notes": ""
+  }
+]
