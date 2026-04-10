@@ -1,32 +1,17 @@
-console.log("✅ app.js FINAL – affichage robuste");
-
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
-  const champRecherche = document.getElementById("recherche");
 
-  let fermes = [];
-  let selection = [];
+  if (!zone) {
+    document.body.innerHTML = "❌ DIV #liste INTROUVABLE";
+    return;
+  }
 
-  /* ===============================
-     CHARGEMENT JSON
-     =============================== */
+  zone.innerHTML = "<h2>✅ TEST LECTURE JSON</h2>";
+
   fetch("clients_livraison.json")
     .then(res => res.json())
     .then(data => {
-      fermes = data;
-      afficherListe();
-    })
-    .catch(err => {
-      console.error(err);
-      zone.innerHTML = "<p>Erreur chargement données</p>";
-    });
+      zone.innerHTML += `<p>Type: ${Array.isArray(data) ? "ARRAY ✅" : "PAS ARRAY ❌"}</p>`;
+      zone.innerHTML += `<p>Nombre d'éléments: ${data.length ?? "inconnu"}</p>`;
 
-  /* ===============================
-     AFFICHAGE ROBUSTE (peu importe les champs)
-     =============================== */
-  function afficherListe(filtre = "") {
-    zone.innerHTML = "<h2>📋 Fermes</h2>";
-
-    fermes.forEach((ferme, index) => {
-
-      // ✅ Construire un texte lisible à partir de TOUS les champs
+      if (!Array.isArray(data)) {
