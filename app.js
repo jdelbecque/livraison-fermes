@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION OR STABLE");
+console.log("✅ app.js – CORRECTION FINALE FORCE AFFICHAGE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -8,53 +8,25 @@ document.addEventListener("DOMContentLoaded", () => {
   let selection = [];
   let tournee = [];
 
-  /* ========= CHARGEMENT DES DONNÉES ========= */
+  // Sécurité absolue
+  if (!zone) {
+    alert("ERREUR : div #liste introuvable");
+    return;
+  }
+
+  zone.innerHTML = "<p>Chargement des fermes…</p>";
+
+  /* ======================
+     CHARGEMENT JSON
+     ====================== */
   fetch("clients_livraison.json")
     .then(res => res.json())
     .then(data => {
+      console.log("✅ JSON chargé :", data.length, "fermes");
       fermes = Array.isArray(data) ? data : [];
+
+      // ✅ FORÇAGE DIRECT DE L’AFFICHAGE
       afficherListe();
     })
     .catch(err => {
       console.error(err);
-      zone.innerHTML = "<p>Erreur chargement données</p>";
-    });
-
-  /* ========= LISTE DES FERMES ========= */
-  function afficherListe(filtre = "") {
-    zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
-
-    if (fermes.length === 0) {
-      zone.innerHTML += "<p>Aucune ferme trouvée</p>";
-      return;
-    }
-
-    fermes.forEach((ferme, index) => {
-      const texte = Object.values(ferme)
-        .filter(v => typeof v === "string" && v.trim() !== "")
-        .join(" – ");
-
-      if (filtre && !texte.toLowerCase().includes(filtre)) return;
-
-      const btn = document.createElement("button");
-      btn.className = "ferme";
-      btn.textContent = texte;
-
-      if (selection.includes(index)) {
-        btn.classList.add("selected");
-      }
-
-      btn.onclick = () => toggleSelection(index);
-      zone.appendChild(btn);
-    });
-  }
-
-  function toggleSelection(index) {
-    if (selection.includes(index)) {
-      selection = selection.filter(i => i !== index);
-    } else {
-      selection.push(index);
-    }
-    afficherListe(champRecherche ? champRecherche.value.toLowerCase() : "");
-  }
-
