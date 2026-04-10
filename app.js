@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE AVEC CALENDRIER + BADGE");
+console.log("✅ app.js – VERSION STABLE FINALE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let fermes = [];
   let selection = [];
   let tournee = [];
-  let currentTourneeId = null;
 
   let tourneesSauvegardees = JSON.parse(
     localStorage.getItem("tournees") || "[]"
@@ -32,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn) return;
 
     const today = new Date().toISOString().slice(0, 10);
-
     const count = tourneesSauvegardees.filter(
       t => t.date === today && !t.terminee
     ).length;
@@ -43,6 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      CHARGEMENT DES FERMES
      ===================== */
+  zone.innerHTML = "<p>Chargement des fermes…</p>";
+
   fetch("clients_livraison.json")
     .then(res => res.json())
     .then(data => {
@@ -51,19 +51,18 @@ document.addEventListener("DOMContentLoaded", () => {
       mettreAJourBadgeAujourdHui();
     })
     .catch(() => {
-      zone.innerHTML = "<p>Erreur chargement fermes</p>";
+      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
   /* =====================
-     LISTE PRINCIPALE
+     LISTE DES FERMES
      ===================== */
   function afficherListe(filtre = "") {
-    currentTourneeId = null;
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
     fermes.forEach((ferme, index) => {
       const texte = Object.values(ferme)
-        .filter(v => typeof v === "string")
+        .filter(v => typeof v === "string" && v.trim() !== "")
         .join(" – ");
 
       if (filtre && !texte.toLowerCase().includes(filtre)) return;
@@ -89,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     mettreAJourCompteur();
-    mettreAJourBadgeAujourdHui();
   }
 
   /* =====================
@@ -151,7 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
     save.onclick = () => {
       const nom = prompt("Nom de la tournée ?");
       if (!nom) return;
-
       const date = prompt("Date (YYYY-MM-DD) ?");
       if (!date) return;
 
@@ -197,11 +194,17 @@ document.addEventListener("DOMContentLoaded", () => {
       .forEach(t => {
         const btn = document.createElement("button");
         btn.textContent = `${t.terminee ? "✅" : "🚚"} ${t.nom}`;
-        btn.onclick = () => chargerTournee(t.id);
+        btn.onclick = () => {
+          tournee = t.fermes;
+          afficherTournee();
+        };
         zone.appendChild(btn);
       });
 
-    ajouterRetour();
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour à la liste";
+    retour.onclick = afficherListe;
+    zone.appendChild(retour);
   };
 
   /* =====================
@@ -227,27 +230,19 @@ document.addEventListener("DOMContentLoaded", () => {
         .forEach(t => {
           const btn = document.createElement("button");
           btn.textContent = `${t.terminee ? "✅" : "🚚"} ${t.nom}`;
-          btn.onclick = () => chargerTournee(t.id);
+          btn.onclick = () => {
+            tournee = t.fermes;
+            afficherTournee();
+          };
           zone.appendChild(btn);
         });
     }
 
-    ajouterRetour();
-  };
-
-  function ajouterRetour() {
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour à la liste";
     retour.onclick = afficherListe;
     zone.appendChild(retour);
-  }
-
-  function chargerTournee(id) {
-    const t = tourneesSauvegardees.find(x => x.id === id);
-    if (!t) return;
-    tournee = t.fermes;
-    afficherTournee();
-  }
+  };
 
   /* =====================
      RECHERCHE
