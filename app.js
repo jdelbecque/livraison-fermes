@@ -125,7 +125,10 @@ window.desactiverModeChauffeur = () => {
       alert("Sélectionne au moins une ferme");
       return;
     }
-
+if (modeChauffeur) {
+  alert("Mode chauffeur : création interdite");
+  return;
+}
     tournee = selection.map(i => ({
       ferme: fermes[i],
       livree: false
@@ -167,7 +170,9 @@ window.desactiverModeChauffeur = () => {
       if (!nom) return;
       const date = prompt("Date (YYYY-MM-DD) ?");
       if (!date) return;
-
+if (!modeChauffeur) {
+  zone.appendChild(save);
+}
       tourneesSauvegardees.push({
         id: Date.now(),
         nom,
