@@ -4,7 +4,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const champRecherche = document.getElementById("recherche");
 let modeChauffeur = localStorage.getItem("modeChauffeur") === "true";
+window.activerModeChauffeur = () => {
+  localStorage.setItem("modeChauffeur", "true");
+  alert("🚚 Mode chauffeur activé");
+  afficherCalendrierDuJour();
+};
 
+window.desactiverModeChauffeur = () => {
+  localStorage.removeItem("modeChauffeur");
+  alert("🔓 Mode chauffeur désactivé");
+  afficherListe();
+};
   let fermes = [];
   let selection = [];
   let tournee = [];
