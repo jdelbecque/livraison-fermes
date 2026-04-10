@@ -229,7 +229,20 @@ window.afficherTournees = function () {
 function chargerTournee(id) {
   const t = tourneesSauvegardees.find(x => x.id === id);
   if (!t) return;
+let currentTourneeId = null;
 
+function chargerTournee(id) {
+  const t = tourneesSauvegardees.find(x => x.id === id);
+  if (!t) return;
+
+  currentTourneeId = id;
+  tournee = t.fermes.map(f => ({
+    ferme: f.ferme || f,
+    livree: false
+  }));
+
+  afficherTournee();
+}
   tournee = t.fermes.map(f => ({
     ferme: f.ferme || f,
     livree: false
@@ -256,7 +269,23 @@ window.afficherCalendrierDuJour = function () {
       zone.appendChild(btn);
     });
   }
+const btnTerminer = document.createElement("button");
+btnTerminer.textContent = "✅ Marquer la tournée comme terminée";
+btnTerminer.onclick = () => {
+  if (!confirm("Confirmer la fin de la tournée ?")) return;
 
+  // Marque la tournée courante comme terminée (si elle vient d’un chargement)
+  if (currentTourneeId) {
+    const t = tourneesSauvegardees.find(x => x.id === currentTourneeId);
+    if (t) {
+      t.terminee = true;
+      sauvegarderTournees();
+      alert("✅ Tournée marquée comme terminée");
+    }
+  }
+};
+zone.appendChild(btnTerminer);
+``
   const retour = document.createElement("button");
   retour.textContent = "↩ Retour à la liste";
   retour.onclick = afficherListe;
