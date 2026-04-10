@@ -14,6 +14,11 @@ window.desactiverModeChauffeur = () => {
   localStorage.removeItem("modeChauffeur");
   alert("🔓 Mode chauffeur désactivé");
   afficherListe();
+  if (modeChauffeur) {
+  zone.innerHTML = "<p>🚚 Mode chauffeur activé</p>";
+  afficherCalendrierDuJour();
+  return;
+}
 };
   let fermes = [];
   let selection = [];
