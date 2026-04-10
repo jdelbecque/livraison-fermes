@@ -59,6 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
       zone.appendChild(btn);
     });
   }
+  function mettreAJourCompteur() {
+  const compteur = document.getElementById("compteur");
+  if (compteur) {
+    compteur.textContent = `✅ ${selection.length} ferme(s) sélectionnée(s)`;
+  }
+}
+``
 
   function toggleSelection(index) {
     if (selection.includes(index)) {
