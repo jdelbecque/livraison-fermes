@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE AVEC BARRE D’ACTIONS");
+console.log("✅ app.js – VERSION ALIGNÉE AVEC L’UI ACTUELLE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -8,45 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let selection = [];
 
   /* =====================
-     BARRE D’ACTIONS
-     ===================== */
-  function afficherActions() {
-    const actions = document.createElement("div");
-    actions.style.display = "grid";
-    actions.style.gridTemplateColumns = "repeat(4, 1fr)";
-    actions.style.gap = "6px";
-    actions.style.marginBottom = "10px";
-
-    const btnListe = document.createElement("button");
-    btnListe.textContent = "📋 Liste";
-    btnListe.onclick = () => afficherListe();
-
-    const btnAujourd = document.createElement("button");
-    btnAujourd.textContent = "📅 Aujourd’hui";
-    btnAujourd.onclick = () => afficherAujourdHui();
-
-    const btnCreer = document.createElement("button");
-    btnCreer.textContent = "➕ Créer";
-    btnCreer.onclick = () => creerTournee();
-
-    const btnClear = document.createElement("button");
-    btnClear.textContent = "❌ Désélectionner";
-    btnClear.onclick = () => {
-      if (selection.length === 0) return;
-      if (!confirm("Désélectionner toutes les fermes ?")) return;
-      selection = [];
-      afficherListe(recherche.value.toLowerCase());
-    };
-
-    actions.appendChild(btnListe);
-    actions.appendChild(btnAujourd);
-    actions.appendChild(btnCreer);
-    actions.appendChild(btnClear);
-
-    zone.appendChild(actions);
-  }
-
-  /* =====================
      CHARGEMENT DES FERMES
      ===================== */
   fetch("clients_livraison.json")
@@ -54,18 +15,17 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
+    })
+    .catch(err => {
+      console.error(err);
+      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
   /* =====================
      LISTE DES FERMES
      ===================== */
   function afficherListe(filtre = "") {
-    zone.innerHTML = "";
-    afficherActions();
-
-    const titre = document.createElement("h2");
-    titre.textContent = "📋 Liste des fermes";
-    zone.appendChild(titre);
+    zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
     fermes.forEach((ferme, index) => {
       const texte = Object.values(ferme)
@@ -76,7 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const btn = document.createElement("button");
       btn.textContent = texte;
-      btn.style.background = selection.includes(index) ? "#34c759" : "#ffffff";
+      btn.style.background =
+        selection.includes(index) ? "#34c759" : "#ffffff";
 
       btn.onclick = () => {
         if (selection.includes(index)) {
@@ -92,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     CRÉER + SAUVEGARDER TOURNÉE
+     CRÉER LA TOURNÉE
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -109,7 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (!date) return;
 
-    const tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+    const tournees =
+      JSON.parse(localStorage.getItem("tournees")) || [];
 
     tournees.push({
       id: Date.now(),
@@ -119,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     localStorage.setItem("tournees", JSON.stringify(tournees));
+
     selection = [];
     afficherAujourdHui();
   };
@@ -127,41 +90,34 @@ document.addEventListener("DOMContentLoaded", () => {
      📅 AUJOURD’HUI
      ===================== */
   window.afficherAujourdHui = () => {
-    zone.innerHTML = "";
-    afficherActions();
-
     const today = new Date().toISOString().slice(0, 10);
-    const titre = document.createElement("h2");
-    titre.textContent = `📋 Tournées du jour — ${today}`;
-    zone.appendChild(titre);
 
-    const tournees = JSON.parse(localStorage.getItem("tournees") || [])
-      .filter(t => t.date === today);
+    const tournees =
+      JSON.parse(localStorage.getItem("tournees")) || [];
 
-    if (tournees.length === 0) {
-      const p = document.createElement("p");
-      p.textContent = "Aucune tournée aujourd’hui";
-      zone.appendChild(p);
-    } else {
-      tournees.forEach(t => {
-        const btn = document.createElement("button");
-        btn.textContent = `🚚 ${t.nom}`;
-        btn.onclick = () => ouvrirTournee(t);
-        zone.appendChild(btn);
-      });
+    const tourneesDuJour =
+      tournees.filter(t => t.date === today);
+
+    zone.innerHTML = `<h2>📋 Tournées du jour — ${today}</h2>`;
+
+    if (tourneesDuJour.length === 0) {
+      zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
+      return;
     }
+
+    tourneesDuJour.forEach(t => {
+      const btn = document.createElement("button");
+      btn.textContent = `🚚 ${t.nom}`;
+      btn.onclick = () => ouvrirTournee(t);
+      zone.appendChild(btn);
+    });
   };
 
   /* =====================
-     OUVRIR TOURNÉE
+     OUVRIR UNE TOURNÉE
      ===================== */
   function ouvrirTournee(tournee) {
-    zone.innerHTML = "";
-    afficherActions();
-
-    const titre = document.createElement("h2");
-    titre.textContent = `🚚 Tournée : ${tournee.nom}`;
-    zone.appendChild(titre);
+    zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
 
     tournee.fermes.forEach(ferme => {
       const texte = Object.values(ferme)
@@ -172,6 +128,11 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.textContent = texte;
       zone.appendChild(btn);
     });
+
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour à Aujourd’hui";
+    retour.onclick = afficherAujourdHui;
+    zone.appendChild(retour);
   }
 
   /* =====================
