@@ -1,6 +1,5 @@
 const ADRESSE_DEPOT = "Montréal, QC";
-
-console.log("✅ app.js – VERSION STABLE AVEC RETOUR DEPOT");
+console.log("✅ app.js – VERSION PROPRE FONCTIONNELLE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -9,19 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let fermes = [];
   let selection = [];
   let tournee = [];
-  let tourneesSauvegardees = JSON.parse(
-    localStorage.getItem("tournees") || "[]"
-  );
-
-  /* =====================
-     COMPTEUR
-     ===================== */
-  function mettreAJourCompteur() {
-    const compteur = document.getElementById("compteur");
-    if (compteur) {
-      compteur.textContent = `✅ ${selection.length} ferme(s) sélectionnée(s)`;
-    }
-  }
 
   /* =====================
      CHARGEMENT DES FERMES
@@ -29,13 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
   zone.innerHTML = "<p>Chargement des fermes…</p>";
 
   fetch("clients_livraison.json")
-    .then(res => res.json())
+    .then(r => r.json())
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
     })
-    .catch(err => {
-      console.error(err);
+    .catch(() => {
       zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
@@ -47,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fermes.forEach((ferme, index) => {
       const texte = Object.values(ferme)
-        .filter(v => typeof v === "string" && v.trim() !== "")
+        .filter(v => typeof v === "string" && v.trim())
         .join(" – ");
 
       if (filtre && !texte.toLowerCase().includes(filtre)) return;
@@ -55,8 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const btn = document.createElement("button");
       btn.className = "ferme";
       btn.textContent = texte;
-
-      if (selection.includes(index)) btn.classList.add("selected");
 
       btn.onclick = () => {
         selection.includes(index)
@@ -67,24 +50,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       zone.appendChild(btn);
     });
-
-    mettreAJourCompteur();
   }
 
   /* =====================
-     CREER TOURNÉE
+     BOUTONS GLOBAUX
      ===================== */
+  window.nouvelleTournee = () => {
+    selection = [];
+    tournee = [];
+    afficherListe();
+  };
+
   window.creerTournee = () => {
     if (selection.length === 0) {
       alert("Sélectionne au moins une ferme");
       return;
     }
 
-    tournee = selection.map(i => ({
-      ferme: fermes[i],
-      livree: false
-    }));
-
+    tournee = selection.map(i => fermes[i]);
     afficherTournee();
   };
 
@@ -94,15 +77,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function afficherTournee() {
     zone.innerHTML = "<h2>🚚 Tournée</h2>";
 
-    tournee.forEach(item => {
-      const texte = Object.values(item.ferme)
+    tournee.forEach(ferme => {
+      const texte = Object.values(ferme)
         .filter(v => typeof v === "string")
         .join(" – ");
 
       const btn = document.createElement("button");
       btn.textContent = texte;
       btn.onclick = () => ouvrirGPS(texte);
-
       zone.appendChild(btn);
     });
 
@@ -129,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     GPS TOURNÉE AVEC RETOUR DEPOT ✅
+     GPS TOURNÉE AVEC RETOUR DEPOT
      ===================== */
   function ouvrirGPSTourneeComplete() {
     if (tournee.length === 0) {
@@ -137,9 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const fermesAdresses = tournee.map(item =>
-      Object.values(item.ferme)
-        .filter(v => typeof v === "string" && v.trim() !== "")
+    const adresses = tournee.map(f =>
+      Object.values(f)
+        .filter(v => typeof v === "string")
         .join(" ")
     );
 
@@ -148,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
       "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
       "&waypoints=" + encodeURIComponent(
-        "optimize:true|" + fermesAdresses.join("|")
+        "optimize:true|" + adresses.join("|")
       );
 
     window.location.href = url;
