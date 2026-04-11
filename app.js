@@ -1,3 +1,5 @@
+const ADRESSE_DEPOT = "Montréal, QC";
+// ex : "840 rue du houppier G7A3X4 Levis, QC"
 console.log("✅ app.js – VERSION STABLE FINALE");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -160,8 +162,38 @@ zone.appendChild(btnTourneeGPS);
 function ouvrirGPSTourneeComplete() {
   if (!tournee || tournee.length === 0) {
     alert("Aucune ferme dans cette tournée");
+    const btnGPSTournee = document.createElement("button");
+btnGPSTournee.textContent = "🧭 Démarrer la tournée (retour dépôt)";
+btnGPSTournee.style.background = "#007aff";
+btnGPSTournee.style.color = "white";
+btnGPSTournee.onclick = ouvrirGPSTourneeComplete;
+
+zone.appendChild(btnGPSTournee);
     return;
   }
+
+  // Construire les adresses des fermes
+  const fermesAdresses = tournee.map(item =>
+    Object.values(item.ferme)
+      .filter(v => typeof v === "string" && v.trim() !== "")
+      .join(" ")
+  );
+
+  if (fermesAdresses.length === 0) {
+    alert("Adresses invalides");
+    return;
+  }
+
+  const waypoints = fermesAdresses.join("|");
+
+  const url =
+    "https://www.google.com/maps/dir/?api=1" +
+    "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
+    "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
+    "&waypoints=optimize:true|" + encodeURIComponent(waypoints);
+
+  window.location.href = url;
+}
 
   // Construire les adresses texte
   const adresses = tournee.map(item =>
