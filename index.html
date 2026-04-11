@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Livraison fermes</title>
 
-  <!-- CSS -->
+  <!-- ✅ CSS correctement chargé -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- PWA -->
+  <!-- ✅ PWA -->
   <link rel="manifest" href="manifest.json">
 </head>
 
@@ -22,18 +22,22 @@
   <!-- Compteur -->
   <div id="compteur"></div>
 
-  <!-- ✅ Boutons de navigation -->
-  <button onclick="afficherCalendrierDuJour()">📅 Aujourd’hui</button>
-  <button onclick="afficherCalendrierSemaine()">🗓️ Semaine</button>
+  <!-- ✅ Navigation -->
+  <div class="actions">
+    <button onclick="afficherCalendrierDuJour()">📅 Aujourd’hui</button>
+    <button onclick="afficherCalendrierSemaine()">🗓️ Semaine</button>
+  </div>
 
   <!-- ✅ Actions -->
-  <button onclick="creerTournee()">Créer la tournée</button>
-  <button onclick="toutDeselectionner()">❌ Tout désélectionner</button>
+  <div class="actions">
+    <button onclick="creerTournee()">Créer la tournée</button>
+    <button onclick="toutDeselectionner()">❌ Tout désélectionner</button>
+  </div>
 
-  <!-- ✅ Zone principale OBLIGATOIRE -->
+  <!-- ✅ Zone JS obligatoire -->
   <div id="liste"></div>
 
-  <!-- ✅ JavaScript chargé EN BAS -->
+  <!-- ✅ JavaScript chargé correctement -->
   <script src="app.js"></script>
 
 </body>
