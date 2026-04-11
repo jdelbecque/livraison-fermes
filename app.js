@@ -160,7 +160,11 @@ document.addEventListener("DOMContentLoaded", () => {
       afficherListe();
     };
     zone.appendChild(modifier);
-
+const supprimer = document.createElement("button");
+supprimer.textContent = "🗑️ Supprimer la tournée";
+supprimer.onclick = () => supprimerTourneeParId(tournee.id);
+zone.appendChild(supprimer);
+``
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour à Aujourd’hui";
     retour.onclick = afficherAujourdHui;
