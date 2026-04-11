@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tournees = JSON.parse(localStorage.getItem("tournees") || [])
       .filter(t => t.date === today);
 
-    zone.innerHTML = `<h2>📅 Aujourd’hui — ${today}</h2>`;
+    zone.innerHTML = `<h2>📋 Tournées du jour — ${today}</h2>`;
 
     if (tournees.length === 0) {
       zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
