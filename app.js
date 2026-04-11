@@ -1,5 +1,6 @@
 const ADRESSE_DEPOT = "Montréal, QC";
-console.log("✅ app.js – VERSION STABLE FINALE AVEC RETOUR DEPOT");
+
+console.log("✅ app.js – VERSION STABLE AVEC RETOUR DEPOT");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -8,18 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let fermes = [];
   let selection = [];
   let tournee = [];
-
   let tourneesSauvegardees = JSON.parse(
     localStorage.getItem("tournees") || "[]"
   );
 
   /* =====================
-     OUTILS
+     COMPTEUR
      ===================== */
-  function sauvegarderTournees() {
-    localStorage.setItem("tournees", JSON.stringify(tourneesSauvegardees));
-  }
-
   function mettreAJourCompteur() {
     const compteur = document.getElementById("compteur");
     if (compteur) {
@@ -27,27 +23,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function mettreAJourBadgeAujourdHui() {
-    const btn = document.getElementById("btnAujourdHui");
-    if (!btn) return;
-
-    const today = new Date().toISOString().slice(0, 10);
-    const count = tourneesSauvegardees.filter(
-      t => t.date === today && !t.terminee
-    ).length;
-
-    btn.textContent = `📅 Aujourd’hui (${count})`;
-  }
-
   /* =====================
      CHARGEMENT DES FERMES
      ===================== */
+  zone.innerHTML = "<p>Chargement des fermes…</p>";
+
   fetch("clients_livraison.json")
     .then(res => res.json())
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
-      mettreAJourBadgeAujourdHui();
+    })
+    .catch(err => {
+      console.error(err);
+      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
   /* =====================
@@ -83,19 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     BOUTONS
+     CREER TOURNÉE
      ===================== */
-  window.nouvelleTournee = () => {
-    selection = [];
-    tournee = [];
-    afficherListe();
-  };
-
-  window.toutDeselectionner = () => {
-    selection = [];
-    afficherListe();
-  };
-
   window.creerTournee = () => {
     if (selection.length === 0) {
       alert("Sélectionne au moins une ferme");
@@ -111,7 +89,47 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     GPS TOURNÉE COMPLETE AVEC RETOUR DEPOT ✅
+     TOURNÉE
+     ===================== */
+  function afficherTournee() {
+    zone.innerHTML = "<h2>🚚 Tournée</h2>";
+
+    tournee.forEach(item => {
+      const texte = Object.values(item.ferme)
+        .filter(v => typeof v === "string")
+        .join(" – ");
+
+      const btn = document.createElement("button");
+      btn.textContent = texte;
+      btn.onclick = () => ouvrirGPS(texte);
+
+      zone.appendChild(btn);
+    });
+
+    const btnGPS = document.createElement("button");
+    btnGPS.textContent = "🧭 Démarrer la tournée (retour dépôt)";
+    btnGPS.style.background = "#007aff";
+    btnGPS.style.color = "white";
+    btnGPS.onclick = ouvrirGPSTourneeComplete;
+    zone.appendChild(btnGPS);
+
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour à la liste";
+    retour.onclick = afficherListe;
+    zone.appendChild(retour);
+  }
+
+  /* =====================
+     GPS SIMPLE
+     ===================== */
+  function ouvrirGPS(adresse) {
+    window.location.href =
+      "https://www.google.com/maps/dir/?api=1&destination=" +
+      encodeURIComponent(adresse);
+  }
+
+  /* =====================
+     GPS TOURNÉE AVEC RETOUR DEPOT ✅
      ===================== */
   function ouvrirGPSTourneeComplete() {
     if (tournee.length === 0) {
@@ -125,45 +143,21 @@ document.addEventListener("DOMContentLoaded", () => {
         .join(" ")
     );
 
-    const waypoints = fermesAdresses.join("|");
-
     const url =
       "https://www.google.com/maps/dir/?api=1" +
       "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
       "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
-      "&waypoints=" + encodeURIComponent("optimize:true|" + waypoints);
+      "&waypoints=" + encodeURIComponent(
+        "optimize:true|" + fermesAdresses.join("|")
+      );
 
     window.location.href = url;
   }
 
   /* =====================
-     AFFICHAGE TOURNÉE
+     RECHERCHE
      ===================== */
-  function afficherTournee() {
-    zone.innerHTML = "<h2>🚚 Tournée</h2>";
-
-    tournee.forEach(item => {
-      const texte = Object.values(item.ferme)
-        .filter(v => typeof v === "string")
-        .join(" – ");
-
-      const btn = document.createElement("button");
-      btn.textContent = texte;
-      zone.appendChild(btn);
-    });
-
-    const btnGPS = document.createElement("button");
-    btnGPS.textContent = "🧭 Démarrer la tournée (retour dépôt)";
-    btnGPS.style.background = "#007aff";
-    btnGPS.style.color = "white";
-    btnGPS.onclick = ouvrirGPSTourneeComplete;
-
-    zone.appendChild(btnGPS);
-
-    const retour = document.createElement("button");
-    retour.textContent = "↩ Retour à la liste";
-    retour.onclick = afficherListe;
-    zone.appendChild(retour);
-  }
-
+  champRecherche.addEventListener("input", e => {
+    afficherListe(e.target.value.toLowerCase());
+  });
 });
