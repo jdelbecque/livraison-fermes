@@ -1,113 +1,108 @@
-/* ========= RESET VISIBILITÉ ========= */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: auto !important;
-  overflow-y: auto !important;
-}
+console.log("✅ app.js – VERSION MINIMALE STABLE (SÉLECTION OK)");
 
-/* ========= BASE ========= */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  background: #f2f2f7;
-  padding: 16px;
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const listeDiv = document.getElementById("liste");
+  const rechercheInput = document.getElementById("recherche");
 
-/* ========= TITRES ========= */
-h1 {
-  text-align: center;
-}
+  let fermes = [];
+  let selection = [];
 
-h2 {
-  margin: 20px 0 10px;
-  padding-top: 10px;
-  border-top: 2px solid #ccc;
-}
+  // =========================
+  // CHARGEMENT DES FERMES
+  // =========================
+  listeDiv.innerHTML = "<p>Chargement des fermes…</p>";
 
-/* ========= INPUT ========= */
-input {
-  width: 100%;
-  padding: 14px;
-  font-size: 17px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  margin-bottom: 8px;
-}
+  fetch("clients_livraison.json")
+    .then(res => res.json())
+    .then(data => {
+      fermes = Array.isArray(data) ? data : [];
+      afficherListe();
+    })
+    .catch(() => {
+      listeDiv.innerHTML = "<p>Erreur de chargement</p>";
+    });
 
-/* ========= BOUTONS ========= */
-button {
-  display: block !important;
-  width: 100% !important;
-  padding: 16px;
-  margin: 8px 0 !important;
-  font-size: 18px;
-  border-radius: 12px;
-  border: none;
-  background: #e5e5ea;
-  cursor: pointer;
-}
+  // =========================
+  // AFFICHAGE + SÉLECTION
+  // =========================
+  function afficherListe(filtre = "") {
+    listeDiv.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
-/* ========= ZONE LISTE ========= */
-#liste {
-  display: block !important;
-  position: relative;
-  background: #ffffff;
-  margin-top: 16px;
-  padding: 12px;
-  min-height: 120px;
-}
+    fermes.forEach((ferme, index) => {
+      const texte = Object.values(ferme)
+        .filter(v => typeof v === "string" && v.trim() !== "")
+        .join(" – ");
 
+      if (filtre && !texte.toLowerCase().includes(filtre)) return;
 
-/* ========= FERMES ========= */
-button.ferme {
-  background: #ffffff;
-  border: 1px solid #ccc;
-  color: #000;
-}
+      const btn = document.createElement("button");
+      btn.className = "ferme";
+      btn.textContent = texte;
 
-/* ========= SÉLECTION ========= */
-button.ferme.selected {
-  background: #34c759;
-  color: white;
-  font-weight: bold;
-}
+      // ✅ État visuel de sélection
+      if (selection.includes(index)) {
+        btn.classList.add("selected");
+      }
 
-/* ========= LIVRÉ ========= */
-button.livree {
-  background: #8e8e93;
-  color: white;
-  text-decoration: line-through;
-}
+      btn.addEventListener("click", () => {
+        if (selection.includes(index)) {
+          selection = selection.filter(i => i !== index);
+        } else {
+          selection.push(index);
+        }
+        afficherListe(rechercheInput.value.toLowerCase());
+      });
 
-/* ========= COMPTEUR ========= */
-#compteur {
-  margin: 10px 0;
-  font-weight: 600;
-}
-#logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
+      listeDiv.appendChild(btn);
+    });
 
-#logo img {
-  height: 48px;
-  width: auto;
-}
+    afficherCompteur();
+  }
 
-#logo .title {
-  font-size: 26px;
-  font-weight: 700;
-}
-h3 {
-  margin-top: 16px;
-  font-weight: 600;
-}
-``
-h3 {
-  margin-top: 12px;
-  font-weight: 600;
-}
+  // =========================
+  // COMPTEUR
+  // =========================
+  function afficherCompteur() {
+    let compteur = document.getElementById("compteur");
+    if (!compteur) return;
+    compteur.textContent = `✅ ${selection.length} ferme(s) sélectionnée(s)`;
+  }
+
+  // =========================
+  // RECHERCHE
+  // =========================
+  rechercheInput.addEventListener("input", e => {
+    afficherListe(e.target.value.toLowerCase());
+  });
+
+  // =========================
+  // CRÉER TOURNÉE (TEST)
+  // =========================
+  window.creerTournee = () => {
+    if (selection.length === 0) {
+      alert("Aucune ferme sélectionnée");
+      return;
+    }
+
+    const tournees = selection.map(i => fermes[i]);
+    afficherTournee(tournees);
+  };
+
+  function afficherTournee(tournee) {
+    listeDiv.innerHTML = "<h2>🚚 Tournée</h2>";
+
+    tournee.forEach(ferme => {
+      const texte = Object.values(ferme)
+        .filter(v => typeof v === "string")
+        .join(" – ");
+      const b = document.createElement("button");
+      b.textContent = texte;
+      listeDiv.appendChild(b);
+    });
+
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour à la liste";
+    retour.onclick = () => afficherListe();
+    listeDiv.appendChild(retour);
+  }
+});
