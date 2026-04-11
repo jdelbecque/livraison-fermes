@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION FINALE AVEC CRUD DES TOURNÉES");
+console.log("✅ app.js – VERSION SAINE AVEC CRUD COMPLET");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -16,13 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
+    })
+    .catch(err => {
+      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
+      console.error(err);
     });
 
   /* =====================
      LISTE DES FERMES
      ===================== */
   function afficherListe(filtre = "") {
-    tourneeEnEditionId = null;
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
     fermes.forEach((ferme, index) => {
@@ -41,9 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       btn.onclick = () => {
-        selection.includes(index)
-          ? selection = selection.filter(i => i !== index)
-          : selection.push(index);
+        if (selection.includes(index)) {
+          selection = selection.filter(i => i !== index);
+        } else {
+          selection.push(index);
+        }
         afficherListe(recherche.value.toLowerCase());
       };
 
@@ -64,73 +69,44 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      CRÉER / MODIFIER TOURNÉE
      ===================== */
- window.creerTournee = () => {
-  if (selection.length === 0) {
-    alert("Sélectionne au moins une ferme");
-    return;
-  }
+  window.creerTournee = () => {
+    if (selection.length === 0) {
+      alert("Sélectionne au moins une ferme");
+      return;
+    }
 
-  const nom = prompt("Nom de la tournée ?");
-  if (!nom) return;
+    const nom = prompt("Nom de la tournée ?");
+    if (!nom) return;
 
-  const date = prompt(
-    "Date (YYYY-MM-DD) ?",
-    new Date().toISOString().slice(0, 10)
-  );
-  if (!date) return;
-
-  let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
-
-  if (tourneeEnEditionId) {
-    // ✅ MODE MODIFICATION → on remplace la tournée existante
-    tournees = tournees.map(t =>
-      t.id === tourneeEnEditionId
-        ? { ...t, nom, date, fermes: selection.map(i => fermes[i]) }
-        : t
+    const date = prompt(
+      "Date (YYYY-MM-DD) ?",
+      new Date().toISOString().slice(0, 10)
     );
-  } else {
-    // ✅ MODE CRÉATION
-    tournees.push({
-      id: Date.now(),
-      nom,
-      date,
-      fermes: selection.map(i => fermes[i])
-    });
-  }
-
-  localStorage.setItem("tournees", JSON.stringify(tournees));
-
-  alert(
-    tourneeEnEditionId
-      ? "✅ Tournée modifiée"
-      : "✅ Tournée enregistrée"
-  );
-
-  // ✅ reset
-  selection = [];
-  tourneeEnEditionId = null;
-  afficherCalendrierDuJour();
-};
+    if (!date) return;
 
     let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
 
     if (tourneeEnEditionId) {
-      tournees = tournees.filter(t => t.id !== tourneeEnEditionId);
+      tournees = tournees.map(t =>
+        t.id === tourneeEnEditionId
+          ? { ...t, nom, date, fermes: selection.map(i => fermes[i]) }
+          : t
+      );
+    } else {
+      tournees.push({
+        id: Date.now(),
+        nom,
+        date,
+        fermes: selection.map(i => fermes[i])
+      });
     }
 
-    tournees.push({
-      id: Date.now(),
-      nom,
-      date,
-      fermes: selection.map(i => fermes[i])
-    });
-
     localStorage.setItem("tournees", JSON.stringify(tournees));
-    alert("✅ Tournée enregistrée");
+    alert(tourneeEnEditionId ? "✅ Tournée modifiée" : "✅ Tournée enregistrée");
 
     selection = [];
     tourneeEnEditionId = null;
-    afficherListe();
+    afficherCalendrierDuJour();
   };
 
   /* =====================
@@ -154,10 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    const retour = document.createElement("button");
-    retour.textContent = "↩ Retour à la liste";
-    retour.onclick = afficherListe;
-    zone.appendChild(retour);
+    ajouterRetourListe();
   };
 
   /* =====================
@@ -190,14 +163,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    const retour = document.createElement("button");
-    retour.textContent = "↩ Retour";
-    retour.onclick = afficherListe;
-    zone.appendChild(retour);
+    ajouterRetourListe();
   };
 
   /* =====================
-     AFFICHER / MODIFIER / SUPPRIMER UNE TOURNÉE ✅
+     AFFICHER / MODIFIER / SUPPRIMER
      ===================== */
   function afficherTournee(tournee) {
     zone.innerHTML = "<h2>🚚 Tournée</h2>";
@@ -211,34 +181,28 @@ document.addEventListener("DOMContentLoaded", () => {
       zone.appendChild(btn);
     });
 
-    /* ✏️ MODIFIER */
     const modifier = document.createElement("button");
-modifier.textContent = "✏️ Modifier cette tournée";
-modifier.onclick = () => {
-  selection = [];
+    modifier.textContent = "✏️ Modifier cette tournée";
+    modifier.onclick = () => {
+      selection = [];
+      tournee.fermes.forEach(f => {
+        const index = fermes.findIndex(x =>
+          JSON.stringify(x) === JSON.stringify(f)
+        );
+        if (index !== -1) selection.push(index);
+      });
+      tourneeEnEditionId = tournee.id;
+      afficherListe();
+    };
+    zone.appendChild(modifier);
 
-  tournee.fermes.forEach(f => {
-    const index = fermes.findIndex(x =>
-      JSON.stringify(x) === JSON.stringify(f)
-    );
-    if (index !== -1) selection.push(index);
-  });
-
-  tourneeEnEditionId = tournee.id;
-  afficherListe();
-};
-zone.appendChild(modifier);
-    /* 🗑️ SUPPRIMER */
     const supprimer = document.createElement("button");
     supprimer.textContent = "🗑️ Supprimer cette tournée";
     supprimer.onclick = () => {
       if (!confirm("Supprimer définitivement cette tournée ?")) return;
-
       let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
       tournees = tournees.filter(t => t.id !== tournee.id);
       localStorage.setItem("tournees", JSON.stringify(tournees));
-
-      alert("🗑️ Tournée supprimée");
       afficherCalendrierDuJour();
     };
     zone.appendChild(supprimer);
@@ -246,6 +210,13 @@ zone.appendChild(modifier);
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour";
     retour.onclick = afficherCalendrierDuJour;
+    zone.appendChild(retour);
+  }
+
+  function ajouterRetourListe() {
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour à la liste";
+    retour.onclick = afficherListe;
     zone.appendChild(retour);
   }
 
