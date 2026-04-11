@@ -1,4 +1,4 @@
-const ADRESSE_DEPOT = "Montréal, QC";
+const ADRESSE_DEPOT = "840 rue du houppier Levis G7A3X4, QC";
 console.log("✅ app.js – VERSION FINALE STABLE");
 
 document.addEventListener("DOMContentLoaded", () => {
