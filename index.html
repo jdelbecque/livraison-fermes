@@ -10,45 +10,27 @@
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Livraison fermes">
 </head>
 
 <body>
 
-  <!-- ✅ LOGO + TITRE -->
-  <div id="logo">
-    <img src="logo.png" alt="Logo Livraison fermes">
-    <span class="title">Livraison fermes</span>
-  </div>
+  <!-- LOGO / TITRE -->
+  <h1>🚚 Livraison fermes</h1>
 
-  <!-- Recherche -->
-  <input
-    id="recherche"
-    placeholder="Rechercher une ferme ou une ville"
-  >
+  <!-- RECHERCHE -->
+  <input id="recherche" placeholder="Rechercher une ferme">
 
-  <!-- Compteur -->
+  <!-- COMPTEUR -->
   <div id="compteur"></div>
 
-  <!-- Boutons -->
-  <button onclick="nouvelleTournee()">Nouvelle tournée</button>
+  <!-- BOUTONS -->
   <button onclick="creerTournee()">Créer la tournée</button>
-  <button onclick="toutDeselectionner()">Tout désélectionner</button>
-``<button id="btnAujourdHui" onclick="afficherCalendrierDuJour()">📅 Aujourd’hui</button>
-<button onclick="afficherCalendrierSemaine()">🗓️ Semaine</button>
-  <button onclick="activerModeChauffeur()">🚚 Mode chauffeur</button>
-<button onclick="desactiverModeChauffeur()">🔓 Quitter mode chauffeur</button>
-  <!-- Liste -->
+
+  <!-- ZONE LISTE (OBLIGATOIRE) -->
   <div id="liste"></div>
 
-  <!-- JavaScript -->
+  <!-- ✅ SCRIPT JS — CECI EST CRUCIAL -->
   <script src="app.js"></script>
 
 </body>
 </html>
-<button onclick="afficherTournees()">📅 Tournées programmées</button>
-``
