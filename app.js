@@ -1,8 +1,10 @@
-console.log("✅ app.js – MODIFIER & SUPPRIMER OK");
+console.log("✅ app.js – MODIFIER + SUPPRIMER + GPS ENCHAÎNÉ");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
+
+  const ADRESSE_DEPOT = "840 rue du houppier, Lévis, QC";
 
   let fermes = [];
   let selection = [];
@@ -52,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     CREER / MODIFIER TOURNÉE
+     CRÉER / MODIFIER TOURNÉE
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -136,7 +138,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     OUVRIR / MODIFIER / SUPPRIMER
+     GPS ENCHAÎNÉ ✅
+     ===================== */
+  function demarrerGPSTournee(tournee) {
+    const adresses = tournee.fermes.map(f =>
+      Object.values(f)
+        .filter(v => typeof v === "string")
+        .join(" ")
+    );
+
+    const url =
+      "https://www.google.com/maps/dir/?api=1" +
+      "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
+      "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
+      "&waypoints=" + encodeURIComponent(
+        "optimize:true|" + adresses.join("|")
+      );
+
+    window.location.href = url;
+  }
+
+  /* =====================
+     OUVRIR / MODIFIER / SUPPRIMER / GPS
      ===================== */
   function ouvrirTournee(tournee) {
     zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
@@ -150,6 +173,13 @@ document.addEventListener("DOMContentLoaded", () => {
       zone.appendChild(btn);
     });
 
+    // 🧭 GPS
+    const gps = document.createElement("button");
+    gps.textContent = "🧭 Démarrer la tournée (GPS)";
+    gps.onclick = () => demarrerGPSTournee(tournee);
+    zone.appendChild(gps);
+
+    // ✏️ MODIFIER
     const modifier = document.createElement("button");
     modifier.textContent = "✏️ Modifier la tournée";
     modifier.onclick = () => {
@@ -165,11 +195,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     zone.appendChild(modifier);
 
+    // 🗑️ SUPPRIMER
     const supprimer = document.createElement("button");
     supprimer.textContent = "🗑️ Supprimer la tournée";
     supprimer.onclick = () => supprimerTourneeParId(tournee.id);
     zone.appendChild(supprimer);
 
+    // ↩ RETOUR
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour à Aujourd’hui";
     retour.onclick = afficherAujourdHui;
