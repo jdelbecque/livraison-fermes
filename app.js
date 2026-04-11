@@ -64,20 +64,53 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      CRÉER / MODIFIER TOURNÉE
      ===================== */
-  window.creerTournee = () => {
-    if (selection.length === 0) {
-      alert("Sélectionne au moins une ferme");
-      return;
-    }
+ window.creerTournee = () => {
+  if (selection.length === 0) {
+    alert("Sélectionne au moins une ferme");
+    return;
+  }
 
-    const nom = prompt("Nom de la tournée ?");
-    if (!nom) return;
+  const nom = prompt("Nom de la tournée ?");
+  if (!nom) return;
 
-    const date = prompt(
-      "Date (YYYY-MM-DD) ?",
-      new Date().toISOString().slice(0, 10)
+  const date = prompt(
+    "Date (YYYY-MM-DD) ?",
+    new Date().toISOString().slice(0, 10)
+  );
+  if (!date) return;
+
+  let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+
+  if (tourneeEnEditionId) {
+    // ✅ MODE MODIFICATION → on remplace la tournée existante
+    tournees = tournees.map(t =>
+      t.id === tourneeEnEditionId
+        ? { ...t, nom, date, fermes: selection.map(i => fermes[i]) }
+        : t
     );
-    if (!date) return;
+  } else {
+    // ✅ MODE CRÉATION
+    tournees.push({
+      id: Date.now(),
+      nom,
+      date,
+      fermes: selection.map(i => fermes[i])
+    });
+  }
+
+  localStorage.setItem("tournees", JSON.stringify(tournees));
+
+  alert(
+    tourneeEnEditionId
+      ? "✅ Tournée modifiée"
+      : "✅ Tournée enregistrée"
+  );
+
+  // ✅ reset
+  selection = [];
+  tourneeEnEditionId = null;
+  afficherCalendrierDuJour();
+};
 
     let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
 
