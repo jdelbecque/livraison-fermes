@@ -1,4 +1,4 @@
-console.log("✅ app.js – OUVERTURE TOURNEE OK");
+console.log("✅ app.js – OUVERTURE DE TOURNEE GARANTIE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -32,21 +32,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const btn = document.createElement("button");
       btn.textContent = texte;
-      btn.style.background = selection.includes(index) ? "#34c759" : "#ffffff";
+      btn.style.background = selection.includes(index) ? "#34c759" : "#fff";
 
-      btn.onclick = () => {
+      btn.addEventListener("click", () => {
         selection.includes(index)
           ? selection = selection.filter(i => i !== index)
           : selection.push(index);
         afficherListe(recherche.value.toLowerCase());
-      };
+      });
 
       zone.appendChild(btn);
     });
   }
 
   /* =====================
-     CRÉER / SAUVEGARDER
+     CREER TOURNEE
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -69,19 +69,18 @@ document.addEventListener("DOMContentLoaded", () => {
       id: Date.now(),
       nom,
       date,
-      fermes: selection.map(i => fermes[i]),
+      fermes: selection.map(i => fermes[i])
     });
 
     localStorage.setItem("tournees", JSON.stringify(tournees));
-
     selection = [];
-    afficherCalendrierDuJour();
+    afficherAujourdHui();
   };
 
   /* =====================
-     📅 AUJOURD’HUI
+     AUJOURD'HUI
      ===================== */
-  window.afficherCalendrierDuJour = () => {
+  window.afficherAujourdHui = () => {
     const today = new Date().toISOString().slice(0, 10);
     const tournees = JSON.parse(localStorage.getItem("tournees") || [])
       .filter(t => t.date === today);
@@ -91,13 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tournees.length === 0) {
       zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
     } else {
-      tournees.forEach(t => {
+      tournees.forEach(tournee => {
         const btn = document.createElement("button");
-        btn.textContent = `🚚 ${t.nom}`;
+        btn.textContent = `🚚 ${tournee.nom}`;
 
-        // ✅ HANDLER GARANTI
+        // ✅ CLIC DEFINITIF
         btn.addEventListener("click", () => {
-          afficherTournee(t);
+          ouvrirTournee(tournee);
         });
 
         zone.appendChild(btn);
@@ -105,15 +104,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const retour = document.createElement("button");
-    retour.textContent = "↩ Retour à la liste";
+    retour.textContent = "↩ Retour";
     retour.onclick = afficherListe;
     zone.appendChild(retour);
   };
 
   /* =====================
-     ✅ OUVERTURE DE TOURNÉE
+     ✅ OUVERTURE DE TOURNEE
      ===================== */
-  function afficherTournee(tournee) {
+  function ouvrirTournee(tournee) {
     zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
 
     tournee.fermes.forEach(ferme => {
@@ -127,8 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const retour = document.createElement("button");
-    retour.textContent = "↩ Retour à Aujourd’hui";
-    retour.onclick = afficherCalendrierDuJour;
+    retour.textContent = "↩ Retour Aujourd’hui";
+    retour.onclick = afficherAujourdHui;
     zone.appendChild(retour);
   }
 
