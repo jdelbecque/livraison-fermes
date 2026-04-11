@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION FINALE : CLIC TOURNEE OK");
+console.log("✅ app.js – VERSION FINALE AVEC CRUD DES TOURNÉES");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     DÉSELECTION
+     ❌ DÉSÉLECTION
      ===================== */
   window.toutDeselectionner = () => {
     if (selection.length === 0) return;
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const retour = document.createElement("button");
-    retour.textContent = "↩ Retour";
+    retour.textContent = "↩ Retour à la liste";
     retour.onclick = afficherListe;
     zone.appendChild(retour);
   };
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     AFFICHER + MODIFIER TOURNÉE
+     AFFICHER / MODIFIER / SUPPRIMER UNE TOURNÉE ✅
      ===================== */
   function afficherTournee(tournee) {
     zone.innerHTML = "<h2>🚚 Tournée</h2>";
@@ -178,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
       zone.appendChild(btn);
     });
 
+    /* ✏️ MODIFIER */
     const modifier = document.createElement("button");
     modifier.textContent = "✏️ Modifier cette tournée";
     modifier.onclick = () => {
@@ -192,6 +193,21 @@ document.addEventListener("DOMContentLoaded", () => {
       afficherListe();
     };
     zone.appendChild(modifier);
+
+    /* 🗑️ SUPPRIMER */
+    const supprimer = document.createElement("button");
+    supprimer.textContent = "🗑️ Supprimer cette tournée";
+    supprimer.onclick = () => {
+      if (!confirm("Supprimer définitivement cette tournée ?")) return;
+
+      let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+      tournees = tournees.filter(t => t.id !== tournee.id);
+      localStorage.setItem("tournees", JSON.stringify(tournees));
+
+      alert("🗑️ Tournée supprimée");
+      afficherCalendrierDuJour();
+    };
+    zone.appendChild(supprimer);
 
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour";
