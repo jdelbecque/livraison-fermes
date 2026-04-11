@@ -31,30 +31,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   function afficherListe(filtre = "") {
-    if (estModeChauffeur()) {
-      afficherAujourdHui();
-      return;
+  if (estModeChauffeur()) {
+    afficherAujourdHui();
+    return;
+  }
+
+  zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
+
+  fermes.forEach((ferme, index) => {
+    const texte = Object.values(ferme)
+      .filter(v => typeof v === "string" && v.trim())
+      .join(" – ");
+
+    if (filtre && !texte.toLowerCase().includes(filtre)) return;
+
+    const btn = document.createElement("button");
+    btn.className = "ferme";
+    btn.textContent = texte;
+
+    // ✅ RETOUR VISUEL DE SÉLECTION
+    if (selection.includes(index)) {
+      btn.classList.add("selected");
     }
 
-    zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
-    fermes.forEach((ferme, i) => {
-      const texte = Object.values(ferme)
-        .filter(v => typeof v === "string")
-        .join(" – ");
+    btn.onclick = () => {
+      if (selection.includes(index)) {
+        selection = selection.filter(i => i !== index);
+      } else {
+        selection.push(index);
+      }
 
-      if (filtre && !texte.toLowerCase().includes(filtre)) return;
+      // ✅ Ré‑afficher la liste pour refléter la sélection
+      afficherListe(champRecherche.value.toLowerCase());
+    };
 
-      const b = document.createElement("button");
-      b.textContent = texte;
-      b.onclick = () => {
-        selection.includes(i)
-          ? selection = selection.filter(x => x !== i)
-          : selection.push(i);
-        afficherListe(recherche.value.toLowerCase());
-      };
-      zone.appendChild(b);
-    });
-  }
+    zone.appendChild(btn);
+  });
+
+  mettreAJourCompteur();
+}
 
   window.creerTournee = () => {
     if (estModeChauffeur()) return alert("Mode chauffeur");
