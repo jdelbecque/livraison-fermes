@@ -19,17 +19,21 @@
 
   <!-- RECHERCHE -->
   <input id="recherche" placeholder="Rechercher une ferme">
-<button onclick="afficherCalendrierDuJour()">📅 Aujourd’hui</button>
+
   <!-- COMPTEUR -->
   <div id="compteur"></div>
 
-  <!-- BOUTONS -->
+  <!-- ✅ BOUTONS DE NAVIGATION -->
+  <button onclick="afficherCalendrierDuJour()">📅 Aujourd’hui</button>
+  <button onclick="afficherCalendrierSemaine()">🗓️ Semaine</button>
+
+  <!-- ACTION -->
   <button onclick="creerTournee()">Créer la tournée</button>
 
-  <!-- ZONE LISTE (OBLIGATOIRE) -->
+  <!-- ✅ ZONE D’AFFICHAGE PRINCIPALE -->
   <div id="liste"></div>
 
-  <!-- ✅ SCRIPT JS — CECI EST CRUCIAL -->
+  <!-- ✅ SCRIPT JAVASCRIPT (OBLIGATOIRE, EN BAS) -->
   <script src="app.js"></script>
 
 </body>
