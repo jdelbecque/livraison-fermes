@@ -215,7 +215,33 @@ document.addEventListener("DOMContentLoaded", () => {
     retour.onclick = afficherListe;
     zone.appendChild(retour);
   };
+window.afficherCalendrierDuJour = function () {
+  const aujourdHui = new Date().toISOString().slice(0, 10);
 
+  listeDiv.innerHTML = `<h2>📅 Aujourd’hui — ${aujourdHui}</h2>`;
+
+  const tournees = JSON.parse(
+    localStorage.getItem("tournees") || "[]"
+  ).filter(t => t.date === aujourdHui);
+
+  if (tournees.length === 0) {
+    listeDiv.innerHTML += "<p>Aucune tournée prévue aujourd’hui</p>";
+  } else {
+    tournees.forEach(t => {
+      const btn = document.createElement("button");
+      btn.textContent = `🚚 ${t.nom}`;
+      btn.onclick = () => {
+        afficherTournee(t.fermes);
+      };
+      listeDiv.appendChild(btn);
+    });
+  }
+
+  const retour = document.createElement("button");
+  retour.textContent = "↩ Retour à la liste";
+  retour.onclick = () => afficherListe();
+  listeDiv.appendChild(retour);
+};
   /* =====================
      RECHERCHE
      ===================== */
