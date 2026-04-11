@@ -1,4 +1,4 @@
-console.log("✅ app.js – BASE STABLE + SAUVEGARDE + AUJOURD’HUI");
+console.log("✅ app.js – OUVERTURE TOURNEE OK");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -10,21 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      CHARGEMENT DES FERMES
      ===================== */
-  zone.innerHTML = "<p>Chargement des fermes…</p>";
-
   fetch("clients_livraison.json")
     .then(res => res.json())
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
-    })
-    .catch(err => {
-      console.error(err);
-      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
   /* =====================
-     LISTE DES FERMES (sélection OK)
+     LISTE DES FERMES
      ===================== */
   function afficherListe(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
@@ -37,20 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (filtre && !texte.toLowerCase().includes(filtre)) return;
 
       const btn = document.createElement("button");
-      btn.className = "ferme";
       btn.textContent = texte;
-
-      // Visuel sélection
-      if (selection.includes(index)) {
-        btn.classList.add("selected");
-      }
+      btn.style.background = selection.includes(index) ? "#34c759" : "#ffffff";
 
       btn.onclick = () => {
-        if (selection.includes(index)) {
-          selection = selection.filter(i => i !== index);
-        } else {
-          selection.push(index);
-        }
+        selection.includes(index)
+          ? selection = selection.filter(i => i !== index)
+          : selection.push(index);
         afficherListe(recherche.value.toLowerCase());
       };
 
@@ -59,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     SAUVEGARDER UNE TOURNÉE
+     CRÉER / SAUVEGARDER
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -82,34 +69,37 @@ document.addEventListener("DOMContentLoaded", () => {
       id: Date.now(),
       nom,
       date,
-      fermes: selection.map(i => fermes[i])
+      fermes: selection.map(i => fermes[i]),
     });
 
     localStorage.setItem("tournees", JSON.stringify(tournees));
-    alert("✅ Tournée enregistrée");
 
-    // reset sélection
     selection = [];
     afficherCalendrierDuJour();
   };
 
   /* =====================
-     📅 AUJOURD’HUI (liste des tournées du jour)
+     📅 AUJOURD’HUI
      ===================== */
   window.afficherCalendrierDuJour = () => {
-    const aujourdHui = new Date().toISOString().slice(0, 10);
-    const tournees = JSON.parse(localStorage.getItem("tournees") || "[]")
-      .filter(t => t.date === aujourdHui);
+    const today = new Date().toISOString().slice(0, 10);
+    const tournees = JSON.parse(localStorage.getItem("tournees") || [])
+      .filter(t => t.date === today);
 
-    zone.innerHTML = `<h2>📅 Aujourd’hui — ${aujourdHui}</h2>`;
+    zone.innerHTML = `<h2>📅 Aujourd’hui — ${today}</h2>`;
 
     if (tournees.length === 0) {
-      zone.innerHTML += "<p>Aucune tournée prévue aujourd’hui</p>";
+      zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
     } else {
       tournees.forEach(t => {
         const btn = document.createElement("button");
         btn.textContent = `🚚 ${t.nom}`;
-        // (Étape 2 viendra : ouvrir la tournée)
+
+        // ✅ HANDLER GARANTI
+        btn.addEventListener("click", () => {
+          afficherTournee(t);
+        });
+
         zone.appendChild(btn);
       });
     }
@@ -119,6 +109,28 @@ document.addEventListener("DOMContentLoaded", () => {
     retour.onclick = afficherListe;
     zone.appendChild(retour);
   };
+
+  /* =====================
+     ✅ OUVERTURE DE TOURNÉE
+     ===================== */
+  function afficherTournee(tournee) {
+    zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
+
+    tournee.fermes.forEach(ferme => {
+      const texte = Object.values(ferme)
+        .filter(v => typeof v === "string")
+        .join(" – ");
+
+      const btn = document.createElement("button");
+      btn.textContent = texte;
+      zone.appendChild(btn);
+    });
+
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour à Aujourd’hui";
+    retour.onclick = afficherCalendrierDuJour;
+    zone.appendChild(retour);
+  }
 
   /* =====================
      RECHERCHE
