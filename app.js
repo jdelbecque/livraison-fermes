@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION SAINE VALIDÉE");
+console.log("✅ app.js – VERSION STABLE CORRIGÉE (AUJOURD’HUI OK)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -15,10 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
-    })
-    .catch(err => {
-      console.error(err);
-      zone.innerHTML = "<p>Erreur chargement fermes</p>";
     });
 
   /* =====================
@@ -52,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     CRÉER TOURNÉE ✅
+     CRÉER + SAUVEGARDER TOURNÉE
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -79,13 +75,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     localStorage.setItem("tournees", JSON.stringify(tournees));
-
     selection = [];
     afficherAujourdHui();
   };
 
   /* =====================
-     📅 AUJOURD'HUI ✅
+     📅 AUJOURD’HUI (UNIQUE)
      ===================== */
   window.afficherAujourdHui = () => {
     const today = new Date().toISOString().slice(0, 10);
@@ -112,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     OUVERTURE TOURNÉE ✅
+     OUVRIR TOURNÉE
      ===================== */
   function ouvrirTournee(tournee) {
     zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
@@ -128,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const retour = document.createElement("button");
-    retour.textContent = "↩ Retour Aujourd’hui";
+    retour.textContent = "↩ Retour à Aujourd’hui";
     retour.onclick = afficherAujourdHui;
     zone.appendChild(retour);
   }
