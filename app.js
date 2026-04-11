@@ -1,4 +1,4 @@
-console.log("✅ app.js – AVEC MODIFIER TOURNEE");
+console.log("✅ app.js – MODIFIER TOURNEE CORRIGÉ ET FONCTIONNEL");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let fermes = [];
   let selection = [];
-  let tourneeEnEdition = null; // ⬅️ clé de la modification
+  let tourneeEnEdition = null;
 
   /* =====================
      CHARGEMENT DES FERMES
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     CRÉER / MODIFIER TOURNÉE
+     CRÉER / MODIFIER TOURNÉE ✅
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -77,14 +77,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
 
     if (tourneeEnEdition) {
-      // ✅ MODE MODIFICATION
       tournees = tournees.map(t =>
         t.id === tourneeEnEdition.id
           ? { ...t, nom, date, fermes: selection.map(i => fermes[i]) }
           : t
       );
     } else {
-      // ✅ MODE CRÉATION
       tournees.push({
         id: Date.now(),
         nom,
@@ -124,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     OUVRIR + MODIFIER TOURNÉE
+     OUVRIR + MODIFIER ✅
      ===================== */
   function ouvrirTournee(tournee) {
     zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
@@ -133,25 +131,21 @@ document.addEventListener("DOMContentLoaded", () => {
       const texte = Object.values(ferme)
         .filter(v => typeof v === "string")
         .join(" – ");
-
       const btn = document.createElement("button");
       btn.textContent = texte;
       zone.appendChild(btn);
     });
 
-    // ✏️ MODIFIER
     const modifier = document.createElement("button");
     modifier.textContent = "✏️ Modifier la tournée";
     modifier.onclick = () => {
       selection = [];
-
       tournee.fermes.forEach(f => {
         const index = fermes.findIndex(x =>
           JSON.stringify(x) === JSON.stringify(f)
         );
         if (index !== -1) selection.push(index);
       });
-
       tourneeEnEdition = tournee;
       afficherListe();
     };
