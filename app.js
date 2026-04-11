@@ -1,4 +1,4 @@
-console.log("✅ app.js – MODIFIER TOURNEE CORRIGÉ ET FONCTIONNEL");
+console.log("✅ app.js – MODIFIER & SUPPRIMER OK");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -36,14 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const btn = document.createElement("button");
       btn.textContent = texte;
-      btn.style.background = selection.includes(index) ? "#34c759" : "#ffffff";
+      btn.style.background = selection.includes(index)
+        ? "#34c759"
+        : "#ffffff";
 
       btn.onclick = () => {
-        if (selection.includes(index)) {
-          selection = selection.filter(i => i !== index);
-        } else {
-          selection.push(index);
-        }
+        selection.includes(index)
+          ? selection = selection.filter(i => i !== index)
+          : selection.push(index);
         afficherListe(recherche.value.toLowerCase());
       };
 
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     CRÉER / MODIFIER TOURNÉE ✅
+     CREER / MODIFIER TOURNÉE
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -122,18 +122,22 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     OUVRIR + MODIFIER ✅
+     SUPPRIMER TOURNÉE
      ===================== */
   function supprimerTourneeParId(id) {
-  if (!confirm("Supprimer définitivement cette tournée ?")) return;
+    if (!confirm("Supprimer définitivement cette tournée ?")) return;
 
-  let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
-  tournees = tournees.filter(t => t.id !== id);
-  localStorage.setItem("tournees", JSON.stringify(tournees));
+    let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+    tournees = tournees.filter(t => t.id !== id);
+    localStorage.setItem("tournees", JSON.stringify(tournees));
 
-  alert("🗑️ Tournée supprimée");
-  afficherAujourdHui();
-}
+    alert("🗑️ Tournée supprimée");
+    afficherAujourdHui();
+  }
+
+  /* =====================
+     OUVRIR / MODIFIER / SUPPRIMER
+     ===================== */
   function ouvrirTournee(tournee) {
     zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
 
@@ -160,11 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
       afficherListe();
     };
     zone.appendChild(modifier);
-const supprimer = document.createElement("button");
-supprimer.textContent = "🗑️ Supprimer la tournée";
-supprimer.onclick = () => supprimerTourneeParId(tournee.id);
-zone.appendChild(supprimer);
-``
+
+    const supprimer = document.createElement("button");
+    supprimer.textContent = "🗑️ Supprimer la tournée";
+    supprimer.onclick = () => supprimerTourneeParId(tournee.id);
+    zone.appendChild(supprimer);
+
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour à Aujourd’hui";
     retour.onclick = afficherAujourdHui;
