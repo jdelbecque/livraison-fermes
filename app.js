@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE AVEC AUJOURD’HUI + SEMAINE + CONFIRMATION");
+console.log("✅ app.js – VERSION FINALE AVEC MODIFICATION DE TOURNÉE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let fermes = [];
   let selection = [];
+  let tourneeEnEditionId = null;
 
   /* =====================
      CHARGEMENT DES FERMES
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
      LISTE DES FERMES
      ===================== */
   function afficherListe(filtre = "") {
+    tourneeEnEditionId = null;
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
     fermes.forEach((ferme, index) => {
@@ -44,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           selection.push(index);
         }
+
         afficherListe(recherche.value.toLowerCase());
       };
 
@@ -52,21 +55,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     ❌ DÉSÉLECTION AVEC CONFIRMATION
+     ❌ DÉSÉLECTION
      ===================== */
   window.toutDeselectionner = () => {
     if (selection.length === 0) return;
-
-    if (!confirm("Voulez-vous vraiment désélectionner toutes les fermes ?")) {
-      return;
-    }
+    if (!confirm("Désélectionner toutes les fermes ?")) return;
 
     selection = [];
     afficherListe(recherche.value.toLowerCase());
   };
 
   /* =====================
-     CRÉER / ENREGISTRER TOURNÉE
+     CRÉER / MODIFIER TOURNÉE
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -83,7 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (!date) return;
 
-    const tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+    let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+
+    // ✅ si on modifie une tournée existante → on la remplace
+    if (tourneeEnEditionId) {
+      tournees = tournees.filter(t => t.id !== tourneeEnEditionId);
+    }
 
     tournees.push({
       id: Date.now(),
@@ -94,31 +99,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.setItem("tournees", JSON.stringify(tournees));
     alert("✅ Tournée enregistrée");
+
+    selection = [];
+    tourneeEnEditionId = null;
+    afficherListe();
   };
 
   /* =====================
      📅 AUJOURD’HUI
      ===================== */
   window.afficherCalendrierDuJour = () => {
-    const aujourdHui = new Date().toISOString().slice(0, 10);
+    const today = new Date().toISOString().slice(0, 10);
     const tournees = JSON.parse(localStorage.getItem("tournees") || "[]")
-      .filter(t => t.date === aujourdHui);
+      .filter(t => t.date === today);
 
-    zone.innerHTML = `<h2>📅 Aujourd’hui — ${aujourdHui}</h2>`;
+    zone.innerHTML = `<h2>📅 Aujourd’hui — ${today}</h2>`;
 
     if (tournees.length === 0) {
-      zone.innerHTML += "<p>Aucune tournée prévue aujourd’hui</p>";
+      zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
     } else {
       tournees.forEach(t => {
         const btn = document.createElement("button");
         btn.textContent = `🚚 ${t.nom}`;
-        btn.onclick = () => afficherTournee(t.fermes);
+        btn.onclick = () => afficherTournee(t);
         zone.appendChild(btn);
       });
     }
 
     const retour = document.createElement("button");
-    retour.textContent = "↩ Retour à la liste";
+    retour.textContent = "↩ Retour";
     retour.onclick = afficherListe;
     zone.appendChild(retour);
   };
@@ -127,16 +136,16 @@ document.addEventListener("DOMContentLoaded", () => {
      🗓️ SEMAINE
      ===================== */
   window.afficherCalendrierSemaine = () => {
-    const today = new Date();
+    const base = new Date();
     const tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
 
     zone.innerHTML = "<h2>🗓️ Cette semaine</h2>";
 
     for (let i = 0; i < 7; i++) {
-      const d = new Date(today);
-      d.setDate(today.getDate() + i);
+      const d = new Date(base);
+      d.setDate(base.getDate() + i);
 
-      const dateISO = d.toISOString().slice(0, 10);
+      const iso = d.toISOString().slice(0, 10);
       const label = d.toLocaleDateString("fr-CA", {
         weekday: "long",
         day: "numeric",
@@ -145,41 +154,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
       zone.innerHTML += `<h3>${label}</h3>`;
 
-      const tourneesDuJour = tournees.filter(t => t.date === dateISO);
-
-      if (tourneesDuJour.length === 0) {
-        zone.innerHTML += "<p style='opacity:.6'>Aucune tournée</p>";
-      } else {
-        tourneesDuJour.forEach(t => {
-          const btn = document.createElement("button");
-          btn.textContent = `🚚 ${t.nom}`;
-          btn.onclick = () => afficherTournee(t.fermes);
-          zone.appendChild(btn);
-        });
-      }
+      tournees.filter(t => t.date === iso).forEach(t => {
+        const btn = document.createElement("button");
+        btn.textContent = `🚚 ${t.nom}`;
+        btn.onclick = () => afficherTournee(t);
+        zone.appendChild(btn);
+      });
     }
 
     const retour = document.createElement("button");
-    retour.textContent = "↩ Retour à la liste";
+    retour.textContent = "↩ Retour";
     retour.onclick = afficherListe;
     zone.appendChild(retour);
   };
 
   /* =====================
-     AFFICHER UNE TOURNÉE
+     AFFICHER / MODIFIER TOURNÉE ✅
      ===================== */
   function afficherTournee(tournee) {
     zone.innerHTML = "<h2>🚚 Tournée</h2>";
 
-    tournee.forEach(ferme => {
+    tournee.fermes.forEach(ferme => {
       const texte = Object.values(ferme)
         .filter(v => typeof v === "string")
         .join(" – ");
-
       const btn = document.createElement("button");
       btn.textContent = texte;
       zone.appendChild(btn);
     });
+
+    // ✏️ MODIFIER
+    const modifier = document.createElement("button");
+    modifier.textContent = "✏️ Modifier cette tournée";
+    modifier.onclick = () => {
+      selection = [];
+
+      tournee.fermes.forEach(f => {
+        const index = fermes.findIndex(x =>
+          JSON.stringify(x) === JSON.stringify(f)
+        );
+        if (index !== -1) selection.push(index);
+      });
+
+      tourneeEnEditionId = tournee.id;
+      afficherListe();
+    };
+    zone.appendChild(modifier);
 
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour";
