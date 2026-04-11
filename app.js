@@ -213,20 +213,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ✏️ MODIFIER */
     const modifier = document.createElement("button");
-    modifier.textContent = "✏️ Modifier cette tournée";
-    modifier.onclick = () => {
-      selection = [];
-      tournee.fermes.forEach(f => {
-        const index = fermes.findIndex(x =>
-          JSON.stringify(x) === JSON.stringify(f)
-        );
-        if (index !== -1) selection.push(index);
-      });
-      tourneeEnEditionId = tournee.id;
-      afficherListe();
-    };
-    zone.appendChild(modifier);
+modifier.textContent = "✏️ Modifier cette tournée";
+modifier.onclick = () => {
+  selection = [];
 
+  tournee.fermes.forEach(f => {
+    const index = fermes.findIndex(x =>
+      JSON.stringify(x) === JSON.stringify(f)
+    );
+    if (index !== -1) selection.push(index);
+  });
+
+  tourneeEnEditionId = tournee.id;
+  afficherListe();
+};
+zone.appendChild(modifier);
     /* 🗑️ SUPPRIMER */
     const supprimer = document.createElement("button");
     supprimer.textContent = "🗑️ Supprimer cette tournée";
