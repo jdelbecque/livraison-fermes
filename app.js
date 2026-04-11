@@ -147,7 +147,13 @@ if (modeChauffeur) {
       const texte = Object.values(item.ferme)
         .filter(v => typeof v === "string")
         .join(" – ");
+const btnTourneeGPS = document.createElement("button");
+btnTourneeGPS.textContent = "🧭 Démarrer la tournée (GPS)";
+btnTourneeGPS.style.background = "#007aff";
+btnTourneeGPS.style.color = "white";
+btnTourneeGPS.onclick = ouvrirGPSTourneeComplete;
 
+zone.appendChild(btnTourneeGPS);
       const btn = document.createElement("button");
       btn.textContent = `${item.livree ? "✅" : "🚚"} ${texte}`;
       btn.onclick = () => ouvrirGPS(texte);
