@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE AVEC AUJOURD’HUI");
+console.log("✅ app.js – VERSION STABLE AVEC AUJOURD’HUI + CONFIRMATION");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -52,6 +52,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
+     DÉSÉLECTION AVEC CONFIRMATION ✅
+     ===================== */
+  window.toutDeselectionner = () => {
+    if (selection.length === 0) return;
+
+    if (!confirm("Voulez-vous vraiment désélectionner toutes les fermes ?")) {
+      return;
+    }
+
+    selection = [];
+    afficherListe(recherche.value.toLowerCase());
+  };
+
+  /* =====================
      CRÉER / ENREGISTRER TOURNÉE
      ===================== */
   window.creerTournee = () => {
@@ -75,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: Date.now(),
       nom,
       date,
-      fermes: selection.map(i => fermes[i]),
+      fermes: selection.map(i => fermes[i])
     });
 
     localStorage.setItem("tournees", JSON.stringify(tournees));
@@ -83,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     📅 AUJOURD’HUI (CORRIGÉ)
+     📅 AUJOURD’HUI
      ===================== */
   window.afficherCalendrierDuJour = () => {
     const aujourdHui = new Date().toISOString().slice(0, 10);
