@@ -124,6 +124,16 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      OUVRIR + MODIFIER ✅
      ===================== */
+  function supprimerTourneeParId(id) {
+  if (!confirm("Supprimer définitivement cette tournée ?")) return;
+
+  let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+  tournees = tournees.filter(t => t.id !== id);
+  localStorage.setItem("tournees", JSON.stringify(tournees));
+
+  alert("🗑️ Tournée supprimée");
+  afficherAujourdHui();
+}
   function ouvrirTournee(tournee) {
     zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
 
