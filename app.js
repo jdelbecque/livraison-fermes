@@ -141,22 +141,24 @@ document.addEventListener("DOMContentLoaded", () => {
      GPS ENCHAÎNÉ ✅
      ===================== */
   function demarrerGPSTournee(tournee) {
-    const adresses = tournee.fermes.map(f =>
-      Object.values(f)
-        .filter(v => typeof v === "string")
-        .join(" ")
-    );
+  alert("Google Maps va s’ouvrir.\nAppuie sur ▶️ Démarrer pour lancer la navigation.");
 
-    const url =
-      "https://www.google.com/maps/dir/?api=1" +
-      "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
-      "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
-      "&waypoints=" + encodeURIComponent(
-        "optimize:true|" + adresses.join("|")
-      );
+  const adresses = tournee.fermes.map(f =>
+    Object.values(f)
+      .filter(v => typeof v === "string")
+      .join(" ")
+  );
 
-    window.location.href = url;
-  }
+  const url =
+    "https://www.google.com/maps/dir/?api=1" +
+    "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
+    "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
+    "&waypoints=" +
+    encodeURIComponent("optimize:true|" + adresses.join("|"));
+
+  window.location.href = url;
+}
+``
 
   /* =====================
      OUVRIR / MODIFIER / SUPPRIMER / GPS
