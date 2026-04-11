@@ -151,7 +151,39 @@ if (modeChauffeur) {
       const btn = document.createElement("button");
       btn.textContent = `${item.livree ? "✅" : "🚚"} ${texte}`;
       btn.onclick = () => ouvrirGPS(texte);
+function ouvrirGPSTourneeComplete() {
+  if (!tournee || tournee.length === 0) {
+    alert("Aucune ferme dans cette tournée");
+    return;
+  }
 
+  // Construire les adresses texte
+  const adresses = tournee.map(item =>
+    Object.values(item.ferme)
+      .filter(v => typeof v === "string" && v.trim() !== "")
+      .join(" ")
+  );
+
+  if (adresses.length < 2) {
+    // Une seule ferme → GPS simple
+    window.location.href =
+      "https://www.google.com/maps/dir/?api=1&destination=" +
+      encodeURIComponent(adresses[0]);
+    return;
+  }
+
+  const origin = adresses[0];
+  const destination = adresses[adresses.length - 1];
+  const waypoints = adresses.slice(1, -1).join("|");
+
+  const url =
+    "https://www.google.com/maps/dir/?api=1" +
+    "&origin=" + encodeURIComponent(origin) +
+    "&destination=" + encodeURIComponent(destination) +
+    "&waypoints=optimize:true|" + encodeURIComponent(waypoints);
+
+  window.location.href = url;
+}
       const livree = document.createElement("button");
       livree.textContent = "✅ Livré";
       livree.onclick = () => {
