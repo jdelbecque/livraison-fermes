@@ -1,43 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Livraison fermes</title>
 
-  <!-- ✅ CSS correctement chargé -->
-  <link rel="stylesheet" href="style.css">
-
-  <!-- ✅ PWA -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
 </head>
 
 <body>
-
   <h1>🚚 Livraison fermes</h1>
 
   <!-- Recherche -->
-  <input id="recherche" placeholder="Rechercher une ferme">
+  <input id="recherche" placeholder="Rechercher une ferme" />
 
-  <!-- Compteur -->
-  <div id="compteur"></div>
-
-  <!-- ✅ Navigation -->
+  <!-- BOUTONS PRINCIPAUX -->
   <div class="actions">
-    <button onclick="afficherCalendrierDuJour()">📅 Aujourd’hui</button>
-    <button onclick="afficherCalendrierSemaine()">🗓️ Semaine</button>
+    <button onclick="afficherAujourdHui()">📅 Aujourd’hui</button>
+    <button onclick="creerTournee()">Créer la tournée</button>
   </div>
 
-  <!-- Boutons d’action -->
-<button onclick="creerTournee()">Créer la tournée</button>
-<button onclick="afficherCalendrierDuJour()">📅 Aujourd’hui</button>
-<button onclick="toutDeselectionner()">❌ Tout désélectionner</button>
-
-  <!-- ✅ Zone JS obligatoire -->
+  <!-- ZONE DYNAMIQUE -->
   <div id="liste"></div>
 
-  <!-- ✅ JavaScript chargé correctement -->
+  <!-- SCRIPT -->
   <script src="app.js"></script>
-
 </body>
 </html>
