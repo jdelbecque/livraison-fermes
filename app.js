@@ -1,14 +1,29 @@
-console.log("✅ app.js – MODIFIER + SUPPRIMER + GPS ENCHAÎNÉ");
+console.log("✅ app.js – BADGE AUJOURD’HUI (X)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
-
-  const ADRESSE_DEPOT = "840 rue du houppier, Lévis, QC";
+  const btnAujourd = document.getElementById("btnAujourdHui");
 
   let fermes = [];
   let selection = [];
   let tourneeEnEdition = null;
+
+  /* =====================
+     BADGE AUJOURD’HUI ✅
+     ===================== */
+  function mettreAJourBadgeAujourdHui() {
+    if (!btnAujourd) return;
+
+    const today = new Date().toISOString().slice(0, 10);
+    const tournees = JSON.parse(localStorage.getItem("tournees") || []);
+    const count = tournees.filter(t => t.date === today).length;
+
+    btnAujourd.textContent =
+      count > 0
+        ? `📅 Aujourd’hui (${count})`
+        : "📅 Aujourd’hui";
+  }
 
   /* =====================
      CHARGEMENT DES FERMES
@@ -18,9 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
-    })
-    .catch(() => {
-      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
+      mettreAJourBadgeAujourdHui();
     });
 
   /* =====================
@@ -54,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     CRÉER / MODIFIER TOURNÉE
+     CRÉER / MODIFIER
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -76,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (!date) return;
 
-    let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+    let tournees = JSON.parse(localStorage.getItem("tournees") || []);
 
     if (tourneeEnEdition) {
       tournees = tournees.map(t =>
@@ -97,6 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     selection = [];
     tourneeEnEdition = null;
+
+    mettreAJourBadgeAujourdHui();
     afficherAujourdHui();
   };
 
@@ -124,44 +139,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     SUPPRIMER TOURNÉE
+     SUPPRIMER
      ===================== */
   function supprimerTourneeParId(id) {
     if (!confirm("Supprimer définitivement cette tournée ?")) return;
 
-    let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+    let tournees = JSON.parse(localStorage.getItem("tournees") || []);
     tournees = tournees.filter(t => t.id !== id);
     localStorage.setItem("tournees", JSON.stringify(tournees));
 
-    alert("🗑️ Tournée supprimée");
+    mettreAJourBadgeAujourdHui();
     afficherAujourdHui();
   }
 
   /* =====================
-     GPS ENCHAÎNÉ ✅
-     ===================== */
-  function demarrerGPSTournee(tournee) {
-  alert("Google Maps va s’ouvrir.\nAppuie sur ▶️ Démarrer pour lancer la navigation.");
-
-  const adresses = tournee.fermes.map(f =>
-    Object.values(f)
-      .filter(v => typeof v === "string")
-      .join(" ")
-  );
-
-  const url =
-    "https://www.google.com/maps/dir/?api=1" +
-    "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
-    "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
-    "&waypoints=" +
-    encodeURIComponent("optimize:true|" + adresses.join("|"));
-
-  window.location.href = url;
-}
-``
-
-  /* =====================
-     OUVRIR / MODIFIER / SUPPRIMER / GPS
+     OUVRIR
      ===================== */
   function ouvrirTournee(tournee) {
     zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
@@ -175,35 +167,26 @@ document.addEventListener("DOMContentLoaded", () => {
       zone.appendChild(btn);
     });
 
-    // 🧭 GPS
-    const gps = document.createElement("button");
-    gps.textContent = "🧭 Démarrer la tournée (GPS)";
-    gps.onclick = () => demarrerGPSTournee(tournee);
-    zone.appendChild(gps);
-
-    // ✏️ MODIFIER
     const modifier = document.createElement("button");
     modifier.textContent = "✏️ Modifier la tournée";
     modifier.onclick = () => {
       selection = [];
       tournee.fermes.forEach(f => {
-        const index = fermes.findIndex(x =>
+        const i = fermes.findIndex(x =>
           JSON.stringify(x) === JSON.stringify(f)
         );
-        if (index !== -1) selection.push(index);
+        if (i !== -1) selection.push(i);
       });
       tourneeEnEdition = tournee;
       afficherListe();
     };
     zone.appendChild(modifier);
 
-    // 🗑️ SUPPRIMER
     const supprimer = document.createElement("button");
     supprimer.textContent = "🗑️ Supprimer la tournée";
     supprimer.onclick = () => supprimerTourneeParId(tournee.id);
     zone.appendChild(supprimer);
 
-    // ↩ RETOUR
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour à Aujourd’hui";
     retour.onclick = afficherAujourdHui;
