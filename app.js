@@ -1,29 +1,14 @@
-console.log("✅ app.js – BADGE AUJOURD’HUI (X)");
+console.log("✅ app.js – VERSION STABLE AVEC GPS");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
-  const btnAujourd = document.getElementById("btnAujourdHui");
+
+  const ADRESSE_DEPOT = "840 rue du houppier, Lévis, QC";
 
   let fermes = [];
   let selection = [];
   let tourneeEnEdition = null;
-
-  /* =====================
-     BADGE AUJOURD’HUI ✅
-     ===================== */
-  function mettreAJourBadgeAujourdHui() {
-    if (!btnAujourd) return;
-
-    const today = new Date().toISOString().slice(0, 10);
-    const tournees = JSON.parse(localStorage.getItem("tournees") || []);
-    const count = tournees.filter(t => t.date === today).length;
-
-    btnAujourd.textContent =
-      count > 0
-        ? `📅 Aujourd’hui (${count})`
-        : "📅 Aujourd’hui";
-  }
 
   /* =====================
      CHARGEMENT DES FERMES
@@ -33,7 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
-      mettreAJourBadgeAujourdHui();
+    })
+    .catch(() => {
+      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
   /* =====================
@@ -67,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     CRÉER / MODIFIER
+     CRÉER / MODIFIER TOURNÉE
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -89,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (!date) return;
 
-    let tournees = JSON.parse(localStorage.getItem("tournees") || []);
+    let tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
 
     if (tourneeEnEdition) {
       tournees = tournees.map(t =>
@@ -110,8 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     selection = [];
     tourneeEnEdition = null;
-
-    mettreAJourBadgeAujourdHui();
     afficherAujourdHui();
   };
 
@@ -139,6 +124,29 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
+     GPS ENCHAÎNÉ ✅
+     ===================== */
+  function lancerGPS(tournee) {
+    alert(
+      "Google Maps va s’ouvrir.\n" +
+      "Glisse vers le haut et appuie sur ▶️ Démarrer."
+    );
+
+    const arrets = tournee.fermes.map(f =>
+      Object.values(f).filter(v => typeof v === "string").join(" ")
+    );
+
+    const url =
+      "https://www.google.com/maps/dir/?api=1" +
+      "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
+      "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
+      "&waypoints=" +
+      encodeURIComponent("optimize:true|" + arrets.join("|"));
+
+    window.location.href = url;
+  }
+
+  /* =====================
      SUPPRIMER
      ===================== */
   function supprimerTourneeParId(id) {
@@ -148,24 +156,27 @@ document.addEventListener("DOMContentLoaded", () => {
     tournees = tournees.filter(t => t.id !== id);
     localStorage.setItem("tournees", JSON.stringify(tournees));
 
-    mettreAJourBadgeAujourdHui();
     afficherAujourdHui();
   }
 
   /* =====================
-     OUVRIR
+     OUVRIR TOURNÉE
      ===================== */
   function ouvrirTournee(tournee) {
     zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
 
     tournee.fermes.forEach(ferme => {
-      const texte = Object.values(ferme)
+      const btn = document.createElement("button");
+      btn.textContent = Object.values(ferme)
         .filter(v => typeof v === "string")
         .join(" – ");
-      const btn = document.createElement("button");
-      btn.textContent = texte;
       zone.appendChild(btn);
     });
+
+    const gps = document.createElement("button");
+    gps.textContent = "🧭 Ouvrir dans Google Maps";
+    gps.onclick = () => lancerGPS(tournee);
+    zone.appendChild(gps);
 
     const modifier = document.createElement("button");
     modifier.textContent = "✏️ Modifier la tournée";
