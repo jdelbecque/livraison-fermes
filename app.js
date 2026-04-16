@@ -1,40 +1,37 @@
-console.log("✅ app.js chargé");
+console.log("✅ app.js – STABLE FERMES + GPS OK");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
-  let fermes = [];
+  const ADRESSE_DEPOT = "840 Rue du Houppier, Saint-Nicolas, QC, Canada";
 
+  let fermes = [];
+  let selection = [];
+
+  /* =====================
+     FORMAT ADRESSE GPS
+     ===================== */
+  function formatAdresseGPS(adresse) {
+    if (!adresse) return "";
+    return `${adresse.rue}, ${adresse.ville}, ${adresse.province}, ${adresse.pays}`;
+  }
+
+  /* =====================
+     CHARGEMENT DES FERMES
+     ===================== */
   fetch("clients_livraison.json")
     .then(res => res.json())
     .then(data => {
-      console.log("Fermes chargées :", data);
-      fermes = data;
+      fermes = Array.isArray(data) ? data : [];
       afficherListe();
     })
     .catch(err => {
       console.error(err);
-      zone.innerHTML = "<p>Erreur chargement JSON</p>";
+      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
+  /* =====================
+     LISTE DES FERMES
+     ===================== */
   function afficherListe(filtre = "") {
-    zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
-
-    fermes.forEach(ferme => {
-      if (
-        filtre &&
-        ferme.nom &&
-        !ferme.nom.toLowerCase().includes(filtre)
-      ) return;
-
-      const btn = document.createElement("button");
-      btn.textContent = ferme.nom || "Ferme sans nom";
-      zone.appendChild(btn);
-    });
-  }
-
-  recherche.addEventListener("input", e => {
-    afficherListe(e.target.value.toLowerCase());
-  });
-});
