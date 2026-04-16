@@ -133,8 +133,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     const arrets = tournee.fermes.map(f =>
-      Object.values(f).filter(v => typeof v === "string").join(" ")
-    );
+  `${f.adresse.rue}, ${f.adresse.ville}, ${f.adresse.province}, ${f.adresse.pays}`
+);
+
 
     const url =
       "https://www.google.com/maps/dir/?api=1" +
