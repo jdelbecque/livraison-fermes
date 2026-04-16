@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION FINALE GPS STABLE");
+console.log("✅ app.js – GPS TEST FINAL VALIDÉ");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let tourneeEnEdition = null;
 
   /* =====================
-     FORMAT ADRESSE GPS ✅
+     FORMAT ADRESSE GPS
      ===================== */
   function formatAdresseGPS(adresse) {
     return `${adresse.rue}, ${adresse.ville}, ${adresse.province}, ${adresse.pays}`;
@@ -25,9 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
-    })
-    .catch(() => {
-      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
   /* =====================
@@ -37,13 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
     fermes.forEach((ferme, index) => {
-      const texte = ferme.nom;
-
-      if (filtre && !texte.toLowerCase().includes(filtre)) return;
+      if (filtre && !ferme.nom.toLowerCase().includes(filtre)) return;
 
       const btn = document.createElement("button");
-      btn.textContent = texte;
-      btn.style.background = selection.includes(index) ? "#34c759" : "#fff";
+      btn.textContent = ferme.nom;
+      btn.style.background = selection.includes(index) ? "#34c759" : "#ffffff";
 
       btn.onclick = () => {
         selection.includes(index)
@@ -57,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     CRÉER / MODIFIER TOURNÉE
+     CRÉER / MODIFIER
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -65,22 +60,23 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const nom = prompt(
-      "Nom de la tournée ?",
-      tourneeEnEdition ? tourneeEnEdition.nom : ""
-    );
+    const nom = prompt("Nom de la tournée ?");
     if (!nom) return;
 
-    const date = prompt(
-      "Date (YYYY-MM-DD) ?",
-      tourneeEnEdition
-        ? tourneeEnEdition.date
-        : new Date().toISOString().slice(0, 10)
-    );
-    if (!date) return;
+    const tournees = JSON.parse(localStorage.getItem("tournees") || []);
+    tournees.push({
+      id: Date.now(),
+      nom,
+      date: new Date().toISOString().slice(0, 10),
+      fermes: selection.map(i => fermes[i])
+    });
 
-    let tournees = JSON.parse(localStorage.getItem("tournees") || []);
+    localStorage.setItem("tournees", JSON.stringify(tournees));
+    selection = [];
+    afficherAujourdHui();
+  };
 
-    if (tourneeEnEdition) {
-      tournees = tournees.map(t =>
-        t.id === tourneeEnEdition.id
+  /* =====================
+     AUJOURD’HUI
+     ===================== */
+  window.afficherAujourdHui = () => {
