@@ -1,46 +1,41 @@
 const fs = require("fs");
 
-// 🔹 Charger le fichier actuel
+// Charger le fichier existant
 const data = JSON.parse(
   fs.readFileSync("clients_livraison.json", "utf8")
 );
 
-// 🔹 Fonction nettoyage adresse
-function nettoyerAdresse(adresse, nom) {
-  let resultat = adresse;
-
-  // enlever le nom de la ferme s’il est présent
-  if (nom) {
-    const regex = new RegExp(nom, "i");
-    resultat = resultat.replace(regex, "");
-  }
-
-  // nettoyage espaces
-  resultat = resultat.replace(/\s+/g, " ").trim();
-
-  return resultat;
+// Fonction de normalisation du texte
+function normaliserTexte(texte) {
+  if (!texte) return "";
+  return texte
+    .toLowerCase()
+    .replace(/\b(sa(nt|-)?)/g, match => match.charAt(0).toUpperCase() + match.slice(1))
+    .replace(/\b\w/g, c => c.toUpperCase())
+    .trim();
 }
 
-// 🔹 Conversion
-const converti = data.map(f => {
-  const adressePropre = nettoyerAdresse(f.adresse, f.nom);
+// Conversion
+const converti = data.map(f => ({
+  id: f.id,
+  nom: f.nom,
+  adresse: {
+    rue: f.rue.trim(),
+    ville: normaliserTexte(f.ville),
+    province: "QC",
+    pays: "Canada"
+  },
+  gps: f.latitude && f.longitude
+    ? { lat: f.latitude, lng: f.longitude }
+    : null,
+  notes: f.notes || ""
+}));
 
-  return {
-    nom: f.nom,
-    adresse: {
-      rue: adressePropre,
-      ville: f.ville || "Lévis",
-      province: "QC",
-      pays: "Canada"
-    }
-  };
-});
-
-// 🔹 Sauvegarde
+// Sauvegarde du nouveau fichier
 fs.writeFileSync(
   "clients_livraison_converti.json",
   JSON.stringify(converti, null, 2),
   "utf8"
 );
 
-console.log("✅ Conversion terminée → clients_livraison_converti.json");
+console.log("✅ Conversion terminée : clients_livraison_converti.json");
