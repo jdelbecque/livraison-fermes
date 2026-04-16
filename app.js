@@ -212,3 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
     afficherListe(e.target.value.toLowerCase());
   });
 });
+function formatAdresseGPS(adresse) {
+  return `${adresse.rue}, ${adresse.ville}, ${adresse.province}, ${adresse.pays}`;
+}
+``
