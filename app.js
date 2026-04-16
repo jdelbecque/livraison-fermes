@@ -1,4 +1,4 @@
-console.log("✅ app.js – STABLE FERMES + GPS OK");
+console.log("✅ app.js – SÉLECTION FERMES CORRIGÉE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   /* =====================
-     LISTE DES FERMES
+     LISTE DES FERMES ✅
      ===================== */
   function afficherListe(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
@@ -45,15 +45,24 @@ document.addEventListener("DOMContentLoaded", () => {
       ) return;
 
       const btn = document.createElement("button");
-      btn.textContent = ferme.nom || "Ferme sans nom";
-      btn.style.background = selection.includes(index)
-        ? "#34c759"
-        : "#ffffff";
+      btn.textContent = ferme.nom;
+      btn.dataset.index = index;
 
-      btn.onclick = () => {
-        selection.includes(index)
-          ? selection = selection.filter(i => i !== index)
-          : selection.push(index);
+      // ✅ couleur selon sélection
+      if (selection.includes(index)) {
+        btn.style.background = "#34c759";
+        btn.style.color = "#fff";
+      }
+
+      btn.onclick = (e) => {
+        const i = Number(e.currentTarget.dataset.index);
+
+        if (selection.includes(i)) {
+          selection = selection.filter(x => x !== i);
+        } else {
+          selection.push(i);
+        }
+
         afficherListe(recherche.value.toLowerCase());
       };
 
@@ -62,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     CRÉER TOURNÉE
+     CRÉER TOURNÉE ✅
      ===================== */
   window.creerTournee = () => {
     if (selection.length === 0) {
@@ -87,11 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     📅 AUJOURD’HUI
+     AUJOURD’HUI
      ===================== */
   window.afficherAujourdHui = () => {
     const today = new Date().toISOString().slice(0, 10);
-
     const tournees = JSON.parse(localStorage.getItem("tournees") || [])
       .filter(t => t.date === today);
 
@@ -111,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     GPS (OUVERTURE SÛRE)
+     GPS ✅
      ===================== */
   function lancerGPS(tournee) {
     const arrets = tournee.fermes
@@ -130,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "&waypoints=" +
       encodeURIComponent("optimize:true|" + arrets.join("|"));
 
-    // ✅ Compatible Safari / iPhone / PWA
     window.open(url, "_blank");
   }
 
