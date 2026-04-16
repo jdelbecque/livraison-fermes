@@ -1,4 +1,4 @@
-console.log("✅ app.js – SÉLECTION FERMES CORRIGÉE");
+console.log("✅ app.js – SÉLECTION + GPS CORRIGÉS");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -10,11 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let selection = [];
 
   /* =====================
-     FORMAT ADRESSE GPS
+     FORMAT ADRESSE GPS ✅
+     (adapté à TES données)
      ===================== */
-  function formatAdresseGPS(adresse) {
-    if (!adresse) return "";
-    return `${adresse.rue}, ${adresse.ville}, ${adresse.province}, ${adresse.pays}`;
+  function formatAdresseGPS(ferme) {
+    if (!ferme.rue || !ferme.ville) return "";
+    return `${ferme.rue}, ${ferme.ville}, QC, Canada`;
   }
 
   /* =====================
@@ -48,13 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.textContent = ferme.nom;
       btn.dataset.index = index;
 
-      // ✅ couleur selon sélection
       if (selection.includes(index)) {
         btn.style.background = "#34c759";
         btn.style.color = "#fff";
+      } else {
+        btn.style.background = "#ffffff";
+        btn.style.color = "#000";
       }
 
-      btn.onclick = (e) => {
+      btn.onclick = e => {
         const i = Number(e.currentTarget.dataset.index);
 
         if (selection.includes(i)) {
@@ -96,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     AUJOURD’HUI
+     📅 AUJOURD’HUI
      ===================== */
   window.afficherAujourdHui = () => {
     const today = new Date().toISOString().slice(0, 10);
@@ -119,11 +122,11 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     GPS ✅
+     GPS ✅ (fonctionnel)
      ===================== */
   function lancerGPS(tournee) {
     const arrets = tournee.fermes
-      .map(f => formatAdresseGPS(f.adresse))
+      .map(f => formatAdresseGPS(f))
       .filter(a => a.length > 0);
 
     if (arrets.length === 0) {
