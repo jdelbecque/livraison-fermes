@@ -1,4 +1,4 @@
-console.log("✅ app.js – SÉLECTION + GPS CORRIGÉS");
+console.log("✅ app.js – GPS ADAPTÉ AUX DONNÉES RÉELLES");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================
      FORMAT ADRESSE GPS ✅
-     (adapté à TES données)
+     (rue + ville → QC → Canada)
      ===================== */
   function formatAdresseGPS(ferme) {
     if (!ferme.rue || !ferme.ville) return "";
@@ -52,9 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (selection.includes(index)) {
         btn.style.background = "#34c759";
         btn.style.color = "#fff";
-      } else {
-        btn.style.background = "#ffffff";
-        btn.style.color = "#000";
       }
 
       btn.onclick = e => {
@@ -122,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     GPS ✅ (fonctionnel)
+     GPS ✅ (MAINTENANT VALIDE)
      ===================== */
   function lancerGPS(tournee) {
     const arrets = tournee.fermes
