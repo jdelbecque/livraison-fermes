@@ -1,145 +1,40 @@
-console.log("✅ app.js – GPS TEST FINAL VALIDÉ");
+console.log("✅ app.js chargé");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
-  const ADRESSE_DEPOT = "840 Rue du Houppier, Saint-Nicolas, QC, Canada";
-
   let fermes = [];
-  let selection = [];
-  let tourneeEnEdition = null;
 
-  /* =====================
-     FORMAT ADRESSE GPS
-     ===================== */
-  function formatAdresseGPS(adresse) {
-    return `${adresse.rue}, ${adresse.ville}, ${adresse.province}, ${adresse.pays}`;
-  }
-
-  /* =====================
-     CHARGEMENT DES FERMES
-     ===================== */
   fetch("clients_livraison.json")
     .then(res => res.json())
     .then(data => {
-      fermes = Array.isArray(data) ? data : [];
+      console.log("Fermes chargées :", data);
+      fermes = data;
       afficherListe();
+    })
+    .catch(err => {
+      console.error(err);
+      zone.innerHTML = "<p>Erreur chargement JSON</p>";
     });
 
-  /* =====================
-     LISTE DES FERMES
-     ===================== */
   function afficherListe(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
-    fermes.forEach((ferme, index) => {
-      if (filtre && !ferme.nom.toLowerCase().includes(filtre)) return;
+    fermes.forEach(ferme => {
+      if (
+        filtre &&
+        ferme.nom &&
+        !ferme.nom.toLowerCase().includes(filtre)
+      ) return;
 
       const btn = document.createElement("button");
-      btn.textContent = ferme.nom;
-      btn.style.background = selection.includes(index) ? "#34c759" : "#ffffff";
-
-      btn.onclick = () => {
-        selection.includes(index)
-          ? selection = selection.filter(i => i !== index)
-          : selection.push(index);
-        afficherListe(recherche.value.toLowerCase());
-      };
-
+      btn.textContent = ferme.nom || "Ferme sans nom";
       zone.appendChild(btn);
     });
   }
 
-  /* =====================
-     CRÉER / MODIFIER
-     ===================== */
-  window.creerTournee = () => {
-    if (selection.length === 0) {
-      alert("Sélectionne au moins une ferme");
-      return;
-    }
-
-    const nom = prompt("Nom de la tournée ?");
-    if (!nom) return;
-
-    const tournees = JSON.parse(localStorage.getItem("tournees") || []);
-    tournees.push({
-      id: Date.now(),
-      nom,
-      date: new Date().toISOString().slice(0, 10),
-      fermes: selection.map(i => fermes[i])
-    });
-
-    localStorage.setItem("tournees", JSON.stringify(tournees));
-    selection = [];
-    afficherAujourdHui();
-  };
-
-  /* =====================
-     AUJOURD’HUI
-     ===================== */
-  window.afficherAujourdHui = () => {
-    const today = new Date().toISOString().slice(0, 10);
-    const tournees = JSON.parse(localStorage.getItem("tournees") || [])
-      .filter(t => t.date === today);
-
-    zone.innerHTML = `<h2>📋 Tournées du jour — ${today}</h2>`;
-
-    tournees.forEach(t => {
-      const btn = document.createElement("button");
-      btn.textContent = `🚚 ${t.nom}`;
-      btn.onclick = () => ouvrirTournee(t);
-      zone.appendChild(btn);
-    });
-  };
-
-  /* =====================
-     GPS (OUVERTURE AUTORISÉE)
-     ===================== */
-  function lancerGPS(tournee) {
-    const arrets = tournee.fermes.map(f =>
-      formatAdresseGPS(f.adresse)
-    );
-
-    const url =
-      "https://www.google.com/maps/dir/?api=1" +
-      "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
-      "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
-      "&waypoints=" +
-      encodeURIComponent("optimize:true|" + arrets.join("|"));
-
-    window.open(url, "_blank"); // ✅ OBLIGATOIRE
-  }
-
-  /* =====================
-     OUVRIR TOURNÉE
-     ===================== */
-  function ouvrirTournee(tournee) {
-    zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
-
-    tournee.fermes.forEach(f => {
-      const btn = document.createElement("button");
-      btn.textContent = f.nom;
-      zone.appendChild(btn);
-    });
-
-    const gps = document.createElement("button");
-    gps.textContent = "🧭 Ouvrir dans Google Maps";
-    gps.onclick = () => lancerGPS(tournee);
-    zone.appendChild(gps);
-
-    const retour = document.createElement("button");
-    retour.textContent = "↩ Retour";
-    retour.onclick = afficherAujourdHui;
-    zone.appendChild(retour);
-  }
-
-  /* =====================
-     RECHERCHE
-     ===================== */
   recherche.addEventListener("input", e => {
     afficherListe(e.target.value.toLowerCase());
   });
 });
-``
