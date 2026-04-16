@@ -80,3 +80,66 @@ document.addEventListener("DOMContentLoaded", () => {
      AUJOURD’HUI
      ===================== */
   window.afficherAujourdHui = () => {
+    const today = new Date().toISOString().slice(0, 10);
+    const tournees = JSON.parse(localStorage.getItem("tournees") || [])
+      .filter(t => t.date === today);
+
+    zone.innerHTML = `<h2>📋 Tournées du jour — ${today}</h2>`;
+
+    tournees.forEach(t => {
+      const btn = document.createElement("button");
+      btn.textContent = `🚚 ${t.nom}`;
+      btn.onclick = () => ouvrirTournee(t);
+      zone.appendChild(btn);
+    });
+  };
+
+  /* =====================
+     GPS (OUVERTURE AUTORISÉE)
+     ===================== */
+  function lancerGPS(tournee) {
+    const arrets = tournee.fermes.map(f =>
+      formatAdresseGPS(f.adresse)
+    );
+
+    const url =
+      "https://www.google.com/maps/dir/?api=1" +
+      "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
+      "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
+      "&waypoints=" +
+      encodeURIComponent("optimize:true|" + arrets.join("|"));
+
+    window.open(url, "_blank"); // ✅ OBLIGATOIRE
+  }
+
+  /* =====================
+     OUVRIR TOURNÉE
+     ===================== */
+  function ouvrirTournee(tournee) {
+    zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
+
+    tournee.fermes.forEach(f => {
+      const btn = document.createElement("button");
+      btn.textContent = f.nom;
+      zone.appendChild(btn);
+    });
+
+    const gps = document.createElement("button");
+    gps.textContent = "🧭 Ouvrir dans Google Maps";
+    gps.onclick = () => lancerGPS(tournee);
+    zone.appendChild(gps);
+
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour";
+    retour.onclick = afficherAujourdHui;
+    zone.appendChild(retour);
+  }
+
+  /* =====================
+     RECHERCHE
+     ===================== */
+  recherche.addEventListener("input", e => {
+    afficherListe(e.target.value.toLowerCase());
+  });
+});
+``
