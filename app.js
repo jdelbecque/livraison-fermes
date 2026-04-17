@@ -1,29 +1,18 @@
-console.log("✅ app.js – VERSION STABLE (OUVERTURE TOURNÉE OK)");
+console.log("✅ app.js – VERSION STABLE (OUVERTURE + DATE OK)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
-  const DEPOT_LABEL = "🏢 Entrepôt MAIA Services Vétérinaires";
   const DEPOT_GPS = "46.7160,-71.3453";
-  const PIN_ADMIN = "1";
 
   let fermes = [];
   let selection = [];
-  let tourneeEnEdition = null;
-  let modeChauffeur = false;
 
-  /* ========= UTILITAIRES ========= */
+  /* ========= OUTILS ========= */
 
   function dateISO(d = new Date()) {
     return d.toISOString().slice(0, 10);
-  }
-
-  function heureLocale() {
-    return new Date().toLocaleTimeString("fr-CA", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
   }
 
   function chargerTournees() {
@@ -34,21 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("tournees", JSON.stringify(liste));
   }
 
-  function demanderPIN() {
-    return prompt("🔒 Code PIN admin") === PIN_ADMIN;
-  }
-
-  function formatAdresseGps(f) {
-    if (f.latitude && f.longitude) return `${f.latitude},${f.longitude}`;
-    return `${f.rue}, ${f.ville}, QC, Canada`;
-  }
-
-  /* ========= NAVIGATION ========= */
-
   function boutonAccueil() {
     const b = document.createElement("button");
     b.textContent = "🏠 Accueil";
-    b.onclick = afficherAccueil;
+    b.onclick = afficherFermes;
     return b;
   }
 
@@ -59,35 +37,29 @@ document.addEventListener("DOMContentLoaded", () => {
     return b;
   }
 
-  /* ========= ACCUEIL ========= */
-
-  function afficherAccueil() {
-    selection = [];
-    tourneeEnEdition = null;
-    afficherFermes(recherche.value.toLowerCase());
-  }
-  window.afficherAccueil = afficherAccueil;
-
   /* ========= CHARGEMENT DES FERMES ========= */
 
   fetch("clients_livraison.json")
     .then(r => r.json())
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
-      afficherAccueil();
+      afficherFermes();
+    })
+    .catch(() => {
+      zone.innerHTML = "<p>❌ Impossible de charger les fermes</p>";
     });
 
   /* ========= LISTE DES FERMES ========= */
 
   function afficherFermes(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
+    selection = [];
 
     fermes.forEach((f, i) => {
       if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
 
       const b = document.createElement("button");
       b.textContent = f.nom;
-      b.style.background = selection.includes(i) ? "#34c759" : "#fff";
 
       b.onclick = () => {
         if (selection.includes(i)) {
@@ -105,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     zone.appendChild(boutonToutesTournees());
   }
 
-  /* ========= CRÉER TOURNÉE ========= */
+  /* ========= CRÉER TOURNÉE (AVEC DATE ✅) ========= */
 
   window.creerTournee = () => {
     if (!selection.length) {
@@ -116,14 +88,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const nom = prompt("Nom de la tournée");
     if (!nom) return;
 
-    let tournees = chargerTournees();
+    const dateChoisie = prompt(
+      "Date de la tournée (YYYY-MM-DD)",
+      dateISO()
+    );
+    if (!dateChoisie || !/^\d{4}-\d{2}-\d{2}$/.test(dateChoisie)) {
+      alert("Date invalide");
+      return;
+    }
+
+    const tournees = chargerTournees();
     tournees.push({
       id: Date.now(),
       nom,
-      date: dateISO(),
-      heureDebut: heureLocale(),
-      fermes: selection.map(i => fermes[i]),
-      terminee: false
+      date: dateChoisie,
+      fermes: selection.map(i => fermes[i])
     });
 
     sauverTournees(tournees);
@@ -152,22 +131,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   window.afficherToutesLesTournees = afficherToutesLesTournees;
 
-  /* ========= OUVRIR TOURNÉE ✅ ========= */
+  /* ========= OUVRIR TOURNÉE (VISIBLE ✅) ========= */
 
   function ouvrirTournee(t) {
     zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
 
-    const badge = document.createElement("span");
-    badge.textContent = t.terminee ? "ARRIVÉE ✅" : "DÉPART";
-    badge.style.background = t.terminee ? "#34c759" : "#007AFF";
-    badge.style.color = "#fff";
-    badge.style.padding = "4px 10px";
-    badge.style.borderRadius = "12px";
-    zone.appendChild(badge);
-
-    zone.appendChild(document.createElement("hr"));
-
-    // ✅ AFFICHAGE DES FERMES (CLÉ VISUELLE)
     const ul = document.createElement("ul");
     t.fermes.forEach(f => {
       const li = document.createElement("li");
