@@ -1,11 +1,11 @@
-console.log("✅ app.js – VERSION FINALE GARANTIE");
+console.log("✅ app.js – VERSION FINALE OK");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
+  // ✅ Entrepôt en coordonnées GPS (FIABLE)
   const ADRESSE_DEPOT = "46.7389,-71.4076";
-``
   const PIN_ADMIN = "1234";
 
   let fermes = [];
@@ -76,11 +76,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ========= CRÉER / MODIFIER TOURNÉE ========= */
+  /* ========= CRÉER / MODIFIER TOURNEE ========= */
 
   window.creerTournee = () => {
-    if (modeChauffeur) return alert("🚚 Mode chauffeur actif");
-    if (!selection.length) return alert("Sélection requise");
+    if (modeChauffeur) {
+      alert("🚚 Mode chauffeur actif");
+      return;
+    }
+    if (!selection.length) {
+      alert("Sélection requise");
+      return;
+    }
 
     const nom = prompt(
       "Nom de la tournée",
@@ -117,8 +123,8 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= AUJOURD’HUI ========= */
 
   window.afficherAujourdHui = () => {
-    const aujourd = new Date().toISOString().slice(0, 10);
-    const tournees = chargerTournees().filter(t => t.date === aujourd);
+    const today = new Date().toISOString().slice(0, 10);
+    const tournees = chargerTournees().filter(t => t.date === today);
 
     zone.innerHTML = "<h2>📅 Aujourd’hui</h2>";
 
@@ -130,58 +136,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  /* ========= VUE SEMAINE ========= */
-
-  window.afficherSemaine = () => {
-    const tournees = chargerTournees();
-    const today = new Date();
-    const day = today.getDay() || 7;
-    const lundi = new Date(today);
-    lundi.setDate(today.getDate() - (day - 1));
-
-    zone.innerHTML = "<h2>🗓️ Cette semaine</h2>";
-
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(lundi);
-      d.setDate(lundi.getDate() + i);
-      const iso = d.toISOString().slice(0, 10);
-
-      const h3 = document.createElement("h3");
-      h3.textContent = d.toLocaleDateString("fr-CA", {
-        weekday: "long",
-        day: "numeric",
-        month: "long"
-      });
-      zone.appendChild(h3);
-
-      const td = tournees.filter(t => t.date === iso);
-
-      if (!td.length) {
-        zone.appendChild(document.createTextNode("Aucune tournée"));
-      } else {
-        td.forEach(t => {
-          const b = document.createElement("button");
-          b.textContent = `🚚 ${t.nom}`;
-          b.onclick = () => ouvrirTournee(t);
-          zone.appendChild(b);
-        });
-      }
-    }
-
-    const retour = document.createElement("button");
-    retour.textContent = "↩ Retour Aujourd’hui";
-    retour.onclick = afficherAujourdHui;
-    zone.appendChild(retour);
-  };
-
-  /* ========= OUVRIR TOURNÉE ========= */
+  /* ========= OUVRIR TOURNEE ========= */
 
   function ouvrirTournee(t) {
     zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
 
     if (!t.heureDebut) {
       t.heureDebut = maintenant();
-      sauverTournees(chargerTournees().map(x => x.id === t.id ? t : x));
+      sauverTournees(chargerTournees().map(x => (x.id === t.id ? t : x)));
     }
 
     t.fermes.forEach(f => {
@@ -195,34 +157,12 @@ document.addEventListener("DOMContentLoaded", () => {
     gps.onclick = () => lancerGPS(t);
     zone.appendChild(gps);
 
-    if (!modeChauffeur) {
-      const modif = document.createElement("button");
-      modif.textContent = "✏️ Modifier";
-      modif.onclick = () => {
-        selection = t.fermes.map(f =>
-          fermes.findIndex(x => x.nom === f.nom)
-        );
-        tourneeEnEdition = t;
-        afficherListe();
-      };
-      zone.appendChild(modif);
-
-      const suppr = document.createElement("button");
-      suppr.textContent = "🗑️ Supprimer";
-      suppr.onclick = () => {
-        if (!demanderPIN()) return;
-        sauverTournees(chargerTournees().filter(x => x.id !== t.id));
-        afficherAujourdHui();
-      };
-      zone.appendChild(suppr);
-    }
-
     const fin = document.createElement("button");
     fin.textContent = "✅ Marquer terminée";
     fin.onclick = () => {
       t.terminee = true;
       t.heureFin = maintenant();
-      sauverTournees(chargerTournees().map(x => x.id === t.id ? t : x));
+      sauverTournees(chargerTournees().map(x => (x.id === t.id ? t : x)));
       afficherAujourdHui();
     };
     zone.appendChild(fin);
@@ -238,13 +178,19 @@ document.addEventListener("DOMContentLoaded", () => {
   function lancerGPS(t) {
     const arrets = t.fermes.map(formatAdresseGps).filter(Boolean);
 
+    if (!arrets.length) {
+      alert("❌ Aucune adresse GPS valide");
+      return;
+    }
+
     const points = [
       ADRESSE_DEPOT,
       ...arrets,
       ADRESSE_DEPOT + " (retour entrepôt)"
     ];
 
-    const url = "https://www.google.com/maps/dir/" +
+    const url =
+      "https://www.google.com/maps/dir/" +
       points.map(encodeURIComponent).join("/");
 
     window.open(url, "_blank");
@@ -264,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("🔓 Mode admin");
   };
 
-  recherche.addEventListener("input", e =>
-    afficherListe(e.target.value.toLowerCase())
-  );
+  recherche.addEventListener("input", e => {
+    afficherListe(e.target.value.toLowerCase());
+  });
 });
