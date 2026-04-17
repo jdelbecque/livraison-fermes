@@ -233,14 +233,31 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= GPS AVEC RETOUR DEPOT ✅ ========= */
 
   function lancerGPS(t) {
-    const arrets = t.fermes
-      .map(formatAdresseGps)
-      .filter(a => a && a.length > 10);
+  const arrets = t.fermes
+    .map(formatAdresseGps)
+    .filter(a => a && a.length > 10);
 
-    if (!arrets.length) {
-      alert("❌ Aucune adresse GPS valide");
-      return;
-    }
+  if (!arrets.length) {
+    alert("❌ Aucune adresse GPS valide");
+    return;
+  }
+
+  // ✅ Astuce Google Maps : rendre le retour "différent"
+  const depotDepart = ADRESSE_DEPOT;
+  const depotRetour = ADRESSE_DEPOT + " (retour entrepôt)";
+
+  const points = [
+    depotDepart,
+    ...arrets,
+    depotRetour
+  ];
+
+  const url =
+    "https://www.google.com/maps/dir/" +
+    points.map(encodeURIComponent).join("/");
+
+  window.open(url, "_blank");
+}
 
     // ✅ Dépôt → fermes → dépôt
     const points = [
