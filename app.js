@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION PRO FINALE + SEMAINE + CRUD");
+console.log("✅ app.js – VERSION PRO FINALE + SEMAINE + CRUD + RETOUR DEPOT");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const gps = document.createElement("button");
-    gps.textContent = "🧭 GPS";
+    gps.textContent = "🧭 GPS (retour dépôt)";
     gps.onclick = () => lancerGPS(t);
     zone.appendChild(gps);
 
@@ -208,8 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
       suppr.textContent = "🗑️ Supprimer";
       suppr.onclick = () => {
         if (!demanderPIN()) return;
-        const reste = chargerTournees().filter(x => x.id !== t.id);
-        sauverTournees(reste);
+        sauverTournees(chargerTournees().filter(x => x.id !== t.id));
         afficherAujourdHui();
       };
       zone.appendChild(suppr);
@@ -231,13 +230,29 @@ document.addEventListener("DOMContentLoaded", () => {
     zone.appendChild(retour);
   }
 
-  /* ========= GPS ========= */
+  /* ========= GPS AVEC RETOUR DEPOT ✅ ========= */
 
   function lancerGPS(t) {
-    const points = [ADRESSE_DEPOT, ...t.fermes.map(formatAdresseGps)];
+    const arrets = t.fermes
+      .map(formatAdresseGps)
+      .filter(a => a && a.length > 10);
+
+    if (!arrets.length) {
+      alert("❌ Aucune adresse GPS valide");
+      return;
+    }
+
+    // ✅ Dépôt → fermes → dépôt
+    const points = [
+      ADRESSE_DEPOT,
+      ...arrets,
+      ADRESSE_DEPOT
+    ];
+
     const url =
       "https://www.google.com/maps/dir/" +
       points.map(encodeURIComponent).join("/");
+
     window.open(url, "_blank");
   }
 
