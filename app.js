@@ -191,31 +191,62 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ========= OUVRIR TOURNÉE ========= */
 
-  function ouvrirTournee(t) {
-    zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
+function ouvrirTournee(t) {
+  zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
 
-    const depot = document.createElement("div");
-    depot.textContent = DEPOT_LABEL;
-    depot.style.fontWeight = "bold";
-    zone.appendChild(depot);
+  // --- Entrepôt + badge DÉPART ---
+  const depot = document.createElement("div");
+  depot.textContent = DEPOT_LABEL;
+  depot.style.fontWeight = "bold";
+  zone.appendChild(depot);
 
-    const badge = document.createElement("span");
-    badge.textContent = "DÉPART";
-    badge.style.background = "#007AFF";
-    badge.style.color = "#fff";
-    badge.style.padding = "4px 10px";
-    badge.style.borderRadius = "12px";
-    badge.style.display = "inline-block";
-    badge.style.marginBottom = "12px";
-    zone.appendChild(badge);
+  const badge = document.createElement("span");
+  badge.textContent = "DÉPART";
+  badge.style.background = "#007AFF";
+  badge.style.color = "#fff";
+  badge.style.padding = "4px 10px";
+  badge.style.borderRadius = "12px";
+  badge.style.display = "inline-block";
+  badge.style.marginBottom = "12px";
+  zone.appendChild(badge);
 
-    zone.appendChild(document.createElement("hr"));
+  zone.appendChild(document.createElement("hr"));
 
-    t.fermes.forEach(f => {
-      const b = document.createElement("button");
-      b.textContent = f.nom;
-      zone.appendChild(b);
-    });
+  // --- Fermes ---
+  t.fermes.forEach(f => {
+    const b = document.createElement("button");
+    b.textContent = f.nom;
+    zone.appendChild(b);
+  });
+
+  // --- GPS ---
+  const gps = document.createElement("button");
+  gps.textContent = "🧭 Lancer GPS";
+  gps.onclick = () => lancerGPS(t);
+  zone.appendChild(gps);
+
+  // ✅ --- MODIFIER ---
+  const modif = document.createElement("button");
+  modif.textContent = "✏️ Modifier";
+  modif.onclick = () => {
+    selection = t.fermes.map(f =>
+      fermes.findIndex(x => x.nom === f.nom)
+    );
+    tourneeEnEdition = t;
+    afficherListe();
+  };
+  zone.appendChild(modif);
+
+  // ✅ --- SUPPRIMER (PIN) ---
+  const suppr = document.createElement("button");
+  suppr.textContent = "🗑️ Supprimer";
+  suppr.onclick = () => {
+    if (!demanderPIN()) return;
+    sauverTournees(chargerTournees().filter(x => x.id !== t.id));
+    afficherAujourdHui();
+  };
+  zone.appendChild(suppr);
+}
 
     const gps = document.createElement("button");
     gps.textContent = "🧭 Lancer GPS";
