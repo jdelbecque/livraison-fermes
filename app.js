@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE (RECHERCHE FERMES OK)");
+console.log("✅ app.js – VERSION STABLE (TOURNÉES TOUJOURS VISIBLES)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -43,6 +43,33 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${f.rue}, ${f.ville}, QC, Canada`;
   }
 
+  /* ========= NAVIGATION ========= */
+
+  function boutonAccueil() {
+    const b = document.createElement("button");
+    b.textContent = "🏠 Accueil";
+    b.onclick = afficherAccueil;
+    return b;
+  }
+
+  function boutonToutesTournees() {
+    const b = document.createElement("button");
+    b.textContent = "📋 Toutes les tournées";
+    b.onclick = afficherToutesLesTournees;
+    return b;
+  }
+
+  function boutonModeChauffeur() {
+    const b = document.createElement("button");
+    b.textContent = modeChauffeur ? "🔓 Mode admin" : "🚚 Mode chauffeur";
+    b.onclick = () => {
+      if (modeChauffeur && !demanderPIN()) return;
+      modeChauffeur = !modeChauffeur;
+      alert(modeChauffeur ? "🚚 Mode chauffeur activé" : "🔓 Mode admin activé");
+    };
+    return b;
+  }
+
   /* ========= ACCUEIL ========= */
 
   function afficherAccueil() {
@@ -51,13 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
     afficherFermes(recherche.value.toLowerCase());
   }
   window.afficherAccueil = afficherAccueil;
-
-  function boutonAccueil() {
-    const b = document.createElement("button");
-    b.textContent = "🏠 Accueil";
-    b.onclick = afficherAccueil;
-    return b;
-  }
 
   /* ========= AUJOURD’HUI ========= */
 
@@ -72,12 +92,13 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       tournees.forEach(t => {
         const b = document.createElement("button");
-        b.textContent = t.nom;
+        b.textContent = `${t.nom} — ${t.date}`;
         b.onclick = () => ouvrirTournee(t);
         zone.appendChild(b);
       });
     }
 
+    zone.appendChild(boutonToutesTournees());
     zone.appendChild(boutonAccueil());
   }
   window.afficherAujourdHui = afficherAujourdHui;
@@ -108,28 +129,16 @@ document.addEventListener("DOMContentLoaded", () => {
         .filter(t => t.date === iso)
         .forEach(t => {
           const b = document.createElement("button");
-          b.textContent = t.nom;
+          b.textContent = `${t.nom} — ${t.date}`;
           b.onclick = () => ouvrirTournee(t);
           zone.appendChild(b);
         });
     }
 
+    zone.appendChild(boutonToutesTournees());
     zone.appendChild(boutonAccueil());
   }
   window.afficherSemaine = afficherSemaine;
-
-  /* ========= MODE CHAUFFEUR ========= */
-
-  function boutonModeChauffeur() {
-    const b = document.createElement("button");
-    b.textContent = modeChauffeur ? "🔓 Mode admin" : "🚚 Mode chauffeur";
-    b.onclick = () => {
-      if (modeChauffeur && !demanderPIN()) return;
-      modeChauffeur = !modeChauffeur;
-      alert(modeChauffeur ? "🚚 Mode chauffeur activé" : "🔓 Mode admin activé");
-    };
-    return b;
-  }
 
   /* ========= CHARGEMENT DES FERMES ========= */
 
@@ -137,13 +146,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(r => r.json())
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
-      afficherFermes();
-    })
-    .catch(() => {
-      zone.innerHTML = "<p>❌ Impossible de charger les fermes</p>";
+      afficherAccueil();
     });
 
-  /* ========= LISTE DES FERMES (AVEC RECHERCHE ✅) ========= */
+  /* ========= LISTE DES FERMES (RECHERCHE OK) ========= */
 
   function afficherFermes(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
@@ -169,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     zone.appendChild(boutonModeChauffeur());
+    zone.appendChild(boutonToutesTournees());
   }
 
   /* ========= CRÉER / MODIFIER TOURNÉE ========= */
@@ -212,26 +219,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     sauverTournees(tournees);
-    tourneeEnEdition = null;
     selection = [];
+    tourneeEnEdition = null;
+
+    // ✅ TOUJOURS montrer les tournées après création
     afficherToutesLesTournees();
   };
 
-  /* ========= TOUTES LES TOURNÉES ========= */
+  /* ========= TOUTES LES TOURNÉES (GLOBAL) ========= */
 
   function afficherToutesLesTournees() {
     const tournees = chargerTournees();
     zone.innerHTML = "<h2>🚚 Toutes les tournées</h2>";
 
+    if (!tournees.length) {
+      zone.innerHTML += "<p>Aucune tournée</p>";
+    }
+
     tournees.forEach(t => {
       const b = document.createElement("button");
-      b.textContent = `${t.nom} — ${t.terminee ? "✅ Terminée" : "⏳ En cours"}`;
+      b.textContent = `${t.nom} — ${t.date}`;
       b.onclick = () => ouvrirTournee(t);
       zone.appendChild(b);
     });
 
     zone.appendChild(boutonAccueil());
   }
+  window.afficherToutesLesTournees = afficherToutesLesTournees;
 
   /* ========= OUVRIR TOURNÉE ========= */
 
@@ -246,25 +260,11 @@ document.addEventListener("DOMContentLoaded", () => {
     badge.style.borderRadius = "12px";
     zone.appendChild(badge);
 
+    zone.appendChild(boutonToutesTournees());
     zone.appendChild(boutonAccueil());
   }
 
-  /* ========= GPS ========= */
-
-  function lancerGPS(t) {
-    const points = [
-      DEPOT_GPS,
-      ...t.fermes.map(formatAdresseGps),
-      DEPOT_GPS
-    ];
-    window.open(
-      "https://www.google.com/maps/dir/" +
-        points.map(encodeURIComponent).join("/"),
-      "_blank"
-    );
-  }
-
-  /* ========= 🔍 RECHERCHE (ACTIVÉE ✅) ========= */
+  /* ========= RECHERCHE ========= */
 
   recherche.addEventListener("input", e => {
     afficherFermes(e.target.value.toLowerCase());
