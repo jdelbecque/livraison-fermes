@@ -1,10 +1,11 @@
-console.log("✅ app.js – VERSION STABLE (ARRÊTS + ORDRE + HEURES)");
+console.log("✅ app.js – VERSION STABLE (GPS + MODIFIER + SUPPRIMER)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
   const PIN_ADMIN = "1";
+  const DEPOT_GPS = "46.7160,-71.3453";
 
   let fermes = [];
   let selection = [];
@@ -33,6 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function demanderPIN() {
     return prompt("🔒 Code PIN admin") === PIN_ADMIN;
+  }
+
+  function formatAdresseGps(f) {
+    if (f.latitude && f.longitude) {
+      return `${f.latitude},${f.longitude}`;
+    }
+    return encodeURIComponent(`${f.rue}, ${f.ville}, QC, Canada`);
   }
 
   /* ========= NAVIGATION ========= */
@@ -231,17 +239,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     zone.appendChild(ol);
 
-    const terminer = document.createElement("button");
-    terminer.textContent = "✅ Terminer la tournée";
-    terminer.onclick = () => {
-      if (!demanderPIN()) return;
-      let tournees = chargerTournees().map(x =>
-        x.id === t.id ? { ...x, heureFin: heureLocale() } : x
+    const gps = document.createElement("button");
+    gps.textContent = "🧭 Lancer le GPS";
+    gps.onclick = () => {
+      const points = [
+        DEPOT_GPS,
+        ...t.fermes.map(formatAdresseGps),
+        DEPOT_GPS
+      ];
+      window.open(
+        "https://www.google.com/maps/dir/" + points.join("/"),
+        "_blank"
       );
-      sauverTournees(tournees);
+    };
+    zone.appendChild(gps);
+
+    const modifier = document.createElement("button");
+    modifier.textContent = "✏️ Modifier";
+    modifier.onclick = () => {
+      selection = t.fermes.map(f =>
+        fermes.findIndex(x => x.nom === f.nom)
+      );
+      tourneeEnEdition = t;
+      afficherFermes();
+    };
+    zone.appendChild(modifier);
+
+    const suppr = document.createElement("button");
+    suppr.textContent = "🗑️ Supprimer";
+    suppr.onclick = () => {
+      if (!demanderPIN()) return;
+      sauverTournees(chargerTournees().filter(x => x.id !== t.id));
       afficherToutesLesTournees();
     };
-    zone.appendChild(terminer);
+    zone.appendChild(suppr);
 
     zone.appendChild(boutonToutesTournees());
     zone.appendChild(boutonAccueil());
