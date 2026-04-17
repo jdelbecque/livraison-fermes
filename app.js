@@ -122,24 +122,23 @@ document.addEventListener("DOMContentLoaded", () => {
      GPS ✅ (MAINTENANT VALIDE)
      ===================== */
   function lancerGPS(tournee) {
-    const arrets = tournee.fermes
-      .map(f => formatAdresseGPS(f))
-      .filter(a => a.length > 0);
+  const arrets = tournee.fermes
+    .map(f => formatAdresseGPS(f).trim())
+    .filter(a => a.length > 10);
 
-    if (arrets.length === 0) {
-      alert("❌ Aucune adresse GPS valide");
-      return;
-    }
-
-    const url =
-      "https://www.google.com/maps/dir/?api=1" +
-      "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
-      "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
-      "&waypoints=" +
-      encodeURIComponent("optimize:true|" + arrets.join("|"));
-
-    window.open(url, "_blank");
+  if (arrets.length === 0) {
+    alert("❌ Aucune adresse GPS valide");
+    return;
   }
+
+  const url =
+    "https://www.google.com/maps/dir/?api=1" +
+    "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
+    "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
+    "&waypoints=" + encodeURIComponent(arrets.join("|"));
+
+  window.open(url, "_blank");
+}
 
   /* =====================
      OUVRIR TOURNÉE
