@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION FINALE CORRIGÉE TOUT FONCTIONNE");
+console.log("✅ app.js – VERSION FINALE CORRIGÉE AVEC ACCUEIL");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -38,6 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function sauverTournees(liste) {
     localStorage.setItem("tournees", JSON.stringify(liste));
   }
+
+  /* ========= ACCUEIL ✅ ========= */
+
+  window.afficherAccueil = () => {
+    selection = [];
+    tourneeEnEdition = null;
+    afficherListe();
+  };
 
   /* ========= CHARGEMENT DES FERMES ========= */
 
@@ -122,6 +130,11 @@ document.addEventListener("DOMContentLoaded", () => {
       b.onclick = () => ouvrirTournee(t);
       zone.appendChild(b);
     });
+
+    const accueil = document.createElement("button");
+    accueil.textContent = "🏠 Accueil";
+    accueil.onclick = afficherAccueil;
+    zone.appendChild(accueil);
   };
 
   /* ========= SEMAINE ========= */
@@ -155,6 +168,11 @@ document.addEventListener("DOMContentLoaded", () => {
           zone.appendChild(b);
         });
     }
+
+    const accueil = document.createElement("button");
+    accueil.textContent = "🏠 Accueil";
+    accueil.onclick = afficherAccueil;
+    zone.appendChild(accueil);
   };
 
   /* ========= OUVRIR TOURNÉE ========= */
@@ -209,6 +227,11 @@ document.addEventListener("DOMContentLoaded", () => {
       afficherAujourdHui();
     };
     zone.appendChild(suppr);
+
+    const accueil = document.createElement("button");
+    accueil.textContent = "🏠 Accueil";
+    accueil.onclick = afficherAccueil;
+    zone.appendChild(accueil);
   }
 
   /* ========= GPS ========= */
@@ -233,4 +256,3 @@ document.addEventListener("DOMContentLoaded", () => {
     afficherListe(e.target.value.toLowerCase())
   );
 });
-``
