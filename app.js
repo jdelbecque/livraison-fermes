@@ -72,6 +72,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
+    })
+    .catch(err => {
+      console.error(err);
+      zone.innerHTML = "<p>❌ Impossible de charger les fermes</p>";
     });
 
   /* ========= LISTE FERMES ========= */
@@ -82,14 +86,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fermes.forEach((f, i) => {
       if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
+
       const b = document.createElement("button");
       b.textContent = f.nom;
+      b.style.background = selection.includes(i) ? "#34c759" : "#fff";
+
       b.onclick = () => {
         selection.includes(i)
           ? selection = selection.filter(x => x !== i)
           : selection.push(i);
         afficherListe(recherche.value.toLowerCase());
       };
+
       zone.appendChild(b);
     });
   }
@@ -128,6 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function afficherAujourdHui() {
     zone.innerHTML = "<h2>📅 Aujourd’hui</h2>";
+
     chargerTournees()
       .filter(t => t.date === aujourdISO())
       .forEach(t => {
@@ -142,8 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function afficherSemaine() {
     zone.innerHTML = "<h2>🗓️ Semaine</h2>";
-    const tournees = chargerTournees();
 
+    const tournees = chargerTournees();
     const debut = new Date();
     debut.setDate(debut.getDate() - debut.getDay() + 1);
 
@@ -156,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
       h.textContent = d.toLocaleDateString("fr-CA", {
         weekday: "long",
         day: "numeric",
-        month: "long",
+        month: "long"
       });
       zone.appendChild(h);
 
@@ -229,12 +238,15 @@ document.addEventListener("DOMContentLoaded", () => {
       ...t.fermes.map(formatAdresseGps),
       DEPOT_GPS
     ];
+
     window.open(
       "https://www.google.com/maps/dir/" +
         points.map(encodeURIComponent).join("/"),
       "_blank"
     );
   }
+
+  /* ========= RECHERCHE ========= */
 
   recherche.addEventListener("input", e =>
     afficherListe(e.target.value.toLowerCase())
