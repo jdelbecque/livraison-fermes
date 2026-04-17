@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION FINALE AVEC ACCUEIL TOUJOURS VISIBLE");
+console.log("✅ app.js – VERSION FINALE STABLE (MODIFIER + SUPPRIMER OK)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let selection = [];
   let tourneeEnEdition = null;
 
-  /* ========= BARRE DE NAVIGATION FIXE ========= */
+  /* ========= BARRE ACCUEIL ========= */
 
   const nav = document.createElement("div");
   nav.style.display = "flex";
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btnAccueil = document.createElement("button");
   btnAccueil.textContent = "🏠 Accueil";
-  btnAccueil.onclick = afficherAccueil;
+  btnAccueil.onclick = afficherListe;
 
   const btnAujourd = document.createElement("button");
   btnAujourd.textContent = "📅 Aujourd’hui";
@@ -65,16 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("tournees", JSON.stringify(liste));
   }
 
-  /* ========= ACCUEIL ========= */
-
-  function afficherAccueil() {
-    selection = [];
-    tourneeEnEdition = null;
-    afficherListe();
-  }
-  window.afficherAccueil = afficherAccueil;
-
-  /* ========= CHARGEMENT DES FERMES ========= */
+  /* ========= CHARGEMENT FERMES ========= */
 
   fetch("clients_livraison.json")
     .then(r => r.json())
@@ -83,37 +74,32 @@ document.addEventListener("DOMContentLoaded", () => {
       afficherListe();
     });
 
-  /* ========= LISTE DES FERMES ========= */
+  /* ========= LISTE FERMES ========= */
 
   function afficherListe(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
+    selection = [];
 
-    fermes.forEach((f, index) => {
+    fermes.forEach((f, i) => {
       if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
-
       const b = document.createElement("button");
       b.textContent = f.nom;
-      b.style.background = selection.includes(index) ? "#34c759" : "#fff";
-
       b.onclick = () => {
-        selection.includes(index)
-          ? selection = selection.filter(i => i !== index)
-          : selection.push(index);
+        selection.includes(i)
+          ? selection = selection.filter(x => x !== i)
+          : selection.push(i);
         afficherListe(recherche.value.toLowerCase());
       };
       zone.appendChild(b);
     });
   }
 
-  /* ========= CRÉER / MODIFIER TOURNÉE ========= */
+  /* ========= CRÉER / MODIFIER ========= */
 
   function creerTournee() {
     if (!selection.length) return alert("Sélection requise");
 
-    const nom = prompt(
-      "Nom de la tournée",
-      tourneeEnEdition ? tourneeEnEdition.nom : ""
-    );
+    const nom = prompt("Nom de la tournée", tourneeEnEdition?.nom || "");
     if (!nom) return;
 
     let tournees = chargerTournees();
@@ -129,39 +115,34 @@ document.addEventListener("DOMContentLoaded", () => {
         id: Date.now(),
         nom,
         date: aujourdISO(),
-        fermes: selection.map(i => fermes[i]),
-        terminee: false
+        fermes: selection.map(i => fermes[i])
       });
     }
 
     sauverTournees(tournees);
     tourneeEnEdition = null;
-    selection = [];
     afficherAujourdHui();
   }
-  window.creerTournee = creerTournee;
 
   /* ========= AUJOURD’HUI ========= */
 
   function afficherAujourdHui() {
-    const tournees = chargerTournees().filter(t => t.date === aujourdISO());
-
     zone.innerHTML = "<h2>📅 Aujourd’hui</h2>";
-
-    tournees.forEach(t => {
-      const b = document.createElement("button");
-      b.textContent = `🚚 ${t.nom}`;
-      b.onclick = () => ouvrirTournee(t);
-      zone.appendChild(b);
-    });
+    chargerTournees()
+      .filter(t => t.date === aujourdISO())
+      .forEach(t => {
+        const b = document.createElement("button");
+        b.textContent = `🚚 ${t.nom}`;
+        b.onclick = () => ouvrirTournee(t);
+        zone.appendChild(b);
+      });
   }
-  window.afficherAujourdHui = afficherAujourdHui;
 
   /* ========= SEMAINE ========= */
 
   function afficherSemaine() {
-    const tournees = chargerTournees();
     zone.innerHTML = "<h2>🗓️ Semaine</h2>";
+    const tournees = chargerTournees();
 
     const debut = new Date();
     debut.setDate(debut.getDate() - debut.getDay() + 1);
@@ -171,13 +152,13 @@ document.addEventListener("DOMContentLoaded", () => {
       d.setDate(debut.getDate() + i);
       const iso = d.toISOString().slice(0, 10);
 
-      const h3 = document.createElement("h3");
-      h3.textContent = d.toLocaleDateString("fr-CA", {
+      const h = document.createElement("h3");
+      h.textContent = d.toLocaleDateString("fr-CA", {
         weekday: "long",
         day: "numeric",
-        month: "long"
+        month: "long",
       });
-      zone.appendChild(h3);
+      zone.appendChild(h);
 
       tournees.filter(t => t.date === iso).forEach(t => {
         const b = document.createElement("button");
@@ -187,71 +168,57 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   }
-  window.afficherSemaine = afficherSemaine;
 
   /* ========= OUVRIR TOURNÉE ========= */
 
-function ouvrirTournee(t) {
-  zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
+  function ouvrirTournee(t) {
+    zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
 
-  // --- Entrepôt + badge DÉPART ---
-  const depot = document.createElement("div");
-  depot.textContent = DEPOT_LABEL;
-  depot.style.fontWeight = "bold";
-  zone.appendChild(depot);
+    const depot = document.createElement("div");
+    depot.textContent = DEPOT_LABEL;
+    depot.style.fontWeight = "bold";
+    zone.appendChild(depot);
 
-  const badge = document.createElement("span");
-  badge.textContent = "DÉPART";
-  badge.style.background = "#007AFF";
-  badge.style.color = "#fff";
-  badge.style.padding = "4px 10px";
-  badge.style.borderRadius = "12px";
-  badge.style.display = "inline-block";
-  badge.style.marginBottom = "12px";
-  zone.appendChild(badge);
+    const badge = document.createElement("span");
+    badge.textContent = "DÉPART";
+    badge.style.background = "#007AFF";
+    badge.style.color = "#fff";
+    badge.style.padding = "4px 10px";
+    badge.style.borderRadius = "12px";
+    zone.appendChild(badge);
 
-  zone.appendChild(document.createElement("hr"));
+    zone.appendChild(document.createElement("hr"));
 
-  // --- Fermes ---
-  t.fermes.forEach(f => {
-    const b = document.createElement("button");
-    b.textContent = f.nom;
-    zone.appendChild(b);
-  });
-
-  // --- GPS ---
-  const gps = document.createElement("button");
-  gps.textContent = "🧭 Lancer GPS";
-  gps.onclick = () => lancerGPS(t);
-  zone.appendChild(gps);
-
-  // ✅ --- MODIFIER ---
-  const modif = document.createElement("button");
-  modif.textContent = "✏️ Modifier";
-  modif.onclick = () => {
-    selection = t.fermes.map(f =>
-      fermes.findIndex(x => x.nom === f.nom)
-    );
-    tourneeEnEdition = t;
-    afficherListe();
-  };
-  zone.appendChild(modif);
-
-  // ✅ --- SUPPRIMER (PIN) ---
-  const suppr = document.createElement("button");
-  suppr.textContent = "🗑️ Supprimer";
-  suppr.onclick = () => {
-    if (!demanderPIN()) return;
-    sauverTournees(chargerTournees().filter(x => x.id !== t.id));
-    afficherAujourdHui();
-  };
-  zone.appendChild(suppr);
-}
+    t.fermes.forEach(f => {
+      const b = document.createElement("button");
+      b.textContent = f.nom;
+      zone.appendChild(b);
+    });
 
     const gps = document.createElement("button");
     gps.textContent = "🧭 Lancer GPS";
     gps.onclick = () => lancerGPS(t);
     zone.appendChild(gps);
+
+    const modif = document.createElement("button");
+    modif.textContent = "✏️ Modifier";
+    modif.onclick = () => {
+      selection = t.fermes.map(f =>
+        fermes.findIndex(x => x.nom === f.nom)
+      );
+      tourneeEnEdition = t;
+      afficherListe();
+    };
+    zone.appendChild(modif);
+
+    const suppr = document.createElement("button");
+    suppr.textContent = "🗑️ Supprimer";
+    suppr.onclick = () => {
+      if (!demanderPIN()) return;
+      sauverTournees(chargerTournees().filter(x => x.id !== t.id));
+      afficherAujourdHui();
+    };
+    zone.appendChild(suppr);
   }
 
   /* ========= GPS ========= */
@@ -268,8 +235,6 @@ function ouvrirTournee(t) {
       "_blank"
     );
   }
-
-  /* ========= RECHERCHE ========= */
 
   recherche.addEventListener("input", e =>
     afficherListe(e.target.value.toLowerCase())
