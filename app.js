@@ -4,9 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
-  // ✅ Entrepôt en coordonnées GPS (FIABLE)
+  // ✅ Entrepôt en adresse texte fiable
   const ADRESSE_DEPOT = "840 rue du Houppier, Lévis, QC G7A 3X4, Canada";
-``
   const PIN_ADMIN = "1234";
 
   let fermes = [];
@@ -77,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ========= CRÉER / MODIFIER TOURNEE ========= */
+  /* ========= CRÉER TOURNEE ========= */
 
   window.creerTournee = () => {
     if (modeChauffeur) {
@@ -196,20 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.open(url, "_blank");
   }
-
-  /* ========= MODE CHAUFFEUR ========= */
-
-  window.activerModeChauffeur = () => {
-    if (!demanderPIN()) return;
-    modeChauffeur = true;
-    alert("🚚 Mode chauffeur activé");
-  };
-
-  window.desactiverModeChauffeur = () => {
-    if (!demanderPIN()) return;
-    modeChauffeur = false;
-    alert("🔓 Mode admin");
-  };
 
   recherche.addEventListener("input", e => {
     afficherListe(e.target.value.toLowerCase());
