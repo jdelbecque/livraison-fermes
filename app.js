@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION PRO FINALE STABLE");
+console.log("✅ app.js – VERSION FINALE GARANTIE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -15,8 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= UTILS ========= */
 
   function demanderPIN() {
-    const pin = prompt("🔒 Code PIN admin");
-    return pin === PIN_ADMIN;
+    return prompt("🔒 Code PIN admin") === PIN_ADMIN;
   }
 
   function formatAdresseGps(ferme) {
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("tournees", JSON.stringify(liste));
   }
 
-  /* ========= LOAD FERMES ========= */
+  /* ========= CHARGEMENT DES FERMES ========= */
 
   fetch("clients_livraison.json")
     .then(res => res.json())
@@ -48,29 +47,31 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(err => {
       console.error(err);
-      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
+      zone.innerHTML = "<p>❌ Impossible de charger les fermes</p>";
     });
 
-  /* ========= LISTE FERMES ========= */
+  /* ========= LISTE DES FERMES ========= */
 
   function afficherListe(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
-    fermes.forEach((f, i) => {
-      if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
+    fermes.forEach((ferme, index) => {
+      if (filtre && !ferme.nom.toLowerCase().includes(filtre)) return;
 
-      const b = document.createElement("button");
-      b.textContent = f.nom;
-      b.style.background = selection.includes(i) ? "#34c759" : "#fff";
+      const btn = document.createElement("button");
+      btn.textContent = ferme.nom;
+      btn.style.background = selection.includes(index) ? "#34c759" : "#fff";
 
-      b.onclick = () => {
-        selection.includes(i)
-          ? selection = selection.filter(x => x !== i)
-          : selection.push(i);
+      btn.onclick = () => {
+        if (selection.includes(index)) {
+          selection = selection.filter(i => i !== index);
+        } else {
+          selection.push(index);
+        }
         afficherListe(recherche.value.toLowerCase());
       };
 
-      zone.appendChild(b);
+      zone.appendChild(btn);
     });
   }
 
@@ -115,28 +116,27 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= AUJOURD’HUI ========= */
 
   window.afficherAujourdHui = () => {
-    const d = new Date().toISOString().slice(0, 10);
-    const t = chargerTournees().filter(x => x.date === d);
+    const aujourd = new Date().toISOString().slice(0, 10);
+    const tournees = chargerTournees().filter(t => t.date === aujourd);
 
     zone.innerHTML = "<h2>📅 Aujourd’hui</h2>";
 
-    t.forEach(x => {
+    tournees.forEach(t => {
       const b = document.createElement("button");
-      b.textContent = `${x.nom} ${x.terminee ? "✅" : ""}`;
-      b.onclick = () => ouvrirTournee(x);
+      b.textContent = `${t.nom}${t.terminee ? " ✅" : ""}`;
+      b.onclick = () => ouvrirTournee(t);
       zone.appendChild(b);
     });
   };
 
-  /* ========= 🗓️ SEMAINE ========= */
+  /* ========= VUE SEMAINE ========= */
 
   window.afficherSemaine = () => {
     const tournees = chargerTournees();
-
-    const aujourd = new Date();
-    const jour = aujourd.getDay() || 7;
-    const lundi = new Date(aujourd);
-    lundi.setDate(aujourd.getDate() - (jour - 1));
+    const today = new Date();
+    const day = today.getDay() || 7;
+    const lundi = new Date(today);
+    lundi.setDate(today.getDate() - (day - 1));
 
     zone.innerHTML = "<h2>🗓️ Cette semaine</h2>";
 
@@ -153,14 +153,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       zone.appendChild(h3);
 
-      const tj = tournees.filter(t => t.date === iso);
+      const td = tournees.filter(t => t.date === iso);
 
-      if (!tj.length) {
-        const p = document.createElement("p");
-        p.textContent = "Aucune tournée";
-        zone.appendChild(p);
+      if (!td.length) {
+        zone.appendChild(document.createTextNode("Aucune tournée"));
       } else {
-        tj.forEach(t => {
+        td.forEach(t => {
           const b = document.createElement("button");
           b.textContent = `🚚 ${t.nom}`;
           b.onclick = () => ouvrirTournee(t);
@@ -237,14 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= GPS AVEC RETOUR ENTREPÔT ========= */
 
   function lancerGPS(t) {
-    const arrets = t.fermes
-      .map(formatAdresseGps)
-      .filter(a => a && a.length > 10);
-
-    if (!arrets.length) {
-      alert("❌ Aucune adresse GPS valide");
-      return;
-    }
+    const arrets = t.fermes.map(formatAdresseGps).filter(Boolean);
 
     const points = [
       ADRESSE_DEPOT,
@@ -252,8 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ADRESSE_DEPOT + " (retour entrepôt)"
     ];
 
-    const url =
-      "https://www.google.com/maps/dir/" +
+    const url = "https://www.google.com/maps/dir/" +
       points.map(encodeURIComponent).join("/");
 
     window.open(url, "_blank");
