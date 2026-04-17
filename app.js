@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION FINALE STABLE + BOUTON ACCUEIL");
+console.log("✅ app.js – VERSION FINALE AVEC TERMINÉE + ARRIVÉE + MODE CHAUFFEUR");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -11,11 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
   let fermes = [];
   let selection = [];
   let tourneeEnEdition = null;
+  let modeChauffeur = false;
 
   /* ========= UTILITAIRES ========= */
 
   function dateISO(d = new Date()) {
     return d.toISOString().slice(0, 10);
+  }
+
+  function heureLocale() {
+    return new Date().toLocaleTimeString("fr-CA", { hour: "2-digit", minute: "2-digit" });
   }
 
   function chargerTournees() {
@@ -31,25 +36,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formatAdresseGps(f) {
-    if (f.latitude && f.longitude) {
-      return `${f.latitude},${f.longitude}`;
-    }
+    if (f.latitude && f.longitude) return `${f.latitude},${f.longitude}`;
     return `${f.rue}, ${f.ville}, QC, Canada`;
   }
-
-  /* ========= ACCUEIL ========= */
-
-  function afficherAccueil() {
-    selection = [];
-    tourneeEnEdition = null;
-    afficherFermes();
-  }
-  window.afficherAccueil = afficherAccueil;
 
   function boutonAccueil() {
     const b = document.createElement("button");
     b.textContent = "🏠 Accueil";
-    b.onclick = afficherAccueil;
+    b.onclick = afficherFermes;
+    return b;
+  }
+
+  function boutonModeChauffeur() {
+    const b = document.createElement("button");
+    b.textContent = modeChauffeur ? "🔓 Mode admin" : "🚚 Mode chauffeur";
+    b.onclick = () => {
+      if (modeChauffeur && !demanderPIN()) return;
+      modeChauffeur = !modeChauffeur;
+      alert(modeChauffeur ? "🚚 Mode chauffeur activé" : "🔓 Mode admin activé");
+    };
     return b;
   }
 
@@ -60,23 +65,17 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherFermes();
-    })
-    .catch(() => {
-      zone.innerHTML = "<p>❌ Impossible de charger les fermes</p>";
     });
 
   /* ========= LISTE DES FERMES ========= */
 
-  function afficherFermes(filtre = "") {
+  function afficherFermes() {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
+    selection = [];
 
     fermes.forEach((f, i) => {
-      if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
-
       const b = document.createElement("button");
       b.textContent = f.nom;
-      b.style.background = selection.includes(i) ? "#34c759" : "#fff";
-
       b.onclick = () => {
         if (selection.includes(i)) {
           selection = selection.filter(x => x !== i);
@@ -86,9 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
           b.style.background = "#34c759";
         }
       };
-
       zone.appendChild(b);
     });
+
+    zone.appendChild(boutonModeChauffeur());
   }
 
   /* ========= CRÉER / MODIFIER TOURNÉE ========= */
@@ -99,10 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const nom = prompt(
-      "Nom de la tournée",
-      tourneeEnEdition ? tourneeEnEdition.nom : ""
-    );
+    const nom = prompt("Nom de la tournée", tourneeEnEdition?.nom || "");
     if (!nom) return;
 
     let tournees = chargerTournees();
@@ -118,13 +115,15 @@ document.addEventListener("DOMContentLoaded", () => {
         id: Date.now(),
         nom,
         date: dateISO(),
-        fermes: selection.map(i => fermes[i])
+        heureDebut: heureLocale(),
+        fermes: selection.map(i => fermes[i]),
+        terminee: false
       });
     }
 
     sauverTournees(tournees);
-    selection = [];
     tourneeEnEdition = null;
+    selection = [];
     afficherToutesLesTournees();
   };
 
@@ -134,76 +133,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const tournees = chargerTournees();
     zone.innerHTML = "<h2>🚚 Toutes les tournées</h2>";
 
-    if (!tournees.length) {
-      zone.innerHTML += "<p>Aucune tournée</p>";
-    } else {
-      tournees.forEach(t => {
-        const b = document.createElement("button");
-        b.textContent = `${t.nom} — ${t.date}`;
-        b.onclick = () => ouvrirTournee(t);
-        zone.appendChild(b);
-      });
-    }
+    tournees.forEach(t => {
+      const b = document.createElement("button");
+      b.textContent = `${t.nom} — ${t.terminee ? "✅ Terminée" : "⏳ En cours"}`;
+      b.onclick = () => ouvrirTournee(t);
+      zone.appendChild(b);
+    });
 
     zone.appendChild(boutonAccueil());
   }
-
-  /* ========= AUJOURD’HUI ========= */
-
-  window.afficherAujourdHui = () => {
-    const today = dateISO();
-    const tournees = chargerTournees().filter(t => t.date === today);
-
-    zone.innerHTML = "<h2>📅 Aujourd’hui</h2>";
-
-    if (!tournees.length) {
-      zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
-    } else {
-      tournees.forEach(t => {
-        const b = document.createElement("button");
-        b.textContent = t.nom;
-        b.onclick = () => ouvrirTournee(t);
-        zone.appendChild(b);
-      });
-    }
-
-    zone.appendChild(boutonAccueil());
-  };
-
-  /* ========= SEMAINE ========= */
-
-  window.afficherSemaine = () => {
-    const tournees = chargerTournees();
-    const lundi = new Date();
-    lundi.setDate(lundi.getDate() - lundi.getDay() + 1);
-
-    zone.innerHTML = "<h2>🗓️ Semaine</h2>";
-
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(lundi);
-      d.setDate(lundi.getDate() + i);
-      const iso = dateISO(d);
-
-      const h = document.createElement("h3");
-      h.textContent = d.toLocaleDateString("fr-CA", {
-        weekday: "long",
-        day: "numeric",
-        month: "long"
-      });
-      zone.appendChild(h);
-
-      tournees
-        .filter(t => t.date === iso)
-        .forEach(t => {
-          const b = document.createElement("button");
-          b.textContent = t.nom;
-          b.onclick = () => ouvrirTournee(t);
-          zone.appendChild(b);
-        });
-    }
-
-    zone.appendChild(boutonAccueil());
-  };
 
   /* ========= OUVRIR TOURNÉE ========= */
 
@@ -216,8 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
     zone.appendChild(depot);
 
     const badge = document.createElement("span");
-    badge.textContent = "DÉPART";
-    badge.style.background = "#007AFF";
+    badge.textContent = t.terminee ? "ARRIVÉE ✅" : "DÉPART";
+    badge.style.background = t.terminee ? "#34c759" : "#007AFF";
     badge.style.color = "#fff";
     badge.style.padding = "4px 10px";
     badge.style.borderRadius = "12px";
@@ -236,27 +174,43 @@ document.addEventListener("DOMContentLoaded", () => {
     gps.onclick = () => lancerGPS(t);
     zone.appendChild(gps);
 
-    const modif = document.createElement("button");
-    modif.textContent = "✏️ Modifier";
-    modif.onclick = () => {
-      selection = t.fermes.map(f =>
-        fermes.findIndex(x => x.nom === f.nom)
-      );
-      tourneeEnEdition = t;
-      afficherFermes();
-    };
-    zone.appendChild(modif);
+    if (!modeChauffeur && !t.terminee) {
+      const terminer = document.createElement("button");
+      terminer.textContent = "✅ Marquer tournée terminée";
+      terminer.onclick = () => {
+        let tournees = chargerTournees().map(x =>
+          x.id === t.id
+            ? { ...x, terminee: true, heureFin: heureLocale() }
+            : x
+        );
+        sauverTournees(tournees);
+        afficherToutesLesTournees();
+      };
+      zone.appendChild(terminer);
+    }
 
-    const suppr = document.createElement("button");
-    suppr.textContent = "🗑️ Supprimer";
-    suppr.onclick = () => {
-      if (!demanderPIN()) return;
-      sauverTournees(chargerTournees().filter(x => x.id !== t.id));
-      afficherToutesLesTournees();
-    };
-    zone.appendChild(suppr);
+    if (!modeChauffeur) {
+      const modif = document.createElement("button");
+      modif.textContent = "✏️ Modifier";
+      modif.onclick = () => {
+        selection = t.fermes.map(f => fermes.findIndex(x => x.nom === f.nom));
+        tourneeEnEdition = t;
+        afficherFermes();
+      };
+      zone.appendChild(modif);
+
+      const suppr = document.createElement("button");
+      suppr.textContent = "🗑️ Supprimer";
+      suppr.onclick = () => {
+        if (!demanderPIN()) return;
+        sauverTournees(chargerTournees().filter(x => x.id !== t.id));
+        afficherToutesLesTournees();
+      };
+      zone.appendChild(suppr);
+    }
 
     zone.appendChild(boutonAccueil());
+    zone.appendChild(boutonModeChauffeur());
   }
 
   /* ========= GPS ========= */
@@ -267,16 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ...t.fermes.map(formatAdresseGps),
       DEPOT_GPS
     ];
-    window.open(
-      "https://www.google.com/maps/dir/" +
-        points.map(encodeURIComponent).join("/"),
-      "_blank"
-    );
+    window.open("https://www.google.com/maps/dir/" + points.map(encodeURIComponent).join("/"), "_blank");
   }
-
-  /* ========= RECHERCHE ========= */
-
-  recherche.addEventListener("input", e =>
-    afficherFermes(e.target.value.toLowerCase())
-  );
 });
+``
