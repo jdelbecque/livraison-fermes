@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const recherche = document.getElementById("recherche");
 
   // ✅ Entrepôt en coordonnées GPS (FIABLE)
-  const ADRESSE_DEPOT = "46.7160,-71.3453";
+  const ADRESSE_DEPOT = "840 rue du Houppier, Lévis, QC G7A 3X4, Canada";
+``
   const PIN_ADMIN = "1234";
 
   let fermes = [];
