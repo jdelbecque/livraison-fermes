@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const recherche = document.getElementById("recherche");
 
   // ✅ Entrepôt en adresse texte fiable
-  const ADRESSE_DEPOT = "46.7160,-71.3453";
+  const ADRESSE_DEPOT = "Maïa Services Vétérinaires, 840 Rue du Houppier, Lévis, QC G7A 3X4";
 ``
   const PIN_ADMIN = "1234";
 
