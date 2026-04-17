@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION PRO FINALE + SEMAINE + CRUD + RETOUR DEPOT");
+console.log("✅ app.js – VERSION PRO FINALE STABLE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -30,21 +30,25 @@ document.addEventListener("DOMContentLoaded", () => {
     return new Date().toLocaleString("fr-CA");
   }
 
-  function sauverTournees(liste) {
-    localStorage.setItem("tournees", JSON.stringify(liste));
-  }
-
   function chargerTournees() {
     return JSON.parse(localStorage.getItem("tournees") || "[]");
   }
 
-  /* ========= LOAD CLIENTS ========= */
+  function sauverTournees(liste) {
+    localStorage.setItem("tournees", JSON.stringify(liste));
+  }
+
+  /* ========= LOAD FERMES ========= */
 
   fetch("clients_livraison.json")
-    .then(r => r.json())
+    .then(res => res.json())
     .then(data => {
-      fermes = data;
+      fermes = Array.isArray(data) ? data : [];
       afficherListe();
+    })
+    .catch(err => {
+      console.error(err);
+      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
   /* ========= LISTE FERMES ========= */
@@ -188,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const gps = document.createElement("button");
-    gps.textContent = "🧭 GPS (retour dépôt)";
+    gps.textContent = "🧭 GPS (retour entrepôt)";
     gps.onclick = () => lancerGPS(t);
     zone.appendChild(gps);
 
@@ -230,40 +234,22 @@ document.addEventListener("DOMContentLoaded", () => {
     zone.appendChild(retour);
   }
 
-  /* ========= GPS AVEC RETOUR DEPOT ✅ ========= */
+  /* ========= GPS AVEC RETOUR ENTREPÔT ========= */
 
   function lancerGPS(t) {
-  const arrets = t.fermes
-    .map(formatAdresseGps)
-    .filter(a => a && a.length > 10);
+    const arrets = t.fermes
+      .map(formatAdresseGps)
+      .filter(a => a && a.length > 10);
 
-  if (!arrets.length) {
-    alert("❌ Aucune adresse GPS valide");
-    return;
-  }
+    if (!arrets.length) {
+      alert("❌ Aucune adresse GPS valide");
+      return;
+    }
 
-  // ✅ Astuce Google Maps : rendre le retour "différent"
-  const depotDepart = ADRESSE_DEPOT;
-  const depotRetour = ADRESSE_DEPOT + " (retour entrepôt)";
-
-  const points = [
-    depotDepart,
-    ...arrets,
-    depotRetour
-  ];
-
-  const url =
-    "https://www.google.com/maps/dir/" +
-    points.map(encodeURIComponent).join("/");
-
-  window.open(url, "_blank");
-}
-
-    // ✅ Dépôt → fermes → dépôt
     const points = [
       ADRESSE_DEPOT,
       ...arrets,
-      ADRESSE_DEPOT
+      ADRESSE_DEPOT + " (retour entrepôt)"
     ];
 
     const url =
