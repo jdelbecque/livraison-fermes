@@ -71,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
           b.style.background = "#34c759";
         }
       };
+
       zone.appendChild(b);
     });
   }
@@ -99,10 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
     sauverTournees(tournees);
 
     selection = [];
-    afficherToutesLesTournees(); // ✅ AFFICHAGE IMMEDIAT
+    afficherToutesLesTournees();
   };
 
-  /* ========= VUE TOUTES LES TOURNÉES ✅ ========= */
+  /* ========= VUE TOUTES LES TOURNÉES ========= */
 
   function afficherToutesLesTournees() {
     const tournees = chargerTournees();
@@ -131,7 +132,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       bloc.appendChild(ul);
 
-      // Bouton ouvrir
       const ouvrir = document.createElement("button");
       ouvrir.textContent = "Ouvrir";
       ouvrir.onclick = () => ouvrirTournee(t);
@@ -195,9 +195,10 @@ document.addEventListener("DOMContentLoaded", () => {
       ...t.fermes.map(formatAdresseGps),
       DEPOT_GPS
     ];
+
     window.open(
       "https://www.google.com/maps/dir/" +
-      points.map(encodeURIComponent).join("/"),
+        points.map(encodeURIComponent).join("/"),
       "_blank"
     );
   }
