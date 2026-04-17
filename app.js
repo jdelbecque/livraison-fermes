@@ -1,166 +1,138 @@
-console.log("✅ app.js – GPS ADAPTÉ AUX DONNÉES RÉELLES");
+console.log("✅ app.js – VERSION PRO FINALE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
   const ADRESSE_DEPOT = "840 Rue du Houppier, Saint-Nicolas, QC, Canada";
+  const PIN_ADMIN = "1234";
 
   let fermes = [];
   let selection = [];
+  let modeChauffeur = false;
 
-  /* =====================
-     FORMAT ADRESSE GPS ✅
-     (rue + ville → QC → Canada)
-     ===================== */
-  function formatAdresseGPS(ferme) {
-    if (!ferme.rue || !ferme.ville) return "";
+  /* ========= UTILS ========= */
+
+  function demanderPIN() {
+    const pin = prompt("🔒 Code PIN admin");
+    return pin === PIN_ADMIN;
+  }
+
+  function formatAdresseGps(ferme) {
+    if (ferme.latitude && ferme.longitude) {
+      return `${ferme.latitude},${ferme.longitude}`;
+    }
     return `${ferme.rue}, ${ferme.ville}, QC, Canada`;
   }
 
-  /* =====================
-     CHARGEMENT DES FERMES
-     ===================== */
+  function maintenant() {
+    return new Date().toLocaleString("fr-CA");
+  }
+
+  /* ========= LOAD CLIENTS ========= */
+
   fetch("clients_livraison.json")
-    .then(res => res.json())
+    .then(r => r.json())
     .then(data => {
-      fermes = Array.isArray(data) ? data : [];
+      fermes = data;
       afficherListe();
-    })
-    .catch(err => {
-      console.error(err);
-      zone.innerHTML = "<p>❌ Erreur chargement fermes</p>";
     });
 
-  /* =====================
-     LISTE DES FERMES ✅
-     ===================== */
+  /* ========= LISTE FERMES ========= */
+
   function afficherListe(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
-    fermes.forEach((ferme, index) => {
-      if (
-        filtre &&
-        ferme.nom &&
-        !ferme.nom.toLowerCase().includes(filtre)
-      ) return;
+    fermes.forEach((f, i) => {
+      if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
 
-      const btn = document.createElement("button");
-      btn.textContent = ferme.nom;
-      btn.dataset.index = index;
+      const b = document.createElement("button");
+      b.textContent = f.nom;
+      b.style.background = selection.includes(i) ? "#34c759" : "#fff";
 
-      if (selection.includes(index)) {
-        btn.style.background = "#34c759";
-        btn.style.color = "#fff";
-      }
-
-      btn.onclick = e => {
-        const i = Number(e.currentTarget.dataset.index);
-
-        if (selection.includes(i)) {
-          selection = selection.filter(x => x !== i);
-        } else {
-          selection.push(i);
-        }
-
+      b.onclick = () => {
+        selection.includes(i)
+          ? selection = selection.filter(x => x !== i)
+          : selection.push(i);
         afficherListe(recherche.value.toLowerCase());
       };
 
-      zone.appendChild(btn);
+      zone.appendChild(b);
     });
   }
 
-  /* =====================
-     CRÉER TOURNÉE ✅
-     ===================== */
-  window.creerTournee = () => {
-    if (selection.length === 0) {
-      alert("Sélectionne au moins une ferme");
-      return;
-    }
+  /* ========= CRÉER TOURNÉE ========= */
 
-    const nom = prompt("Nom de la tournée ?");
+  window.creerTournee = () => {
+    if (modeChauffeur) return alert("Mode chauffeur actif");
+    if (!selection.length) return alert("Sélection requise");
+
+    const nom = prompt("Nom de la tournée");
     if (!nom) return;
 
-    const tournees = JSON.parse(localStorage.getItem("tournees") || []);
-    tournees.push({
+    const t = JSON.parse(localStorage.getItem("tournees") || "[]");
+    t.push({
       id: Date.now(),
       nom,
-      date: new Date().toISOString().slice(0, 10),
+      date: new Date().toISOString().slice(0,10),
+      terminee: false,
+      heureDebut: null,
+      heureFin: null,
       fermes: selection.map(i => fermes[i])
     });
 
-    localStorage.setItem("tournees", JSON.stringify(tournees));
+    localStorage.setItem("tournees", JSON.stringify(t));
     selection = [];
     afficherAujourdHui();
   };
 
-  /* =====================
-     📅 AUJOURD’HUI
-     ===================== */
+  /* ========= AUJOURD’HUI ========= */
+
   window.afficherAujourdHui = () => {
-    const today = new Date().toISOString().slice(0, 10);
-    const tournees = JSON.parse(localStorage.getItem("tournees") || [])
-      .filter(t => t.date === today);
+    const d = new Date().toISOString().slice(0,10);
+    const t = JSON.parse(localStorage.getItem("tournees") || "[]")
+      .filter(x => x.date === d);
 
-    zone.innerHTML = `<h2>📋 Tournées du jour — ${today}</h2>`;
+    zone.innerHTML = `<h2>📅 Aujourd’hui</h2>`;
 
-    if (tournees.length === 0) {
-      zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
-      return;
-    }
-
-    tournees.forEach(t => {
-      const btn = document.createElement("button");
-      btn.textContent = `🚚 ${t.nom}`;
-      btn.onclick = () => ouvrirTournee(t);
-      zone.appendChild(btn);
+    t.forEach(x => {
+      const b = document.createElement("button");
+      b.textContent = `${x.nom} ${x.terminee ? "✅" : ""}`;
+      b.onclick = () => ouvrirTournee(x);
+      zone.appendChild(b);
     });
   };
 
-  /* =====================
-     GPS ✅ (MAINTENANT VALIDE)
-     ===================== */
-  function lancerGPS(tournee) {
-  const arrets = tournee.fermes
-    .map(f => formatAdresseGPS(f).trim())
-    .filter(a => a.length > 10);
+  /* ========= OUVRIR TOURNÉE ========= */
 
-  if (arrets.length === 0) {
-    alert("❌ Aucune adresse GPS valide");
-    return;
-  }
+  function ouvrirTournee(t) {
+    zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
 
-  // ✅ Premier arrêt = dépôt réel
-  const points = [
-    ADRESSE_DEPOT,
-    ...arrets
-  ];
+    if (!t.heureDebut) {
+      t.heureDebut = maintenant();
+      sauverTournee(t);
+    }
 
-  const url =
-    "https://www.google.com/maps/dir/" +
-    points.map(p => encodeURIComponent(p)).join("/");
-
-  // ✅ Cette méthode interdit tout ajout automatique
-  window.open(url, "_blank");
-}
-
-  /* =====================
-     OUVRIR TOURNÉE
-     ===================== */
-  function ouvrirTournee(tournee) {
-    zone.innerHTML = `<h2>🚚 Tournée : ${tournee.nom}</h2>`;
-
-    tournee.fermes.forEach(f => {
-      const btn = document.createElement("button");
-      btn.textContent = f.nom;
-      zone.appendChild(btn);
+    t.fermes.forEach(f => {
+      const b = document.createElement("button");
+      b.textContent = f.nom;
+      zone.appendChild(b);
     });
 
     const gps = document.createElement("button");
-    gps.textContent = "🧭 Ouvrir dans Google Maps";
-    gps.onclick = () => lancerGPS(tournee);
+    gps.textContent = "🧭 GPS";
+    gps.onclick = () => lancerGPS(t);
     zone.appendChild(gps);
+
+    const fin = document.createElement("button");
+    fin.textContent = "✅ Marquer terminée";
+    fin.onclick = () => {
+      t.terminee = true;
+      t.heureFin = maintenant();
+      sauverTournee(t);
+      afficherAujourdHui();
+    };
+    zone.appendChild(fin);
 
     const retour = document.createElement("button");
     retour.textContent = "↩ Retour";
@@ -168,10 +140,36 @@ document.addEventListener("DOMContentLoaded", () => {
     zone.appendChild(retour);
   }
 
-  /* =====================
-     RECHERCHE
-     ===================== */
-  recherche.addEventListener("input", e => {
-    afficherListe(e.target.value.toLowerCase());
-  });
+  function sauverTournee(t) {
+    let liste = JSON.parse(localStorage.getItem("tournees") || "[]");
+    liste = liste.map(x => x.id === t.id ? t : x);
+    localStorage.setItem("tournees", JSON.stringify(liste));
+  }
+
+  /* ========= GPS ========= */
+
+  function lancerGPS(t) {
+    const points = [ADRESSE_DEPOT, ...t.fermes.map(formatAdresseGps)];
+    const url = "https://www.google.com/maps/dir/" +
+      points.map(encodeURIComponent).join("/");
+    window.open(url, "_blank");
+  }
+
+  /* ========= MODE CHAUFFEUR ========= */
+
+  window.activerModeChauffeur = () => {
+    if (!demanderPIN()) return;
+    modeChauffeur = true;
+    alert("🚚 Mode chauffeur activé");
+  };
+
+  window.desactiverModeChauffeur = () => {
+    if (!demanderPIN()) return;
+    modeChauffeur = false;
+    alert("🔓 Mode admin");
+  };
+
+  recherche.addEventListener("input", e =>
+    afficherListe(e.target.value.toLowerCase())
+  );
 });
