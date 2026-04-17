@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE MINIMALE (CRÉER TOURNÉE OK)");
+console.log("✅ app.js – VERSION STABLE AVEC AFFICHAGE TOURNÉES");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -15,12 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
       fermes = Array.isArray(data) ? data : [];
       afficherFermes();
     })
-    .catch(err => {
-      console.error(err);
+    .catch(() => {
       zone.innerHTML = "<p>❌ Impossible de charger les fermes</p>";
     });
 
-  /* ========= AFFICHAGE DES FERMES ========= */
+  /* ========= AFFICHER FERMES ========= */
 
   function afficherFermes(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
@@ -60,19 +59,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
 
-    tournees.push({
+    const tournee = {
       id: Date.now(),
       nom,
       date: new Date().toISOString().slice(0, 10),
       fermes: selection.map(i => fermes[i])
-    });
+    };
 
+    tournees.push(tournee);
     localStorage.setItem("tournees", JSON.stringify(tournees));
 
-    alert("✅ Tournée créée");
     selection = [];
-    afficherFermes();
+    afficherTournees(); // ✅ AFFICHAGE IMMÉDIAT
   };
+
+  /* ========= AFFICHER TOURNÉES ========= */
+
+  function afficherTournees() {
+    const tournees = JSON.parse(localStorage.getItem("tournees") || "[]");
+
+    zone.innerHTML = "<h2>🚚 Tournées enregistrées</h2>";
+
+    if (tournees.length === 0) {
+      zone.innerHTML += "<p>Aucune tournée</p>";
+      return;
+    }
+
+    tournees.forEach(t => {
+      const div = document.createElement("div");
+      div.style.border = "1px solid #ccc";
+      div.style.padding = "10px";
+      div.style.marginBottom = "10px";
+
+      const titre = document.createElement("strong");
+      titre.textContent = `${t.nom} (${t.date})`;
+      div.appendChild(titre);
+
+      const ul = document.createElement("ul");
+      t.fermes.forEach(f => {
+        const li = document.createElement("li");
+        li.textContent = f.nom;
+        ul.appendChild(li);
+      });
+      div.appendChild(ul);
+
+      zone.appendChild(div);
+    });
+
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour aux fermes";
+    retour.onclick = afficherFermes;
+    zone.appendChild(retour);
+  }
 
   /* ========= RECHERCHE ========= */
 
