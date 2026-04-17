@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const recherche = document.getElementById("recherche");
 
   // ✅ Entrepôt en coordonnées GPS (FIABLE)
-  const ADRESSE_DEPOT = "46.7160922,-71.3453998";
+  const ADRESSE_DEPOT = "46.7160,-71.3453";
   const PIN_ADMIN = "1234";
 
   let fermes = [];
