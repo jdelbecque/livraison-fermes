@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const DEPOT_LABEL = "🏢 Entrepôt MAIA Services Vétérinaires";
   const DEPOT_GPS = "46.7160,-71.3453";
-  const PIN_ADMIN = "1234";
+  const PIN_ADMIN = "1";
 
   let fermes = [];
   let selection = [];
