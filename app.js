@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE (SEMAINE + SUPPRIMER OK)");
+console.log("✅ app.js – VERSION STABLE (RECHERCHE FERMES OK)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function afficherAccueil() {
     selection = [];
     tourneeEnEdition = null;
-    afficherFermes();
+    afficherFermes(recherche.value.toLowerCase());
   }
   window.afficherAccueil = afficherAccueil;
 
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   window.afficherAujourdHui = afficherAujourdHui;
 
-  /* ========= SEMAINE (✅ RÉTABLIE) ========= */
+  /* ========= SEMAINE ========= */
 
   function afficherSemaine() {
     const tournees = chargerTournees();
@@ -138,18 +138,22 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherFermes();
+    })
+    .catch(() => {
+      zone.innerHTML = "<p>❌ Impossible de charger les fermes</p>";
     });
 
-  /* ========= LISTE DES FERMES ========= */
+  /* ========= LISTE DES FERMES (AVEC RECHERCHE ✅) ========= */
 
-  function afficherFermes() {
+  function afficherFermes(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
-    selection = [];
 
     fermes.forEach((f, i) => {
+      if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
+
       const b = document.createElement("button");
       b.textContent = f.nom;
-      b.style.background = "#fff";
+      b.style.background = selection.includes(i) ? "#34c759" : "#fff";
 
       b.onclick = () => {
         if (selection.includes(i)) {
@@ -160,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
           b.style.background = "#34c759";
         }
       };
+
       zone.appendChild(b);
     });
 
@@ -207,8 +212,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     sauverTournees(tournees);
-    selection = [];
     tourneeEnEdition = null;
+    selection = [];
     afficherToutesLesTournees();
   };
 
@@ -233,11 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function ouvrirTournee(t) {
     zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
 
-    const depot = document.createElement("div");
-    depot.textContent = DEPOT_LABEL;
-    depot.style.fontWeight = "bold";
-    zone.appendChild(depot);
-
     const badge = document.createElement("span");
     badge.textContent = t.terminee ? "ARRIVÉE ✅" : "DÉPART";
     badge.style.background = t.terminee ? "#34c759" : "#007AFF";
@@ -246,32 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
     badge.style.borderRadius = "12px";
     zone.appendChild(badge);
 
-    zone.appendChild(document.createElement("hr"));
-
-    t.fermes.forEach(f => {
-      const b = document.createElement("button");
-      b.textContent = f.nom;
-      zone.appendChild(b);
-    });
-
-    const gps = document.createElement("button");
-    gps.textContent = "🧭 Lancer GPS";
-    gps.onclick = () => lancerGPS(t);
-    zone.appendChild(gps);
-
-    if (!modeChauffeur) {
-      const suppr = document.createElement("button");
-      suppr.textContent = "🗑️ Supprimer";
-      suppr.onclick = () => {
-        if (!demanderPIN()) return;
-        sauverTournees(chargerTournees().filter(x => x.id !== t.id));
-        afficherToutesLesTournees();
-      };
-      zone.appendChild(suppr);
-    }
-
     zone.appendChild(boutonAccueil());
-    zone.appendChild(boutonModeChauffeur());
   }
 
   /* ========= GPS ========= */
@@ -288,4 +263,10 @@ document.addEventListener("DOMContentLoaded", () => {
       "_blank"
     );
   }
+
+  /* ========= 🔍 RECHERCHE (ACTIVÉE ✅) ========= */
+
+  recherche.addEventListener("input", e => {
+    afficherFermes(e.target.value.toLowerCase());
+  });
 });
