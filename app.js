@@ -1,6 +1,7 @@
-console.log("✅ app.js – VERSION FINALE STABLE (MODIFIER + SUPPRIMER OK)");
+console.log("✅ app.js – VERSION FINALE STABLE (TOUT OK)");
 
 document.addEventListener("DOMContentLoaded", () => {
+
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let selection = [];
   let tourneeEnEdition = null;
 
-  /* ========= BARRE ACCUEIL ========= */
+  /* ========= BARRE DE NAVIGATION ========= */
 
   const nav = document.createElement("div");
   nav.style.display = "flex";
@@ -46,13 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return prompt("🔒 Code PIN admin") === PIN_ADMIN;
   }
 
-  function formatAdresseGps(f) {
-    if (f.latitude && f.longitude) {
-      return `${f.latitude},${f.longitude}`;
-    }
-    return `${f.rue}, ${f.ville}, QC, Canada`;
-  }
-
   function aujourdISO() {
     return new Date().toISOString().slice(0, 10);
   }
@@ -65,7 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("tournees", JSON.stringify(liste));
   }
 
-  /* ========= CHARGEMENT FERMES ========= */
+  function formatAdresseGps(f) {
+    if (f.latitude && f.longitude) {
+      return `${f.latitude},${f.longitude}`;
+    }
+    return `${f.rue}, ${f.ville}, QC, Canada`;
+  }
+
+  /* ========= CHARGEMENT DES FERMES ========= */
 
   fetch("clients_livraison.json")
     .then(r => r.json())
@@ -78,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
       zone.innerHTML = "<p>❌ Impossible de charger les fermes</p>";
     });
 
-  /* ========= LISTE FERMES ========= */
+  /* ========= LISTE DES FERMES ========= */
 
   function afficherListe(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
@@ -102,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ========= CRÉER / MODIFIER ========= */
+  /* ========= CRÉER / MODIFIER TOURNÉE ========= */
 
   function creerTournee() {
     if (!selection.length) return alert("Sélection requise");
@@ -129,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sauverTournees(tournees);
     tourneeEnEdition = null;
+    selection = [];
     afficherAujourdHui();
   }
 
@@ -251,4 +253,5 @@ document.addEventListener("DOMContentLoaded", () => {
   recherche.addEventListener("input", e =>
     afficherListe(e.target.value.toLowerCase())
   );
+
 });
