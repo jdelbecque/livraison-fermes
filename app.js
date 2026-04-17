@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const recherche = document.getElementById("recherche");
 
   // ✅ Entrepôt en adresse texte fiable
-  const ADRESSE_DEPOT = "840 Rue du Houppier, Lévis, QC, Canada";
+  const ADRESSE_DEPOT = "840 Rue du Houppier, Saint-Nicolas, QC, Canada";
   const PIN_ADMIN = "1234";
 
   let fermes = [];
