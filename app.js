@@ -1,10 +1,11 @@
-console.log("✅ app.js – VERSION FINALE COMPLÈTE STABLE");
+console.log("✅ app.js – VERSION FINALE CORRIGÉE TOUT FONCTIONNE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
-  // === ENTREPÔT ===
+  /* ========= CONFIG ========= */
+
   const DEPOT_LABEL = "🏢 Entrepôt MAIA Services Vétérinaires";
   const DEPOT_GPS = "46.7160,-71.3453";
   const PIN_ADMIN = "1234";
@@ -13,29 +14,29 @@ document.addEventListener("DOMContentLoaded", () => {
   let selection = [];
   let tourneeEnEdition = null;
 
-  /* ========= OUTILS ========= */
+  /* ========= UTILITAIRES ========= */
 
   function demanderPIN() {
     return prompt("🔒 Code PIN admin") === PIN_ADMIN;
   }
 
-  function formatAdresseGps(ferme) {
-    if (ferme.latitude && ferme.longitude) {
-      return `${ferme.latitude},${ferme.longitude}`;
+  function formatAdresseGps(f) {
+    if (f.latitude && f.longitude) {
+      return `${f.latitude},${f.longitude}`;
     }
-    return `${ferme.rue}, ${ferme.ville}, QC, Canada`;
+    return `${f.rue}, ${f.ville}, QC, Canada`;
+  }
+
+  function aujourdISO() {
+    return new Date().toISOString().slice(0, 10);
   }
 
   function chargerTournees() {
     return JSON.parse(localStorage.getItem("tournees") || "[]");
   }
 
-  function sauverTournees(t) {
-    localStorage.setItem("tournees", JSON.stringify(t));
-  }
-
-  function aujourdHuiISO() {
-    return new Date().toISOString().slice(0, 10);
+  function sauverTournees(liste) {
+    localStorage.setItem("tournees", JSON.stringify(liste));
   }
 
   /* ========= CHARGEMENT DES FERMES ========= */
@@ -45,27 +46,30 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       fermes = Array.isArray(data) ? data : [];
       afficherListe();
+    })
+    .catch(() => {
+      zone.innerHTML = "<p>❌ Impossible de charger les fermes</p>";
     });
 
   /* ========= LISTE DES FERMES ========= */
 
   function afficherListe(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
-    selection = selection || [];
 
-    fermes.forEach((f, i) => {
+    fermes.forEach((f, index) => {
       if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
 
       const b = document.createElement("button");
       b.textContent = f.nom;
-      b.style.background = selection.includes(i) ? "#34c759" : "#fff";
+      b.style.background = selection.includes(index) ? "#34c759" : "#fff";
 
       b.onclick = () => {
-        selection.includes(i)
-          ? selection = selection.filter(x => x !== i)
-          : selection.push(i);
+        selection.includes(index)
+          ? selection = selection.filter(i => i !== index)
+          : selection.push(index);
         afficherListe(recherche.value.toLowerCase());
       };
+
       zone.appendChild(b);
     });
   }
@@ -93,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tournees.push({
         id: Date.now(),
         nom,
-        date: aujourdHuiISO(),
+        date: aujourdISO(),
         fermes: selection.map(i => fermes[i]),
         terminee: false
       });
@@ -108,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= AUJOURD’HUI ========= */
 
   window.afficherAujourdHui = () => {
-    const tournees = chargerTournees().filter(t => t.date === aujourdHuiISO());
+    const tournees = chargerTournees().filter(t => t.date === aujourdISO());
 
     zone.innerHTML = "<h2>📅 Aujourd’hui</h2>";
 
@@ -142,12 +146,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       zone.appendChild(h3);
 
-      tournees.filter(t => t.date === iso).forEach(t => {
-        const b = document.createElement("button");
-        b.textContent = `🚚 ${t.nom}`;
-        b.onclick = () => ouvrirTournee(t);
-        zone.appendChild(b);
-      });
+      tournees
+        .filter(t => t.date === iso)
+        .forEach(t => {
+          const b = document.createElement("button");
+          b.textContent = `🚚 ${t.nom}`;
+          b.onclick = () => ouvrirTournee(t);
+          zone.appendChild(b);
+        });
     }
   };
 
@@ -168,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     badge.style.padding = "4px 10px";
     badge.style.borderRadius = "12px";
     badge.style.display = "inline-block";
-    badge.style.marginBottom = "10px";
+    badge.style.marginBottom = "12px";
     zone.appendChild(badge);
 
     zone.appendChild(document.createElement("hr"));
@@ -208,8 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= GPS ========= */
 
   function lancerGPS(t) {
-    const arrets = t.fermes.map(formatAdresseGps);
-    const points = [DEPOT_GPS, ...arrets, DEPOT_GPS];
+    const points = [
+      DEPOT_GPS,
+      ...t.fermes.map(formatAdresseGps),
+      DEPOT_GPS
+    ];
+
     window.open(
       "https://www.google.com/maps/dir/" +
         points.map(encodeURIComponent).join("/"),
@@ -218,7 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ========= RECHERCHE ========= */
+
   recherche.addEventListener("input", e =>
     afficherListe(e.target.value.toLowerCase())
   );
 });
+``
