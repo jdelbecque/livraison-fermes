@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION FINALE STABLE (SELECTION FIXEE)");
+console.log("✅ app.js – VERSION FINALE STABLE + BOUTON ACCUEIL");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -35,6 +35,22 @@ document.addEventListener("DOMContentLoaded", () => {
       return `${f.latitude},${f.longitude}`;
     }
     return `${f.rue}, ${f.ville}, QC, Canada`;
+  }
+
+  /* ========= ACCUEIL ========= */
+
+  function afficherAccueil() {
+    selection = [];
+    tourneeEnEdition = null;
+    afficherFermes();
+  }
+  window.afficherAccueil = afficherAccueil;
+
+  function boutonAccueil() {
+    const b = document.createElement("button");
+    b.textContent = "🏠 Accueil";
+    b.onclick = afficherAccueil;
+    return b;
   }
 
   /* ========= CHARGEMENT DES FERMES ========= */
@@ -75,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ========= CREER / MODIFIER TOURNEE ========= */
+  /* ========= CRÉER / MODIFIER TOURNÉE ========= */
 
   window.creerTournee = () => {
     if (!selection.length) {
@@ -112,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     afficherToutesLesTournees();
   };
 
-  /* ========= TOUTES LES TOURNEES ========= */
+  /* ========= TOUTES LES TOURNÉES ========= */
 
   function afficherToutesLesTournees() {
     const tournees = chargerTournees();
@@ -120,15 +136,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!tournees.length) {
       zone.innerHTML += "<p>Aucune tournée</p>";
-      return;
+    } else {
+      tournees.forEach(t => {
+        const b = document.createElement("button");
+        b.textContent = `${t.nom} — ${t.date}`;
+        b.onclick = () => ouvrirTournee(t);
+        zone.appendChild(b);
+      });
     }
 
-    tournees.forEach(t => {
-      const b = document.createElement("button");
-      b.textContent = `${t.nom} — ${t.date}`;
-      b.onclick = () => ouvrirTournee(t);
-      zone.appendChild(b);
-    });
+    zone.appendChild(boutonAccueil());
   }
 
   /* ========= AUJOURD’HUI ========= */
@@ -141,15 +158,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!tournees.length) {
       zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
-      return;
+    } else {
+      tournees.forEach(t => {
+        const b = document.createElement("button");
+        b.textContent = t.nom;
+        b.onclick = () => ouvrirTournee(t);
+        zone.appendChild(b);
+      });
     }
 
-    tournees.forEach(t => {
-      const b = document.createElement("button");
-      b.textContent = t.nom;
-      b.onclick = () => ouvrirTournee(t);
-      zone.appendChild(b);
-    });
+    zone.appendChild(boutonAccueil());
   };
 
   /* ========= SEMAINE ========= */
@@ -183,9 +201,11 @@ document.addEventListener("DOMContentLoaded", () => {
           zone.appendChild(b);
         });
     }
+
+    zone.appendChild(boutonAccueil());
   };
 
-  /* ========= OUVRIR TOURNEE ========= */
+  /* ========= OUVRIR TOURNÉE ========= */
 
   function ouvrirTournee(t) {
     zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
@@ -235,6 +255,8 @@ document.addEventListener("DOMContentLoaded", () => {
       afficherToutesLesTournees();
     };
     zone.appendChild(suppr);
+
+    zone.appendChild(boutonAccueil());
   }
 
   /* ========= GPS ========= */
@@ -247,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
     window.open(
       "https://www.google.com/maps/dir/" +
-      points.map(encodeURIComponent).join("/"),
+        points.map(encodeURIComponent).join("/"),
       "_blank"
     );
   }
@@ -258,4 +280,3 @@ document.addEventListener("DOMContentLoaded", () => {
     afficherFermes(e.target.value.toLowerCase())
   );
 });
-``
