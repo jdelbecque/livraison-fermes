@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION PRO FINALE");
+console.log("✅ app.js – VERSION PRO FINALE + SEMAINE + CRUD");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let fermes = [];
   let selection = [];
   let modeChauffeur = false;
+  let tourneeEnEdition = null;
 
   /* ========= UTILS ========= */
 
@@ -27,6 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function maintenant() {
     return new Date().toLocaleString("fr-CA");
+  }
+
+  function sauverTournees(liste) {
+    localStorage.setItem("tournees", JSON.stringify(liste));
+  }
+
+  function chargerTournees() {
+    return JSON.parse(localStorage.getItem("tournees") || "[]");
   }
 
   /* ========= LOAD CLIENTS ========= */
@@ -61,39 +70,51 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ========= CRÉER TOURNÉE ========= */
+  /* ========= CRÉER / MODIFIER TOURNÉE ========= */
 
   window.creerTournee = () => {
-    if (modeChauffeur) return alert("Mode chauffeur actif");
+    if (modeChauffeur) return alert("🚚 Mode chauffeur actif");
     if (!selection.length) return alert("Sélection requise");
 
-    const nom = prompt("Nom de la tournée");
+    const nom = prompt(
+      "Nom de la tournée",
+      tourneeEnEdition ? tourneeEnEdition.nom : ""
+    );
     if (!nom) return;
 
-    const t = JSON.parse(localStorage.getItem("tournees") || "[]");
-    t.push({
-      id: Date.now(),
-      nom,
-      date: new Date().toISOString().slice(0,10),
-      terminee: false,
-      heureDebut: null,
-      heureFin: null,
-      fermes: selection.map(i => fermes[i])
-    });
+    let tournees = chargerTournees();
 
-    localStorage.setItem("tournees", JSON.stringify(t));
+    if (tourneeEnEdition) {
+      tournees = tournees.map(t =>
+        t.id === tourneeEnEdition.id
+          ? { ...t, nom, fermes: selection.map(i => fermes[i]) }
+          : t
+      );
+    } else {
+      tournees.push({
+        id: Date.now(),
+        nom,
+        date: new Date().toISOString().slice(0, 10),
+        terminee: false,
+        heureDebut: null,
+        heureFin: null,
+        fermes: selection.map(i => fermes[i])
+      });
+    }
+
+    sauverTournees(tournees);
     selection = [];
+    tourneeEnEdition = null;
     afficherAujourdHui();
   };
 
   /* ========= AUJOURD’HUI ========= */
 
   window.afficherAujourdHui = () => {
-    const d = new Date().toISOString().slice(0,10);
-    const t = JSON.parse(localStorage.getItem("tournees") || "[]")
-      .filter(x => x.date === d);
+    const d = new Date().toISOString().slice(0, 10);
+    const t = chargerTournees().filter(x => x.date === d);
 
-    zone.innerHTML = `<h2>📅 Aujourd’hui</h2>`;
+    zone.innerHTML = "<h2>📅 Aujourd’hui</h2>";
 
     t.forEach(x => {
       const b = document.createElement("button");
@@ -103,6 +124,53 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  /* ========= 🗓️ SEMAINE ========= */
+
+  window.afficherSemaine = () => {
+    const tournees = chargerTournees();
+
+    const aujourd = new Date();
+    const jour = aujourd.getDay() || 7;
+    const lundi = new Date(aujourd);
+    lundi.setDate(aujourd.getDate() - (jour - 1));
+
+    zone.innerHTML = "<h2>🗓️ Cette semaine</h2>";
+
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(lundi);
+      d.setDate(lundi.getDate() + i);
+      const iso = d.toISOString().slice(0, 10);
+
+      const h3 = document.createElement("h3");
+      h3.textContent = d.toLocaleDateString("fr-CA", {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+      });
+      zone.appendChild(h3);
+
+      const tj = tournees.filter(t => t.date === iso);
+
+      if (!tj.length) {
+        const p = document.createElement("p");
+        p.textContent = "Aucune tournée";
+        zone.appendChild(p);
+      } else {
+        tj.forEach(t => {
+          const b = document.createElement("button");
+          b.textContent = `🚚 ${t.nom}`;
+          b.onclick = () => ouvrirTournee(t);
+          zone.appendChild(b);
+        });
+      }
+    }
+
+    const retour = document.createElement("button");
+    retour.textContent = "↩ Retour Aujourd’hui";
+    retour.onclick = afficherAujourdHui;
+    zone.appendChild(retour);
+  };
+
   /* ========= OUVRIR TOURNÉE ========= */
 
   function ouvrirTournee(t) {
@@ -110,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!t.heureDebut) {
       t.heureDebut = maintenant();
-      sauverTournee(t);
+      sauverTournees(chargerTournees().map(x => x.id === t.id ? t : x));
     }
 
     t.fermes.forEach(f => {
@@ -124,12 +192,35 @@ document.addEventListener("DOMContentLoaded", () => {
     gps.onclick = () => lancerGPS(t);
     zone.appendChild(gps);
 
+    if (!modeChauffeur) {
+      const modif = document.createElement("button");
+      modif.textContent = "✏️ Modifier";
+      modif.onclick = () => {
+        selection = t.fermes.map(f =>
+          fermes.findIndex(x => x.nom === f.nom)
+        );
+        tourneeEnEdition = t;
+        afficherListe();
+      };
+      zone.appendChild(modif);
+
+      const suppr = document.createElement("button");
+      suppr.textContent = "🗑️ Supprimer";
+      suppr.onclick = () => {
+        if (!demanderPIN()) return;
+        const reste = chargerTournees().filter(x => x.id !== t.id);
+        sauverTournees(reste);
+        afficherAujourdHui();
+      };
+      zone.appendChild(suppr);
+    }
+
     const fin = document.createElement("button");
     fin.textContent = "✅ Marquer terminée";
     fin.onclick = () => {
       t.terminee = true;
       t.heureFin = maintenant();
-      sauverTournee(t);
+      sauverTournees(chargerTournees().map(x => x.id === t.id ? t : x));
       afficherAujourdHui();
     };
     zone.appendChild(fin);
@@ -140,17 +231,12 @@ document.addEventListener("DOMContentLoaded", () => {
     zone.appendChild(retour);
   }
 
-  function sauverTournee(t) {
-    let liste = JSON.parse(localStorage.getItem("tournees") || "[]");
-    liste = liste.map(x => x.id === t.id ? t : x);
-    localStorage.setItem("tournees", JSON.stringify(liste));
-  }
-
   /* ========= GPS ========= */
 
   function lancerGPS(t) {
     const points = [ADRESSE_DEPOT, ...t.fermes.map(formatAdresseGps)];
-    const url = "https://www.google.com/maps/dir/" +
+    const url =
+      "https://www.google.com/maps/dir/" +
       points.map(encodeURIComponent).join("/");
     window.open(url, "_blank");
   }
