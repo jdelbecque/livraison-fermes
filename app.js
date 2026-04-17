@@ -131,12 +131,17 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  const url =
-    "https://www.google.com/maps/dir/?api=1" +
-    "&origin=" + encodeURIComponent(ADRESSE_DEPOT) +
-    "&destination=" + encodeURIComponent(ADRESSE_DEPOT) +
-    "&waypoints=" + encodeURIComponent(arrets.join("|"));
+  // ✅ Premier arrêt = dépôt réel
+  const points = [
+    ADRESSE_DEPOT,
+    ...arrets
+  ];
 
+  const url =
+    "https://www.google.com/maps/dir/" +
+    points.map(p => encodeURIComponent(p)).join("/");
+
+  // ✅ Cette méthode interdit tout ajout automatique
   window.open(url, "_blank");
 }
 
