@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
   const recherche = document.getElementById("recherche");
 
-  const ADRESSE_DEPOT = "840 Rue du Houppier, Saint-Nicolas, QC, Canada";
+  const ADRESSE_DEPOT = "46.7389,-71.4076";
+``
   const PIN_ADMIN = "1234";
 
   let fermes = [];
