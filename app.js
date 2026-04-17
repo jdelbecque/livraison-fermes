@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION FINALE CORRIGÉE (ACCUEIL + AUJOURD’HUI OK)");
+console.log("✅ app.js – VERSION FINALE AVEC CHOIX DE DATE DE TOURNÉE");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -39,13 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formatAdresseGps(f) {
-    if (f.latitude && f.longitude) {
-      return `${f.latitude},${f.longitude}`;
-    }
+    if (f.latitude && f.longitude) return `${f.latitude},${f.longitude}`;
     return `${f.rue}, ${f.ville}, QC, Canada`;
   }
 
-  /* ========= ACCUEIL (GLOBAL) ========= */
+  /* ========= ACCUEIL ========= */
 
   function afficherAccueil() {
     selection = [];
@@ -61,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return b;
   }
 
-  /* ========= AUJOURD’HUI (GLOBAL) ✅ ========= */
+  /* ========= AUJOURD’HUI ========= */
 
   function afficherAujourdHui() {
     const today = dateISO();
@@ -129,14 +127,13 @@ document.addEventListener("DOMContentLoaded", () => {
           b.style.background = "#34c759";
         }
       };
-
       zone.appendChild(b);
     });
 
     zone.appendChild(boutonModeChauffeur());
   }
 
-  /* ========= CRÉER / MODIFIER TOURNÉE ========= */
+  /* ========= CRÉER / MODIFIER TOURNÉE (AVEC CHOIX DE DATE ✅) ========= */
 
   window.creerTournee = () => {
     if (!selection.length) {
@@ -150,19 +147,35 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (!nom) return;
 
+    const dateParDefaut = tourneeEnEdition ? tourneeEnEdition.date : dateISO();
+    const dateChoisie = prompt(
+      "Date de la tournée (YYYY-MM-DD)",
+      dateParDefaut
+    );
+
+    if (!dateChoisie || !/^\d{4}-\d{2}-\d{2}$/.test(dateChoisie)) {
+      alert("❌ Date invalide. Format requis : YYYY-MM-DD");
+      return;
+    }
+
     let tournees = chargerTournees();
 
     if (tourneeEnEdition) {
       tournees = tournees.map(t =>
         t.id === tourneeEnEdition.id
-          ? { ...t, nom, fermes: selection.map(i => fermes[i]) }
+          ? {
+              ...t,
+              nom,
+              date: dateChoisie,
+              fermes: selection.map(i => fermes[i])
+            }
           : t
       );
     } else {
       tournees.push({
         id: Date.now(),
         nom,
-        date: dateISO(),
+        date: dateChoisie,
         heureDebut: heureLocale(),
         fermes: selection.map(i => fermes[i]),
         terminee: false
@@ -183,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     tournees.forEach(t => {
       const b = document.createElement("button");
-      b.textContent = `${t.nom} — ${t.terminee ? "✅ Terminée" : "⏳ En cours"}`;
+      b.textContent = `${t.nom} — ${t.date} ${t.terminee ? "✅" : ""}`;
       b.onclick = () => ouvrirTournee(t);
       zone.appendChild(b);
     });
@@ -222,6 +235,34 @@ document.addEventListener("DOMContentLoaded", () => {
     gps.onclick = () => lancerGPS(t);
     zone.appendChild(gps);
 
+    if (!modeChauffeur && !t.terminee) {
+      const terminer = document.createElement("button");
+      terminer.textContent = "✅ Marquer tournée terminée";
+      terminer.onclick = () => {
+        const tournees = chargerTournees().map(x =>
+          x.id === t.id
+            ? { ...x, terminee: true, heureFin: heureLocale() }
+            : x
+        );
+        sauverTournees(tournees);
+        afficherToutesLesTournees();
+      };
+      zone.appendChild(terminer);
+    }
+
+    if (!modeChauffeur) {
+      const modif = document.createElement("button");
+      modif.textContent = "✏️ Modifier";
+      modif.onclick = () => {
+        selection = t.fermes.map(f =>
+          fermes.findIndex(x => x.nom === f.nom)
+        );
+        tourneeEnEdition = t;
+        afficherFermes();
+      };
+      zone.appendChild(modif);
+    }
+
     zone.appendChild(boutonAccueil());
     zone.appendChild(boutonModeChauffeur());
   }
@@ -236,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
     window.open(
       "https://www.google.com/maps/dir/" +
-      points.map(encodeURIComponent).join("/"),
+        points.map(encodeURIComponent).join("/"),
       "_blank"
     );
   }
