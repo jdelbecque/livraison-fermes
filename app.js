@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION FINALE STABLE AUJOURD’HUI + SEMAINE + MODIFIER");
+console.log("✅ app.js – VERSION FINALE STABLE (SELECTION FIXEE)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function afficherFermes(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
-    selection = [];
 
     fermes.forEach((f, i) => {
       if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
@@ -65,16 +64,18 @@ document.addEventListener("DOMContentLoaded", () => {
       b.onclick = () => {
         if (selection.includes(i)) {
           selection = selection.filter(x => x !== i);
+          b.style.background = "#fff";
         } else {
           selection.push(i);
+          b.style.background = "#34c759";
         }
-        afficherFermes(recherche.value.toLowerCase());
       };
+
       zone.appendChild(b);
     });
   }
 
-  /* ========= CRÉER / MODIFIER TOURNÉE ========= */
+  /* ========= CREER / MODIFIER TOURNEE ========= */
 
   window.creerTournee = () => {
     if (!selection.length) {
@@ -111,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     afficherToutesLesTournees();
   };
 
-  /* ========= TOUTES LES TOURNÉES ========= */
+  /* ========= TOUTES LES TOURNEES ========= */
 
   function afficherToutesLesTournees() {
     const tournees = chargerTournees();
@@ -184,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  /* ========= OUVRIR TOURNÉE ========= */
+  /* ========= OUVRIR TOURNEE ========= */
 
   function ouvrirTournee(t) {
     zone.innerHTML = `<h2>🚚 ${t.nom}</h2>`;
@@ -244,7 +245,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ...t.fermes.map(formatAdresseGps),
       DEPOT_GPS
     ];
-
     window.open(
       "https://www.google.com/maps/dir/" +
       points.map(encodeURIComponent).join("/"),
