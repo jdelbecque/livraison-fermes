@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE FINALE (TOUS BOUTONS FONCTIONNELS)");
+console.log("✅ app.js – VERSION FINALE STABLE (ACCUEIL + CONTACT + MODIFIER + SUPPRIMER)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return encodeURIComponent(`${f.rue}, ${f.ville}, QC, Canada`);
   }
 
-  /* ========= NAVIGATION ========= */
+  /* ========= BOUTONS ========= */
 
   function boutonAccueil() {
     const b = document.createElement("button");
@@ -78,19 +78,19 @@ document.addEventListener("DOMContentLoaded", () => {
     zone.innerHTML = "<h2>📞 Contacts bureau</h2>";
 
     contacts.forEach(c => {
-      const div = document.createElement("div");
-      div.style.marginBottom = "12px";
+      const bloc = document.createElement("div");
+      bloc.style.marginBottom = "12px";
 
-      div.innerHTML = `<strong>${c.nom}</strong><br/>📱 ${c.tel}`;
+      bloc.innerHTML = `<strong>${c.nom}</strong><br/>📱 ${c.tel}`;
       const a = document.createElement("a");
       a.href = `tel:${c.tel}`;
       a.textContent = "📞 Appeler";
       a.style.display = "inline-block";
       a.style.marginTop = "4px";
 
-      div.appendChild(document.createElement("br"));
-      div.appendChild(a);
-      zone.appendChild(div);
+      bloc.appendChild(document.createElement("br"));
+      bloc.appendChild(a);
+      zone.appendChild(bloc);
     });
 
     zone.appendChild(boutonAccueil());
@@ -113,7 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     zone.innerHTML = "<h2>📅 Aujourd’hui</h2>";
 
-    if (!tournees.length) zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
+    if (!tournees.length) {
+      zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
+    }
 
     tournees.forEach(t => {
       const b = document.createElement("button");
@@ -143,7 +145,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const h = document.createElement("h3");
       h.textContent = d.toLocaleDateString("fr-CA", {
-        weekday: "long", day: "numeric", month: "long"
+        weekday: "long",
+        day: "numeric",
+        month: "long"
       });
       zone.appendChild(h);
 
@@ -160,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   window.afficherSemaine = afficherSemaine;
 
-  /* ========= CRÉER TOURNÉE ✅ ========= */
+  /* ========= CRÉER / MODIFIER TOURNEE ========= */
 
   window.creerTournee = () => {
     if (!selection.length) {
@@ -230,6 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
       zone.appendChild(b);
     });
 
+    // ✅ CONTACT SUR LA PREMIÈRE PAGE
     zone.appendChild(boutonContact());
     zone.appendChild(boutonToutesTournees());
   }
@@ -247,8 +252,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     zone.appendChild(ol);
 
+    // GPS
+    const gps = document.createElement("button");
+    gps.textContent = "🧭 Lancer le GPS";
+    gps.onclick = () => {
+      const points = [
+        DEPOT_GPS,
+        ...t.fermes.map(formatAdresseGps),
+        DEPOT_GPS
+      ];
+      window.open("https://www.google.com/maps/dir/" + points.join("/"), "_blank");
+    };
+    zone.appendChild(gps);
+
+    // MODIFIER
+    const modif = document.createElement("button");
+    modif.textContent = "✏️ Modifier";
+    modif.onclick = () => {
+      selection = t.fermes.map(f => fermes.findIndex(x => x.nom === f.nom));
+      tourneeEnEdition = t;
+      afficherAccueil();
+    };
+    zone.appendChild(modif);
+
+    // SUPPRIMER
+    const suppr = document.createElement("button");
+    suppr.textContent = "🗑️ Supprimer";
+    suppr.onclick = () => {
+      if (!demanderPIN()) return;
+      sauverTournees(chargerTournees().filter(x => x.id !== t.id));
+      afficherToutesLesTournees();
+    };
+    zone.appendChild(suppr);
+
     zone.appendChild(boutonAccueil());
     zone.appendChild(boutonContact());
+    zone.appendChild(boutonToutesTournees());
   }
 
   /* ========= RECHERCHE ========= */
