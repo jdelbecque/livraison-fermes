@@ -99,11 +99,16 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= ACCUEIL ========= */
 
   function afficherAccueil() {
-    selection = [];
-    tourneeEnEdition = null;
-    afficherFermes(recherche.value.toLowerCase());
-  }
-  window.afficherAccueil = afficherAccueil;
+  selection = [];
+  tourneeEnEdition = null;
+
+  // Affiche la liste normale des fermes
+  afficherFermes(recherche.value.toLowerCase());
+
+  // ✅ Force CONTACT comme bouton visible sur la 1ère page
+  const contactBtn = boutonContact();
+  zone.insertBefore(contactBtn, zone.firstChild);
+}
 
   /* ========= AUJOURD’HUI ========= */
 
