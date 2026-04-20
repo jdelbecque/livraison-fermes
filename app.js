@@ -222,22 +222,30 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= LISTE DES FERMES ========= */
 
   function afficherFermes(filtre = "") {
-    zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
+  zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
 
-    fermes.forEach((f, i) => {
-      if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
+  // ✅ CONTACT JUSTE SOUS "CRÉER LA TOURNÉE"
+  zone.appendChild(boutonContact());
 
-      const b = document.createElement("button");
-      b.textContent = f.nom;
-      b.style.background = selection.includes(i) ? "#34c759" : "#fff";
-      b.onclick = () => {
-        selection.includes(i)
-          ? selection = selection.filter(x => x !== i)
-          : selection.push(i);
-        afficherFermes(recherche.value.toLowerCase());
-      };
-      zone.appendChild(b);
-    });
+  fermes.forEach((f, i) => {
+    if (filtre && !f.nom.toLowerCase().includes(filtre)) return;
+
+    const b = document.createElement("button");
+    b.textContent = f.nom;
+    b.style.background = selection.includes(i) ? "#34c759" : "#fff";
+
+    b.onclick = () => {
+      selection.includes(i)
+        ? selection = selection.filter(x => x !== i)
+        : selection.push(i);
+      afficherFermes(recherche.value.toLowerCase());
+    };
+
+    zone.appendChild(b);
+  });
+
+  zone.appendChild(boutonToutesTournees());
+}
 
     // ✅ CONTACT SUR LA PREMIÈRE PAGE
     zone.appendChild(boutonContact());
