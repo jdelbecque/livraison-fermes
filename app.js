@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE AVEC CONTACTS BUREAU (MISE À JOUR)");
+console.log("✅ app.js – VERSION STABLE (CONTACT + GPS + MODIFIER + SUPPRIMER)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -45,11 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formatAdresseGps(f) {
-    if (f.latitude && f.longitude) return `${f.latitude},${f.longitude}`;
+    if (f.latitude && f.longitude) {
+      return `${f.latitude},${f.longitude}`;
+    }
     return encodeURIComponent(`${f.rue}, ${f.ville}, QC, Canada`);
   }
 
-  /* ========= NAVIGATION ========= */
+  /* ========= BOUTONS ========= */
 
   function boutonAccueil() {
     const b = document.createElement("button");
@@ -230,6 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     zone.appendChild(ol);
 
+    // GPS
     const gps = document.createElement("button");
     gps.textContent = "🧭 Lancer le GPS";
     gps.onclick = () => {
@@ -238,9 +241,34 @@ document.addEventListener("DOMContentLoaded", () => {
         ...t.fermes.map(formatAdresseGps),
         DEPOT_GPS
       ];
-      window.open("https://www.google.com/maps/dir/" + points.join("/"), "_blank");
+      window.open(
+        "https://www.google.com/maps/dir/" + points.join("/"),
+        "_blank"
+      );
     };
     zone.appendChild(gps);
+
+    // MODIFIER
+    const modif = document.createElement("button");
+    modif.textContent = "✏️ Modifier";
+    modif.onclick = () => {
+      selection = t.fermes.map(f =>
+        fermes.findIndex(x => x.nom === f.nom)
+      );
+      tourneeEnEdition = t;
+      afficherFermes();
+    };
+    zone.appendChild(modif);
+
+    // SUPPRIMER
+    const suppr = document.createElement("button");
+    suppr.textContent = "🗑️ Supprimer";
+    suppr.onclick = () => {
+      if (!demanderPIN()) return;
+      sauverTournees(chargerTournees().filter(x => x.id !== t.id));
+      afficherToutesLesTournees();
+    };
+    zone.appendChild(suppr);
 
     zone.appendChild(boutonToutesTournees());
     zone.appendChild(boutonAccueil());
