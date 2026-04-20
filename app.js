@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const recherche = document.getElementById("recherche");
 
   const PIN_ADMIN = "1";
-  const DEPOT_GPS = "46.7160,-71.3453";
+  const DEPOT_GPS = "46.7160,-71.3453"; 
 
   const contacts = [
     { nom: "Jérôme Delbecque", tel: "4189513565" },
