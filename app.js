@@ -1,4 +1,4 @@
-console.log("✅ app.js – VERSION STABLE (SÉLECTION FERMES OK)");
+console.log("✅ app.js – VERSION STABLE (AUJOURD’HUI + SEMAINE OK)");
 
 document.addEventListener("DOMContentLoaded", () => {
   const zone = document.getElementById("liste");
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return b;
   }
 
-  /* ===== CONTACTS ===== */
+  /* ===== CONTACT ===== */
 
   function afficherContacts() {
     zone.innerHTML = "<h2>📞 Contacts bureau</h2>";
@@ -95,7 +95,61 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   window.afficherAccueil = afficherAccueil;
 
-  /* ===== LISTE DES FERMES (✅ CORRIGÉE) ===== */
+  /* ===== AUJOURD’HUI ✅ ===== */
+
+  function afficherAujourdHui() {
+    const today = dateISO();
+    const tournees = chargerTournees().filter(t => t.date === today);
+
+    zone.innerHTML = "<h2>📅 Aujourd’hui</h2>";
+    if (!tournees.length) zone.innerHTML += "<p>Aucune tournée aujourd’hui</p>";
+
+    tournees.forEach(t => {
+      const b = document.createElement("button");
+      b.textContent = `${t.nom}`;
+      b.onclick = () => ouvrirTournee(t);
+      zone.appendChild(b);
+    });
+
+    zone.appendChild(boutonAccueil());
+  }
+  window.afficherAujourdHui = afficherAujourdHui;
+
+  /* ===== SEMAINE ✅ ===== */
+
+  function afficherSemaine() {
+    const tournees = chargerTournees();
+    const lundi = new Date();
+    lundi.setDate(lundi.getDate() - lundi.getDay() + 1);
+
+    zone.innerHTML = "<h2>🗓️ Semaine</h2>";
+
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(lundi);
+      d.setDate(lundi.getDate() + i);
+      const iso = dateISO(d);
+
+      const h = document.createElement("h3");
+      h.textContent = d.toLocaleDateString("fr-CA", {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+      });
+      zone.appendChild(h);
+
+      tournees.filter(t => t.date === iso).forEach(t => {
+        const b = document.createElement("button");
+        b.textContent = t.nom;
+        b.onclick = () => ouvrirTournee(t);
+        zone.appendChild(b);
+      });
+    }
+
+    zone.appendChild(boutonAccueil());
+  }
+  window.afficherSemaine = afficherSemaine;
+
+  /* ===== LISTE DES FERMES ===== */
 
   function afficherFermes(filtre = "") {
     zone.innerHTML = "<h2>📋 Liste des fermes</h2>";
@@ -107,21 +161,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const b = document.createElement("button");
       b.textContent = f.nom;
 
-      // ✅ VISUEL SÉLECTION
       if (selection.includes(i)) {
         b.style.background = "#34c759";
         b.style.color = "#fff";
       }
 
       b.onclick = () => {
-        if (selection.includes(i)) {
-          selection = selection.filter(x => x !== i);
-        } else {
-          selection.push(i);
-        }
+        selection.includes(i)
+          ? selection = selection.filter(x => x !== i)
+          : selection.push(i);
         afficherFermes(recherche.value.toLowerCase());
       };
-
       zone.appendChild(b);
     });
 
@@ -238,4 +288,3 @@ document.addEventListener("DOMContentLoaded", () => {
     afficherFermes(e.target.value.toLowerCase());
   });
 });
-``
